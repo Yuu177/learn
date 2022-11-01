@@ -1,4 +1,4 @@
-# kafka 安装
+# Kafka 安装
 
 ## mac os 安装
 
