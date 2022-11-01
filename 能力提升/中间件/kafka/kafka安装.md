@@ -1,3 +1,5 @@
+[TOC]
+
 # Kafka 安装
 
 ## mac os 安装
