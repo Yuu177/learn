@@ -18,3 +18,10 @@
 
 滑动窗口算法
 
+### [11. 盛最多水的容器](https://leetcode.cn/problems/container-with-most-water/)
+
+这里需要注意的是双指针要怎么去移动。很显然短的那条边移动
+
+### [17. 电话号码的字母组合](https://leetcode.cn/problems/letter-combinations-of-a-phone-number/)
+
+回溯法。参考题解：[电话号码的字母组合](https://leetcode.cn/problems/letter-combinations-of-a-phone-number/solution/leetcode-17-letter-combinations-of-a-phone-number-/)
