@@ -329,6 +329,25 @@ ch := make(chan int, 100)
 
 从底层实现上来说，通道只是一个队列。同步模式下（不带缓冲信道），发送和接收双方配对，然后直接复制效据给对方。如配对失败，则置人等待队列，直到另一方出现后才被唤醒。异步模式（带缓冲的信道）**抢夺的则是数据缓冲槽**。发送方要求有空槽可供写人，而接收方则要求有缓冲数据可医。需求不符时，同样加人等待队列，直到有另一方气人数据或腾出空槽后被唤醒。
 
+### select
+
+`select` 语句使一个 Go 程可以等待多个 channel，它会随机选择一个可用的通道做收发操作。
+
+![Golang-Select-Channels](.golang基础.assets/2020-01-19-15794018429532-Golang-Select-Channels.png)
+
+当 `select` 中的其它分支都没有准备好时，`default` 分支就会执行。
+
+为了在尝试发送或者接收时不发生阻塞，可使用 `default` 分支：
+
+```go
+select {
+case i := <-c:
+    // 使用 i
+default:
+    // 从 c 中接收会阻塞时执行
+}
+```
+
 ### 接口
 
 - 如何确保某个类型实现了某个接口的所有方法呢？
@@ -489,6 +508,64 @@ func main() {
 ```
 
 **注意**：struct 嵌套 interfece 相当于 struct 拥有这个 interface 的变量。interface 嵌套 interface 类似于继承。
+
+### new 和 make 的区别
+
+new 和 make 都可以用来分配内存。
+
+#### new
+
+```go
+// func new(Type) *Type
+p := new(int)
+```
+
+new 的特点
+
+- 分配内存，且内存里存的值是对应类型的零值。
+- 只有一个参数。参数是分配的内存空间所存储的数据类型，Go 语言里的任何类型都可以是 new 的参数，比如 int，数组，结构体，甚至函数类型都可以。
+- **返回的是指针**。
+
+注意：Go 里的 new 和 C++ 的 new 是不一样的。
+
+- Go 的 new 分配的内存可能在栈（stack）上，可能在堆（heap）上。C++ new 分配的内存一定在堆上。
+- Go 的 new 分配的内存里的值是对应类型的零值，不能显示初始化指定要分配的值。C++ new 分配内存的时候可以显示指定要存储的值。
+- Go 里没有构造函数，Go 的 new 不会去调用构造函数。C++ 的 new 是会调用对应类型的构造函数。
+
+#### make
+
+函数定义
+
+```go
+func make(t Type, size ...IntegerType) Type
+```
+
+make 有如下几个特点：
+
+- 分配和初始化内存（初始化并不是置为零值）。
+- 只能用于 slice，map 和 chan 这 3 个类型，不能用于其它类型。
+- 返回的是原始类型而不是指针。
+
+对比
+
+```go
+func main() {
+	var c chan int
+	fmt.Printf("%#v \n", c)   // (chan int)(nil)
+
+	c1 := new(chan int)       // 返回的是指针
+	fmt.Printf("%#v \n", *c1) // (chan int)(nil)
+
+	c2 := make(chan int)
+	fmt.Printf("%#v \n", c2)  // (chan int)(0xc000062060)
+}
+```
+
+声明管道类型变量 c，此时 c 还是 nil，不可用。
+
+使用 new 分配 c1 内存，指针指向的内存是 chan 类型的零值，即 nil，也不可用。
+
+通过 make 来**分配内存并初始化**，c2 就获得了内存且可用。
 
 ### import
 
