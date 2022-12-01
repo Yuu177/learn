@@ -1193,6 +1193,68 @@ func main() {
 - 任何类型的指针都可以被转化为 unsafe.Pointer；
 - unsafe.Pointer 可以被转化为任何类型的指针；
 
+### string 中的 rune 类型
+
+`byte` // uint8 的别名
+
+`rune` // int32 的别名，表示一个 Unicode 码点
+
+```go
+package main
+
+import "fmt"
+import "reflect"
+
+func main() {
+    var str string = "abc"
+    for i, key := range str {
+        fmt.Println(reflect.TypeOf(str[i])) // 输出 uint8(byte)
+        fmt.Println(reflect.TypeOf(key))    // 输出 int32(rune)
+    }
+}
+```
+
+#### 处理中文字符串
+
+golang 中，字符串的底层是通过 byte 数组来实现的，而 byte 类型的底层实际为 uint8 类型。
+
+- 字符串的底层结构为
+
+```go
+type StringHeader struct {
+	Data uintptr // 指向底层 byte 数组的指针
+	Len  int     // 字符串的字节长度
+}
+```
+
+由于 golang 默认为 UTF-8 编码，所以，中文进行存储时，如 “你好”，会存储为：
+
+![img](.golang基础.assets/image-31-1024x276.png)
+
+“你” 编码为 `0xe4 0xbd 0xa0`，“好” 编码为 `0xe5 0xa5 0xbd`。**注意 golang 中一个汉字占 3 个 byte。**
+
+所以直接以 byte 形式输出中文会出现乱码：
+
+```go
+func main() {
+	str := "你好"
+	for i := 0; i < len(str); i++ {
+		fmt.Printf("str[i]: %v\n", string(str[i])) // 中文输出乱码
+	}
+}
+```
+
+因为 golang 中一个汉字占 3 个 byte。将字符串，转为 `[]rune` 类型（rune 类型占 4 个 byte，能够满足中文汉字大小），即可以对中文字符进行正确的处理，不会出现乱码。
+
+```go
+func main() {
+	str := []rune("你好")
+	for i := 0; i < len(str); i++ {
+		fmt.Printf("str[i]: %v\n", string(str[i])) // 正确输出
+	}
+}
+```
+
 ## go 工具
 
 ### protoc-gen-go
@@ -1401,3 +1463,6 @@ https://github.com/go-echarts/go-echarts/blob/master/README_CN.md
 
 - [multi line上如何显示名称？](https://github.com/go-echarts/go-echarts/issues/232)
 
+## 参考文章
+
+- [golang中文字符处理](https://www.fushengwushi.com/archives/1427)
