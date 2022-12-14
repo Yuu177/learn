@@ -169,9 +169,75 @@ weak_ptr 只可以从一个 shared_ptr 或另一个 weak_ptr 对象来构造，�
 
 ## 指针和引用的区别
 
-指针是一个变量，存储的是一个地址，指向内存的一个存储单元。
+指针是一个变量，存储的是一个地址，指向内存的一个存储单元；可以为空；sizeof 是指针大小。
 
-引用是原变量的一个别名，跟原来的变量实质上是同一个东西。
+引用是原变量的一个别名，与对象绑定后，就不可改变；定义的时候必须初始化；sizeof 是所引用的对象大小
+
+本质上，指针和引用其实是同一个东西，因为它们汇编后的代码是一样的。
+
+- 指针 C++ 代码
+
+```c++
+int main()
+{
+    int a = 10;
+    int* p = &a;
+}
+```
+
+- 指针代码汇编后
+
+```assembly
+main:
+        push    rbp
+        mov     rbp, rsp
+        mov     DWORD PTR [rbp-12], 10
+        lea     rax, [rbp-12]
+        mov     QWORD PTR [rbp-8], rax
+        mov     eax, 0
+        pop     rbp
+        ret
+```
+
+- 引用 C++ 代码
+
+```
+int main()
+{
+    int a = 10;
+    int& b = a;
+}
+```
+
+- 引用代码汇编后
+
+```assembly
+main:
+        push    rbp
+        mov     rbp, rsp
+        mov     DWORD PTR [rbp-12], 10
+        lea     rax, [rbp-12]
+        mov     QWORD PTR [rbp-8], rax
+        mov     eax, 0
+        pop     rbp
+        ret
+```
+
+这里推荐在线工具：https://godbolt.org/，可以方便查看 C++ 汇编后的代码。
+
+使用方法：依次点击红色框框按钮，调出汇编代码界面
+
+- 步骤一
+
+![image-20221214173702402](.README.assets/godbolt-1.png)
+
+- 步骤二
+
+![image-20221214174107965](.README.assets/godbolt-2.png)
+
+- 步骤三
+
+![image-20221214174258074](.README.assets/godbolt-3.png)
 
 ## 参考文章
 
