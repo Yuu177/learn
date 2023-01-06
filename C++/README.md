@@ -578,15 +578,187 @@ int main()
 
 `std::move` 本身只做类型转换，对性能无影响。我们可以在自己的类中实现移动语义，避免深拷贝，充分利用右值引用和 `std::move` 的语言特性。
 
-## 构造函数能不能用虚函数
+## 构造函数和析构函数可以是虚函数吗
+
+构造函数不能是虚函数，析构函数可以且常常是虚函数。
+
+### 构造函数不能是虚函数
 
 答案：不能。
 
 如果构造函数是虚函数，那么一定有一个已经存在的类对象 obj，obj 中的虚指针来指向虚表的构造函数地址（通过 obj 的虚指针来调用）。可是构造函数又是用来创建并初始化对象的，虚指针也是存储在对象的内存空间的。所以构造函数是虚函数的前提是它要有类的对象存在，但在这之前又没有其他可以创建并初始化类对象的函数，所以矛盾。
 
+### 析构函数常常是虚函数
+
+```c++
+class BaseClass
+{
+};
+
+class SubClass : BaseClass
+{
+};
+```
+
+如果我们以这种方式创建对象：
+
+```c++
+SubClass* pObj = new SubClass();
+delete pObj;
+```
+
+
+不管析构函数是否是虚函数（即是否加 virtual 关键词），delete 时基类和子类都会被释放；
+
+如果我们以这种方式创建对象：
+
+```c++
+BaseClass* pObj = new SubClass();
+delete pObj;
+```
+
+若析构函数是虚函数（即加上 virtual 关键词），delete 时基类和子类都会被释放；
+
+若析构函数不是虚函数（即不加 virtual 关键词），delete 时只释放基类，不释放子类；
+
 ## string 的存储位置
 
 数据小于等于 16 字节，在当前栈区；大于 16 在堆区。
+
+## 读取文件遇到的问题
+
+- 需要读取的文件 test.txt
+
+```bash
+CATTGAGTTATCAGTACTTTCATGTCTTGATAC
+（注：这个文件结尾有一行空行，所以说这个文件是有两行）
+```
+
+- 读取代码
+
+```c++
+#include <fstream>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    ifstream fin;
+    fin.open("test.txt", ios::in);
+    if (!fin.is_open())
+    {
+        return 0;
+    }
+
+    string line;
+    while (getline(fin, line))
+    {
+        cout << line << endl;
+        string a = line + "123456"; // 在读取的行结尾拼接字符串
+        cout << a << endl;
+    }
+	fin.close();
+    return 0;
+}
+```
+
+- 结果输出
+
+```bash
+CATTGAGTTATCAGTACTTTCATGTCTTGATAC
+123456GTTATCAGTACTTTCATGTCTTGATAC
+```
+
+可以看到这个结果输出很奇怪，明明 line 打印正确，为什么在 line 后面添加 "123456" 字符串的时候没有拼接到后面，理论上来说应该打印输出：
+
+```bash
+CATTGAGTTATCAGTACTTTCATGTCTTGATAC123456
+```
+
+### 回车换行符
+
+- `\r` 回车（CR），将当前位置移到本行开头。
+
+- `\n` 换行（LF），将当前位置移到下一行开头。
+
+**在 Linux 系统下执行换行操作为 `\n`，在 Windows 操作做系统下执行换行操作为 `\r\n`，在 Mac 操作系统下执行换行操作为 `\r`。**
+
+而 `getline` 函数会读取文件中的一行，遇到 `\n` 停止（不会把 `\n` 读取进来）。
+
+所以回过头来看 test.txt 文件内容（这个文件是 Windows 下的文件，但是我在 Linux 系统操作读取的）
+
+```
+CATTGAGTTATCAGTACTTTCATGTCTTGATAC
+（注：这个文件结尾有一行空行，所以说这个文件有两行）
+```
+
+其实结尾还有 `\r\n`（回车换行），只是没有显示而已。所以实际上字符串是这样子的：
+
+```
+CATTGAGTTATCAGTACTTTCATGTCTTGATAC\r\n
+（注：这个文件结尾有一行空行，所以说这个文件有两行）
+```
+
+当 `getline` 读取一行时候遇到 `\n` 停止，但是把 `\r` 读取了进来，所以实际上读取到的是：
+
+```c++
+CATTGAGTTATCAGTACTTTCATGTCTTGATAC\r
+```
+
+因为 `\r` 是将当前位置移到本行开头，所以在读取到的字符串后面添加 "123456" 的操作就变成了——指针偏移量从字符串末尾移动到字符串开头，然后在该指针位置开始添加新增的字符串。所以就会出现开头被覆盖的现象，最终输出的结果为：
+
+```
+123456GTTATCAGTACTTTCATGTCTTGATAC
+```
+
+- 优化后的代码
+
+要解决这个问题，我们只需要把读取到的 `\r` 字符删除即可。
+
+```c++
+#include <fstream>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    ifstream fin;
+    fin.open("test.txt", ios::in);
+    if (!fin.is_open())
+    {
+        return 0;
+    }
+
+    string line;
+    while (getline(fin, line))
+    {
+        if (line.back() == '\n') // 删除结尾的 \n
+        {
+            line.pop_back();
+        }
+        if (line.back() == '\r') // 删除结尾的 \r
+        {
+            line.pop_back();
+        }
+        cout << line << endl;
+        string a = line + "123456";
+        cout << a << endl;
+    }
+	fin.close();
+    return 0;
+}
+```
+
+结果输出：
+
+```
+CATTGAGTTATCAGTACTTTCATGTCTTGATAC
+CATTGAGTTATCAGTACTTTCATGTCTTGATAC123456
+```
 
 ## 参考文章
 
