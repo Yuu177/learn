@@ -760,8 +760,106 @@ CATTGAGTTATCAGTACTTTCATGTCTTGATAC
 CATTGAGTTATCAGTACTTTCATGTCTTGATAC123456
 ```
 
+## 释放容器内存
+
+- 容器中的删除操作
+
+`erase()`：删除容器中指定的键值对；
+
+`clear()`：删除容器中所有的键值对，即清空容器。
+
+STL 容器调用 `clear()` 方法，通常只是使得容器内部的对象通通析构，但容器本身的内存无法得到释放（`erase()` 同理）。即篮子里面东西拿走了，篮子占的空间还在，这样是为了方便下次存放新的对象时，不需要再次申请空间。
+
+- 释放 "篮子" 占用的空间
+
+要想释放 "篮子" 占用的空间，可以通过 `swap()` 和 `shrink_to_fit()` 来解决（只适合 vector 和 string）。
+
+只有含 `reserve()`/`capacity()` 成员函数的容器才需要用 `swap()` 来释放空间，而 C++ 里只有 vector 和 string 这两个符合条件。这两个容器在 C++11 中可以直接使用 `shrink_to_fit()`。
+
+- 使用 swap
+
+```c++
+int main()
+{
+    vector<int> vec(10, 1); // capacity = 10;
+    vector<int>().swap(vec); // capacity = 0;vector<int>()是个临时对象
+    return 0;
+}
+```
+
+上面的代码等价于：
+
+```c++
+int main()
+{
+    vector<int> vec(10, 1);
+    // 大括号指明了变量的作用域，在大括号内声明的局部变量其作用域自变量声明开始，到大括号之后终结。
+    // 所以 tmp 出了大括号后会析构
+    {
+        std::vector<int> tmp;
+        vec.swap(tmp);
+    }
+    return 0;
+}
+```
+
+vector 的 `swap()` 方法释放内存实际是用了一个小技巧，`swap()` 方法功能是交换对象，即将当前对象内容与传进的同类型 vector 对象交换。这里就是通过将当前 vec 对象和一个空临时 vector 对象交换，交换之后，vec 对象的空间变为 0，临时对象占用的内存空间变为 vec 之前占用的内存空间。临时对象的作用域就是该语句，随着生命周期结束，该对象在被析构的时候会释放内存。这样就达到了释放 vec 占用内存空间的目的。
+
+- vector swap 源码
+
+```c++
+void swap(vector<T, Alloc>& x) {
+    __STD::swap(start, x.start);
+    __STD::swap(finish, x.finish);
+    __STD::swap(end_of_storage, x.end_of_storage);
+}
+```
+
+可以看到 vector swap 仅仅是交换了指向的首尾指针和容量指针。
+
+首先创建 tmp 临时对象。
+
+![swap之前](.README.assets/swap之前.png)
+
+通过 swap 交换指针指向的对象地址，vector A 指向了空的内存，tmp 指向了原来的 A 的内存。
+
+![swap之后](.README.assets/swap之后.png)
+
+因为 tmp 是临时对象，所以 tmp 接着会析构释放掉指向的内存，这样子就达到了释放 vector A 的内存。
+
+- 使用 shrink_to_fit
+
+```c++
+int main()
+{
+    vector<int> vec(10, 1);
+    vec.shrink_to_fit(); // capacity = 0;
+    return 0;
+}
+```
+
+- 其他容器
+
+list/deque/set/map 等容器是没有 `reserve()` 和 `capacity()` 这两个成员函数的，因此 `swap` 是无用功（除非用户代码使用了定制的 per-object allocator）。
+
+- reserve 和 resize 区别
+
+reserve 是设置了 capacity 的值，比如 `reserve(20)`，表示该容器最大容量为 20，但此时容器内还没有任何对象，也**不能通过下标访问**。
+
+resize 既分配了空间，也创建了对象，可以通过下标访问。
+
+reserve 只修改 capacity 大小，不修改 size 大小，resize 既修改 capacity 大小，也修改 size 大小。
+
+- reserve/resize 重新分配内存注意事项
+
+```c++
+vector<int> vec(10, 1); // capacity = 10;
+vec.resize(0);  // resize 后的 capacity 比之前的 cap 小，但是结果还是 capacity = 10
+vec.reserve(0); // 同上，capacity = 10
+```
+
 ## 参考文章
 
 - C 指针传递变量为什么无法修改变量值？ - 蓝色的回答 - 知乎 https://www.zhihu.com/question/41476387/answer/91566794
-
 - [一文读懂 C++ 右值引用和 std::move](https://zhuanlan.zhihu.com/p/335994370)
+- 为什么调用 std::map::clear() 后内存占用率没有降低？ - 陈硕的回答 - 知乎 https://www.zhihu.com/question/19752706/answer/23215549
