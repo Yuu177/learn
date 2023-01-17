@@ -44,6 +44,12 @@ ps：已经被 vscode 官方收编，需要勾选一下启用括号对指南
 
 在 vscode 中可视化代码作者身份
 
+### Git History
+
+查看修改文件的历史版本。
+
+[vscode 的 Git History，GitLens — Git supercharged 插件](http://t.csdn.cn/8eWze)
+
 ### ~~MySQL~~
 
 > ~~插件商店中有好几个同名的 MySQL 插件，认准链接：https://marketplace.visualstudio.com/items?itemName=formulahendry.vscode-mysql~~ 
