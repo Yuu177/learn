@@ -858,6 +858,11 @@ vec.resize(0);  // resize 后的 capacity 比之前的 cap 小，但是结果还
 vec.reserve(0); // 同上，capacity = 10
 ```
 
+## const
+
+- 函数开头的 const 用来修饰函数的返回值，表示返回值是 const 类型，也就是不能被修改，例如 `const char * getname()`。
+- 函数头部的结尾加上 const 表示常成员函数，这种函数只能读取成员变量的值，而不能修改成员变量的值，例如 `char * getname() const`。
+
 ## 参考文章
 
 - C 指针传递变量为什么无法修改变量值？ - 蓝色的回答 - 知乎 https://www.zhihu.com/question/41476387/answer/91566794
