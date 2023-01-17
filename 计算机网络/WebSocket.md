@@ -12,11 +12,11 @@
 
 于是新的应用层协议 **WebSocket** 就被设计出来了。
 
-![图片](./WebSocket.assets/3bbe4c5db972513f912d30ba8cbddd65.png)
+![图片](./.WebSocket.assets/3bbe4c5db972513f912d30ba8cbddd65.png)
 
 ## 建立链接 WebSocket 连接
 
-![图片](./WebSocket.assets/f4edd3018914fe6eb38fad6aa3fd2d65.png)
+![图片](./.WebSocket.assets/f4edd3018914fe6eb38fad6aa3fd2d65.png)
 
 WebSocket 和 HTTP 一样都是基于 TCP 的协议。**经历了三次 TCP 握手之后，利用 HTTP 协议升级为 WebSocket 协议**。
 
@@ -26,7 +26,7 @@ WebSocket 和 HTTP 一样都是基于 TCP 的协议。**经历了三次 TCP 握�
 
 数据包在 WebSocket 中被叫做帧，我们来看下它的数据格式长什么样子。
 
-![WebSocket帧格式](./WebSocket.assets/WebSocket帧格式.png)
+![WebSocket帧格式](./.WebSocket.assets/WebSocket帧格式.png)
 
 ### opcode: 4 bits
 
@@ -59,7 +59,7 @@ WebSocket 数据格式是：数据头（内含 payload 长度）+ payload data �
 
 而消息头里一般含有消息体的长度，通过这个长度可以去截取真正的消息体。HTTP 协议和大部分 RPC 协议以及 WebSocket 协议，都是这样设计的。
 
-![图片](./WebSocket.assets/b91fedb1856897c231b8fb5932b7b2d2.png)
+![图片](./.WebSocket.assets/b91fedb1856897c231b8fb5932b7b2d2.png)
 
 ## 参考文章
 

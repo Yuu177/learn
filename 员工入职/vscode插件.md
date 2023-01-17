@@ -88,3 +88,9 @@ Carbon 能够轻松地将你的源码生成漂亮的图片并分享
 
 https://github.com/carbon-app/carbon/blob/main/docs/README.cn.zh.md
 
+### clang-format
+
+format C++ 代码格式为 Google Style
+
+http://t.csdn.cn/jS3uT
+
