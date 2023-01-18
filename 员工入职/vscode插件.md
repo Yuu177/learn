@@ -94,3 +94,7 @@ format C++ 代码格式为 Google Style
 
 http://t.csdn.cn/jS3uT
 
+### cpplint
+
+cpplint 是 Google 开发的一个 C++ 代码风格检查工具，遵循 google code style。
+
