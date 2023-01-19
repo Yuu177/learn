@@ -89,6 +89,8 @@ g++ main.cc -L ./ -l MyAddStatic
 
 解决方式：修改 `LD_LIBRARY_PATH` 环境变量，`export LD_LIBRARY_PATH=$LD_LRBRARY_PATH:动态库的绝对路径`。
 
+>LD_LIBRARY_PATH 告诉 loader 在哪些目录中可以找到共享库。可以设置多个搜索目录，这些目录之间用冒号分隔开。
+
 ## 引用头文件
 
 正常情况下，我们需要为我们的库编写头文件并提供给用户，这样子用户才知道怎么去调用我们的这个库。
