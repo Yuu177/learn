@@ -181,7 +181,7 @@ func TestCal(t *testing.T) {
 		want  int    // 期望值
 		want1 int    // 期望值 1
 	}{
-		// TODO: Add test cases.
+		// Add test cases.
 		{"first", args{1, 2}, 0, 0}, // 测试用例只需要在这里维护即可
 	}
 	for _, tt := range tests {
@@ -566,7 +566,7 @@ func Add(a int, b int) int {
 package mymath_test
 
 func TestAdd(t *testing.T) {
-	// TODO	
+	// code
 }
 ```
 

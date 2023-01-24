@@ -455,7 +455,7 @@ public:
 
 ~~后续补充，今晚晚了，明天还要工作~~
 
-## 第 277 场(待补充)
+## 第 277 场
 
 排名（1784 / 5059）
 
@@ -1098,7 +1098,7 @@ for (int x : tasks) cnt[x]++;
 
 ### 转角路径的乘积中最多能有几个尾随零
 
-待补充
+// TODO
 
 ## 第 290 场
 
@@ -1335,7 +1335,7 @@ k2 = Δy2 / Δx2
 
 ### 到达角落需要移除障碍物的最小数目
 
-待补充
+// TODO
 
 ## [第 297 场力扣周赛](https://leetcode.cn/contest/weekly-contest-297)
 
@@ -1350,11 +1350,15 @@ k2 = Δy2 / Δx2
 
 ### 网格中的最小路径代价
 
-动态规划。待补充
+动态规划。
+
+// TODO
 
 ### 公平分发饼干
 
-注意数据集大小，直接暴力枚举即可。待补充
+注意数据集大小，直接暴力枚举即可。
+
+// TODO
 
 ## [第 300 场力扣周赛](https://leetcode.cn/contest/weekly-contest-300)
 
@@ -1369,4 +1373,4 @@ k2 = Δy2 / Δx2
 
 https://leetcode.cn/problems/number-of-people-aware-of-a-secret/solution/python-dong-tai-gui-hua-by-linn-9k-4bup/
 
-待补充
+// TODO

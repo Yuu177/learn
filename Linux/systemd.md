@@ -1,7 +1,5 @@
 [TOC]
 
-（待补充）
-
 # systemd
 
 Unit
@@ -16,11 +14,11 @@ systemctl restart nginx 重新启动 nginx 服务
 
 ## Service
 
-service 文件怎么写，待补充
+// TODO，service 文件怎么写
 
 ## Unit
 
-待补充
+// TODO
 
 ## journal
 

@@ -340,7 +340,7 @@ type User struct {
 ```go
 // NewtAttrModel 是属性数据层操作类的工厂方法
 func NewAttrModel(ctx *common.Context) *AttrModel {
-    // TODO
+    // code
 }
 ```
 

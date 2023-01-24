@@ -30,7 +30,7 @@ int clone(int (*fn)(void *), void *stack, int flags, void *arg, ... /* pid_t *pa
 
 ### 容器镜像（容器和镜像的区别）
 
-待补充
+// TODO
 
 参考链接：https://blog.csdn.net/weixin_40475396/article/details/118407987?spm=1001.2014.3001.5502
 

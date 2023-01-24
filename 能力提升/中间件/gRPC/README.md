@@ -93,8 +93,6 @@ jbytes, _ := json.Marshal(m)
 
 > 通过 stream 关键字定义 protobuf 文件
 
-待补充完善
-
 ```protobuf
 // 普通 RPC
 rpc SimplePing(PingRequest) returns (PingReply);
