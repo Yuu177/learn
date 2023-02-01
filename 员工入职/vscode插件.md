@@ -98,3 +98,69 @@ http://t.csdn.cn/jS3uT
 
 cpplint 是 Google 开发的一个 C++ 代码风格检查工具，遵循 google code style。
 
+filter 参数的用法，就是以 `+` 或者 `-` 开头接着写规则名，就表示启用或者屏蔽这些规则。
+
+```json
+{
+    "cpplint.filters": [
+        "-build/include_subdir", // 我们将有自己的头文件路径规范
+        "-whitespace/line_length", // 可选项，按个人喜好来
+        "-runtime/references", // 不做要求，该要求原为：函数参数列表必须 (const &) 形式 或者 (* 指针) 形式。
+        "-build/c++11", // cpp11 不支持的头文件的提示（老是提示 <thread> 等头文件有问题，故屏蔽）
+        "-build/header_guard", // 找不到配置 <PROJECT>_<PATH>_<FILE>_ 中 <PROJECT>_ 的方法，故屏蔽
+        "-legal/copyright",
+    ],
+}
+```
+
+### clangd
+
+安装 clangd 插件：https://zhuanlan.zhihu.com/p/364518020。
+
+而 clangd 是基于 `compile_commands.json` 文件来完成对项目的解析，并支持代码补全和跳转。
+
+该文件有三种生成方式：
+
+- 使用 cmake 生成。正常执行 cmake 命令，我们会生成一个 build 目录。使用 cmake 生成 compile_commands.json，需要在运行 cmake 时添加参数 `-DCMAKE_EXPORT_COMPILE_COMMANDS=True` 或者在 CMakeLists.txt 中添加 `set(CMAKE_EXPORT_COMPILE_COMMANDS True)`。这样子我们在 build 目录下就会看到一个 compelie_commands.json 文件了。
+
+- 如果是基于 make 方式来编译，那么可以先安装 `pip install compiledb`，之后在当前目录下运行
+
+  - `compiledb -n make -C build`
+  - `compiledb make -C build`
+
+  这两个命令中的其中一个来生成 compile_commands.json 文件，其中前者不会执行真正的 make 编译命令。
+
+- 如果是基于其他方式，可以使用 https://github.com/rizsotto/Bear 项目中的方式来生成对应的 compile_commands.json 文件。
+
+在 setting.json 下配置：
+
+生成 compile_commands.json 文件后，我们只需要配置 `--compile-commands-dir` 来指定 compile_commands.json 所在的目录即可。
+
+```json
+{
+    // clangd 位置，使用 vscode 插件商店下载会自动配置
+    "clangd.path": "/home/tanpanyu/.config/Code/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/15.0.6/clangd_15.0.6/bin/clangd",
+    "clangd.arguments": [
+        // 在后台自动分析文件（基于 complie_commands)
+        "--background-index",
+        // 标记 compelie_commands.json 文件的目录位置
+        "--compile-commands-dir=${workspaceFolder}/build",
+        // 同时开启的任务数量
+        "-j=12",
+        // clang-tidy 功能
+        "--clang-tidy",
+        "--clang-tidy-checks=performance-*,bugprone-*",
+        // 全局补全（会自动补充头文件）
+        "--all-scopes-completion",
+        // 更详细的补全内容
+        "--completion-style=detailed",
+        // 补充头文件的形式
+        "--header-insertion=iwyu",
+        // pch 优化的位置
+        "--pch-storage=disk",
+    ],
+    // 使用 clangd 会和 vscode 默认推荐的 C/C++ 插件的 IntelliSense 冲突，需要禁止。
+    "C_Cpp.intelliSenseEngine": "disabled",
+}
+```
+
