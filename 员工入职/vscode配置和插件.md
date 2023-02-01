@@ -1,4 +1,26 @@
-# vscode 插件
+[TOC]
+
+# vscode
+
+## 配置文件说明
+
+- setting.json
+
+settings.json 是 VS Code 的配置文件，可以对 VS Code 进行页面风格、代码格式、字体颜色大小等的编辑设置。
+
+setting.json 分【工作区】和【用户】。想象一下你有好几个项目，不同的项目需要不同的配置，所以你可以在每一个项目根路径添加一个 `.vscode/setting.json` 文件来保存对当前工作区的配置。默认打开的设置界面配置的是全局（用户）设置，对每个工作区都会起作用，不过工作区的配置会覆盖全局配置，优先级更高。
+
+- launch.json 和 tasks.json
+
+简单的理解：tasks.json ---> gcc；launch.json ----> gdb。
+
+启动 gdb 调试会话之前需要首先执行 gcc 编译任务。因此，launch.json 有一条配置 preLaunchTask，指向 tasks.json 中的编译任务（label）。
+
+- c_cpp_properties.json
+
+该文件是 C/C++ 这个官方插件的配置。这个文件主要是用于语言引擎的配置，例如：指定 include 路径，智能感知，问题匹配类型等。`Ctrl+Shift+P` 打开 Command Palette，找到并打开 `C/C++: Edit Configurations` 。进行一些配置后，`.vscode` 文件夹下会自动生成此文件。
+
+## vscode 插件
 
 无论是 golang 还是 c++，一直在用 vscode，可以说 vscode 对于我来说已经无法替代了。记录一些自己用着觉得很好用的插件。
 
@@ -114,6 +136,8 @@ filter 参数的用法，就是以 `+` 或者 `-` 开头接着写规则名，就
 ```
 
 ### clangd
+
+vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改使用 clangd 代替。
 
 安装 clangd 插件：https://zhuanlan.zhihu.com/p/364518020。
 
