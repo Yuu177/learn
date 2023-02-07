@@ -204,3 +204,28 @@ endif()
 参考文章：[交叉编译，clang-tidy 找不到交叉编译的标准库头文件](http://t.csdn.cn/keJ4i)
 
 > clang-tidy 是一个基于 clang 的 C++ 静态分析工具，主要用来检测代码中的常见错误
+
+**clangd 配置**
+
+there are two ways to change the [clangd config options](https://clangd.llvm.org/config.html):
+
+- creating a `~/.config/clangd/config.yaml` text file, which will affect all projects
+- creating a `.clangd` in a specific project directory
+
+可以通过 vscode 命令来创建
+
+![clangd配置文件](./.vscode配置和插件.assets/clangd配置文件.png)
+
+编辑配置文件文件，如：屏蔽特定告警等。
+
+```yaml
+Diagnostics:
+  Suppress: 'builtin_definition'
+```
+
+参考文章
+
+- https://ahmadsamir.github.io/posts/12-clangd-config-tweaks.html
+
+
+
