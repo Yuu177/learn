@@ -188,3 +188,19 @@ vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改�
 }
 ```
 
+- 交叉编译找不到标准库头文件
+
+使用交叉编译，在 x86 上编译 ARM 程序。然而 clangd 插件会提示找不到标准库的头文件，因为交叉编译使用的是交叉编译器，它有自己的标准库头文件目录。
+
+解决：在 CMakeLists.txt 下添加
+
+```cmake
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+    set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+endif()
+```
+
+参考文章：[交叉编译，clang-tidy 找不到交叉编译的标准库头文件](http://t.csdn.cn/keJ4i)
+
+> clang-tidy 是一个基于 clang 的 C++ 静态分析工具，主要用来检测代码中的常见错误
