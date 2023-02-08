@@ -44,6 +44,30 @@ docker exec：在运行的容器中执行命令，操作的对象是容器
 --name="world": 为容器指定一个名称
 ```
 
+## docker 和本机文件互相拷贝
+
+- 从 docker 容器拷贝文件到本机
+
+```
+docker cp container_created:path <path>
+```
+
+- 将文件从本机拷贝到 docker 容器
+
+```
+docker cp <path> container_created:path
+```
+
+- 例子
+
+```
+docker cp hello.py f78c63afeb86:/home
+```
+
+命令说明：拷贝本地文件 `hello.py` 到容器 `f78c63afeb86` 的 `/home` 目录下。
+
+当然也可以通过命令参数 `-v` 来共享文件夹。
+
 ## docker 显示 GUI
 
 在 docker 容器运行 OpenCV 显示图片的时候出现错误：cannot open display
