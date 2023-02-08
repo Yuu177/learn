@@ -25,9 +25,10 @@ sudo apt update && sudo apt install docker.io
 - 命令
 
 ```bash
-docker ps -a：查看容器
-docker stop id：停止容器
-docker rm id：删除容器
+docker ps -a：显示全部容器
+docker ps：显示当前运行的容器
+docker stop 容器ID：停止容器
+docker rm 容器ID：删除容器
 docker run：根据镜像创建一个容器并运行一个命令，操作的对象是镜像
 docker exec：在运行的容器中执行命令，操作的对象是容器
 ```
@@ -68,20 +69,32 @@ docker cp hello.py f78c63afeb86:/home
 
 当然也可以通过命令参数 `-v` 来共享文件夹。
 
-## docker 显示 GUI
+## docker 挂载摄像头并显示图片
 
-在 docker 容器运行 OpenCV 显示图片的时候出现错误：cannot open display
+- 问题
+
+1、在 docker 容器运行 OpenCV 显示图片的时候出现错误：cannot open display
+
+2、调用摄像头的时候显示：can't open camera by index 0
 
 > 以下命令都是在本地主机执行
 
-- 安装相关工具
+- 安装相关工具并执行命令
 
 ```bash
 sudo apt-get install x11-xserver-utils
 xhost +
 ```
 
-这两句命令的作用是开放权限，允许所有用户（当然包括 docker）访问 X11 的显示接口。每次重新开机，需要在本机操作一次 `xhost +`。
+Linux 系统目前的主流图像界面服务 `X11` 支持客户端/服务端（C/S）的工作模式，只要在容器启动的时候，将 『unix:端口』或『主机名:端口』共享给 Docker，Docker 就可以通过端口找到显示输出的地方，和 Linux 系统共用显示接口。
+
+`xhost +` 命令的作用是开放权限，允许所有用户访问显示接口。也可以指定特定用户：
+
+```bash
+xhost +local:docker # 只允许 Docker 用户访问显示接口 
+```
+
+注意：每次重新开机，都需要再次执行 `xhost +`。
 
 - 执行 docker 命令
 
@@ -90,21 +103,35 @@ docker run -t -i \
 -v /etc/localtime:/etc/localtime:ro \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -e DISPLAY=unix$DISPLAY \
--e GDK_SCALE \
--e GDK_DPI_SCALE \
-ubuntu18.04_dev_v1
+--device=/dev/video0 \
+--device=/dev/video1 \
+--device=/dev/video2 \
+--device=/dev/video3 \
+ubuntu18.04_dev_v1_test
 ```
 
 - 命令解释
 
 ```bash
 docker run -t -i \ # -t 为容器重新分配一个伪输入终端，-i 以交互模式运行容器
--v /etc/localtime:/etc/localtime:ro \ # -v 共享目录。docker 容器时间同步，ro 代表只读属性
+-v /etc/localtime:/etc/localtime:ro \ #（可选）-v 共享/挂载目录。docker 容器时间同步，ro 代表只读属性
 -v /tmp/.X11-unix:/tmp/.X11-unix \ # 共享本地 unix 端口
 -e DISPLAY=unix$DISPLAY \ # -e 设置环境变量。修改环境变量 DISPLAY
--e GDK_SCALE \ # 未知
--e GDK_DPI_SCALE \ # 未知
-ubuntu18.04_dev_v1 # 镜像
+--device=/dev/video0 \ # 添加主机设备给容器，相当于设备直通
+--device=/dev/video1 \
+--device=/dev/video2 \
+--device=/dev/video3 \
+ubuntu18.04_dev # 镜像
+```
+
+使用 `ls /dev/ | grep video*` 查看系统摄像头，然后把它们全都挂载上去。
+
+```bash
+➜  ~ ls /dev/ | grep video*
+video0
+video1
+video2
+video3
 ```
 
 ## 镜像保存、打包和加载
@@ -164,3 +191,4 @@ docker load -i ubuntu_dev.tar
 ## 参考链接
 
 - [Docker 入门实战](https://www.w3cschool.cn/docker/docker-tutorial.html)
+- [Docker 挂载摄像头并显示图像](https://blog.csdn.net/weixin_40922744/article/details/103245166)

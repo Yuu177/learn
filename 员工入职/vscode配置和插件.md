@@ -114,7 +114,9 @@ https://github.com/carbon-app/carbon/blob/main/docs/README.cn.zh.md
 
 format C++ 代码格式为 Google Style
 
-http://t.csdn.cn/jS3uT
+```bash
+sudo apt install clang-format
+```
 
 ### cpplint
 
