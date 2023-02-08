@@ -1,6 +1,8 @@
 # Linux 新系统配置
 
 > 除特殊说明，该配置都是基于 Ubuntu 18.04
+>
+> 使用 cat /etc/issue 查看 Linux 发型版本
 
 ## 说明
 
