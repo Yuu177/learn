@@ -222,12 +222,15 @@ there are two ways to change the [clangd config options](https://clangd.llvm.org
 
 ```yaml
 Diagnostics:
-  Suppress: 'builtin_definition'
+  Suppress: 'builtin_definition' # 屏蔽该 builtin_definition 告警
+CompileFlags:
+  Add: -ferror-limit=0 # Too many errors emitted, stopping now  [clang: fatal_too_many_errors] 消除这个告警
 ```
 
 参考文章
 
-- https://ahmadsamir.github.io/posts/12-clangd-config-tweaks.html
+- [Clangd config](https://ahmadsamir.github.io/posts/12-clangd-config-tweaks.html)
+- [Too many errors emitted, stopping now [clang: fatal_too_many_errors]](https://github.com/clangd/coc-clangd/issues/255)
 
 
 
