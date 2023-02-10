@@ -924,6 +924,11 @@ int main() {
 4. 缺页异常处理程序发现你没有访问的权限。
 5. 内核发送 SIGSEGV 信号给进程，在一个程序接收到 SIGSEGV 时的默认动作是异常终止。
 
+## include 头文件
+
+- `#include<>` 一般用于包含系统头文件，诸如 stdlib.h、stdio.h、iostream 等。
+- `#include""` 一般用于包含自定义头文件，比如我们自定义的 test.h 等。
+
 ## 参考文章
 
 - C 指针传递变量为什么无法修改变量值？ - 蓝色的回答 - 知乎 https://www.zhihu.com/question/41476387/answer/91566794
