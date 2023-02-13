@@ -6,8 +6,6 @@
 
 ## 环境配置
 
-- Linux
-
 - cmake
 - conan：C/C++ 进行依赖管理的包管理器。不懂可以看这里：https://docs.conan.io/en/latest/getting_started.html
 - OpenCV
