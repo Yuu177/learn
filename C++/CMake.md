@@ -2,8 +2,6 @@
 
 # CMake
 
-// TODO
-
 生成动态库和静态库
 
 ```cmake
@@ -32,6 +30,43 @@ sudo mv cmake-3.25.2-linux-x86_64 /opt/
 sudo ln -sf /opt/cmake-3.25.2-linux-x86_64/bin/*  /usr/bin/
 # 查看 cmake 版本
 cmake --version
+```
+
+## make
+
+执行 cmake 命令后，会生成 makefile 文件。make 命令其实是 make all 的省略，即生成所有目标文件。
+
+make 后面跟的是 target，即要编译的目标**（可执行文件，静态库，动态库）**，在 makefile 里面会列出。这个 target 可能也会依赖其他的 target，最终会到依赖的源文件和头文件。
+
+- CMakeLists.txt
+
+```cmake
+# 指定生成 MathFunctions 链接库
+add_library (MathFunctions ${DIR_LIB_SRCS})
+# 指定生成目标
+add_executable(demo main.cc)
+```
+
+执行 `make`
+
+```bash
+⇒  make
+[ 50%] Built target MathFunctions
+[100%] Built target demo
+```
+
+执行 make target 命令生成可执行文件：`make demo`
+
+```bash
+⇒  make demo
+[100%] Built target demo
+```
+
+`make MathFunctions` 生成静态库
+
+```bash
+⇒  make MathFunctions
+[100%] Built target MathFunctions
 ```
 
 ## 参考文章
