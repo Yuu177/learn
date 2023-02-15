@@ -269,3 +269,52 @@ sudo pip3 install conan
 ```
 
 https://docs.conan.io/en/latest/getting_started.html
+
+### 安装 clash
+
+github 地址：[Clash for Windows](https://github.com/Fndroid/clash-win-docs-new)
+
+安装参考：[在 Linux 下使用 Clash For Windows 管理 Clash 订阅](https://einverne.github.io/post/2021/10/linux-use-clash-for-windows.html)
+
+下载 0.20.16 版本出现所有节点 timeout 不可用，下载 0.18.5 可以使用。
+
+安装好后，开启软件，还需要设置网络代理模式为手动，并配置代理地址和端口。
+
+![网络代理](./.Linux新系统配置.assets/网络代理.png)
+
+关闭软件后需要禁用网络代理来保证正常上网。
+
+我们也可以通过命令快快速设置网络代理的模式，参考：[如何在桌面版 Ubuntu 中用命令行更改系统代理设置](https://linux.cn/article-5673-1.html)
+
+```bash
+gsettings set org.gnome.system.proxy mode 'manual' # 设置网络代理模式为手动
+gsettings set org.gnome.system.proxy mode 'none' # 紧用网络代理模式
+```
+
+### 微信
+
+https://github.com/huan/docker-wechat
+
+```bash
+curl -sL https://gitee.com/mirrors/dochat/raw/main/dochat.sh | bash
+```
+
+运行脚本后报错
+
+```bash
+[DoChat] 盒装微信 v0.15.0 Disabling patch for /home/user/.wine/drive_c/users/user/AppData/Roaming/Tencent/WeChat ... Disabling patch for /home/user/.wine/drive_c/users/user/Application Data/Tencent/WeChat ... mkdir: 无法创建目录 “/home/user/.wine/drive_c/users/user/Application Data/Tencent”: 权限不够 
+```
+
+原因：`$HOME/DoChat` 目录没有写权限。执行 `chown -R $USER $HOME/DoChat`
+
+https://github.com/huan/docker-wechat/issues/178
+
+### 配置 alias 快捷命令
+
+```bash
+alias vpnrun="gsettings set org.gnome.system.proxy mode 'manual' && /opt/'Clash for Windows-0.18.5-x64-linux'/cfw"
+alias vpnstop="gsettings set org.gnome.system.proxy mode 'none'"
+alias wechatrun="/opt/dochat.sh"
+alias wechatstop="docker stop DoChat"
+```
+
