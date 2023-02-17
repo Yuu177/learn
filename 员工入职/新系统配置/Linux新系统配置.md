@@ -213,6 +213,12 @@ https://im.qq.com/download
 
 https://page.dingtalk.com/wow/z/dingtalk/simple/ddhomedownlaod#/
 
+### WPS
+
+https://www.wps.cn/
+
+打开文档软件会提示系统缺失 windows 的字体，解决方法：https://github.com/pengphei/wps-font-symbols/
+
 ### Typora
 
 设置插入图片规则：`./.${filename}.assets`

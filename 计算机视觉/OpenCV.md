@@ -86,5 +86,21 @@ enum SolvePnPMethod {
 };
 ```
 
+### cv::imdecode
+
+```cpp
+std::vector<char> buffer;
+cv::Mat img = cv::imdecode(cv::Mat(buffer), cv::IMREAD_GRAYSCALE);
+```
+
+`imdecode` 函数默认将二进制数据解码为三通道的 BGR 彩色图像，如果二进制数据是灰度图像或者其他类型的图像，需要使用不同的 `flags` 参数来指定解码方式。
+
+- `cv::IMREAD_UNCHANGED` 是 OpenCV 中读取图片的一种模式，表示读取图片时不对图像进行任何修改，包括原图像的颜色空间、通道数和位深度等信息都保持不变。该模式适用于需要保留原始图像信息的场景，比如读取图片的二进制数据或者读取带 alpha 通道的 PNG 图像等。
+
+- `cv::IMREAD_COLOR`：将图像读取为 3 通道的 BGR 彩色图像，忽略任何 alpha 通道信息。
+- `cv::IMREAD_GRAYSCALE`：将图像读取为单通道的灰度图像。
+- `cv::IMREAD_ANYDEPTH`：以原始深度读取图像，即将每个像素的值读取为与图像深度相同的数据类型。例如，如果图像是 16 位深度的，将像素读取为 16 位的整数类型。
+- `cv::IMREAD_ANYCOLOR`：读取图像时不进行颜色空间转换，直接使用原始的颜色空间，适用于需要保留原始颜色信息的场景。
+
 ## 参考文章
 

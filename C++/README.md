@@ -941,6 +941,56 @@ int main() {
 
 回调有两种方式：直接调用和延迟回调。直接调用，相当于阻塞同步调用；延迟回调就是异步，没有阻塞，不等返回执行下去（会涉及到多线程）。
 
+## char 和 unsigned char
+
+在 C++ 中，`char` 和 `unsigned char` 都是整数类型，但是它们之间的差别在于：
+
+1. `char` 可以表示有符号整数（取值范围为 [-128, 127]），也可以表示字符类型；而 `unsigned char` 只能表示无符号整数（取值范围为 [0, 255]），一般用于存储二进制数据。
+2. `char` 的默认符号性是实现定义的，这意味着不同的编译器可能会把 `char` 定义为有符号类型或无符号类型；而 `unsigned char` 的符号性总是无符号的。
+
+因此，在处理二进制数据时，通常使用 `unsigned char` 类型，以避免符号位对二进制数据造成的影响。另外，可以使用 `reinterpret_cast` 将 `char*` 转换为 `unsigned char*`，以便对数据进行更精确的处理，例如：
+
+```cpp
+char* data = ...;  // 某个二进制数据
+size_t size = ...; // 数据大小
+unsigned char* udata = reinterpret_cast<unsigned char*>(data);
+for (size_t i = 0; i < size; i++) {
+    unsigned char ch = udata[i];
+    // 处理二进制数据
+}
+```
+
+上述代码中，使用 `reinterpret_cast` 将 `char*` 指针转换为 `unsigned char*` 指针，然后逐个读取数据并进行处理。
+
+> 读取二进制数据时通常会使用 `std::istream` 或 `std::ifstream` 类的 `read` 函数，该函数可以读取指定长度的二进制数据，并将其存储到字符数组（`char*`）中。在这种情况下，存储到字符数组中的二进制数据类型是 `char`，因为这是 `read` 函数返回的数据类型。
+
+## 读取二进制文件
+
+`std::istreambuf_iterator` 是 C++ 标准库中的一个迭代器，用于迭代输入流（`std::istream`）中的字符。
+
+使用 `std::istreambuf_iterator` 时，我们可以将其初始化为一个输入流，然后通过解引用迭代器来获取输入流中的字符。例如，下面的代码将输入流中的字符输出到标准输出：
+
+```cpp
+std::istreambuf_iterator<char> iter(std::cin);
+std::istreambuf_iterator<char> end;
+while (iter != end) {
+    std::cout << *iter++;
+}
+```
+
+上述代码中，`std::istreambuf_iterator<char>` 的第一个参数是输入流，这里是 `std::cin`，表示从标准输入流中读取字符。迭代器初始化后，我们使用 `*iter++` 来获取输入流中的字符，同时将迭代器后移一个位置。当迭代器到达流的结尾时，它就等于默认构造的 `end` 迭代器，此时循环结束。
+
+需要注意的是，`std::istreambuf_iterator` 可以迭代输入流中的字符，但不能使用 `operator[]` 运算符或指针算术运算。此外，由于 `std::istreambuf_iterator` 是输入迭代器，它只能遍历一遍输入流中的字符。
+
+`std::istreambuf_iterator` 还有其他一些用法，比如可以用来读取文件到内存中，例如：
+
+```c++
+std::ifstream file("example.txt");
+std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+```
+
+上述代码将文件 "example.txt" 中的内容读取到 `std::vector<unsigned char>` 中，其中 `std::istreambuf_iterator<char>(file)` 是迭代器的起始位置，`std::istreambuf_iterator<char>()` 是迭代器的结束位置。由于 `std::vector` 的构造函数接受迭代器范围作为参数，因此可以使用这种方式读取文件并将其存储到内存中。注意这里 `vector` 的类型是 `unsigned char`，当然你也可以用 `vector<char>`。
+
 ## 参考文章
 
 - C 指针传递变量为什么无法修改变量值？ - 蓝色的回答 - 知乎 https://www.zhihu.com/question/41476387/answer/91566794
