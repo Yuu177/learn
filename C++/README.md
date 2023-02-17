@@ -991,6 +991,37 @@ std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(file), std::ist
 
 上述代码将文件 "example.txt" 中的内容读取到 `std::vector<unsigned char>` 中，其中 `std::istreambuf_iterator<char>(file)` 是迭代器的起始位置，`std::istreambuf_iterator<char>()` 是迭代器的结束位置。由于 `std::vector` 的构造函数接受迭代器范围作为参数，因此可以使用这种方式读取文件并将其存储到内存中。注意这里 `vector` 的类型是 `unsigned char`，当然你也可以用 `vector<char>`。
 
+## switch case
+
+以下的代码编译时会报错：
+
+```
+error: jump to case label
+crosses initialization of ‘int b’
+```
+
+示例代码：
+
+```cpp
+int main() {
+  int a = 0;
+  switch (a) {
+    case 0:
+      int b = 0;
+      break;
+    case 1:
+      break;
+    default:
+      break;
+  }
+  return 0;
+}
+```
+
+出现异常的原因变量的生命周期的问题。在 case1 中定义了变量 `b`，在 case2 也能使用，但如果在程序运行中直接跳入 case2 分支就会出现没有初始化的异常。程序编译时为了防止出现上述情况，就会报编译失败。
+
+解决方法：把 变量 `b` 定义在 switch 外面，或者在 case 中加入花括号（推荐）。
+
 ## 参考文章
 
 - C 指针传递变量为什么无法修改变量值？ - 蓝色的回答 - 知乎 https://www.zhihu.com/question/41476387/answer/91566794
