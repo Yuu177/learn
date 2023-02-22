@@ -88,6 +88,8 @@ Easily switch between projects.
 
 vscode 每次切换目录都很麻烦，有了这个插件都非常快速的切换不同的项目文件。
 
+右键项目配置标签，可以让项目按照标签分类。
+
 ### Todo Tree
 
 Show TODO, FIXME, etc. comment tags in a tree view

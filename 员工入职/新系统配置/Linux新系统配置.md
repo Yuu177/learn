@@ -205,6 +205,10 @@ sudo apt install libgsettings-qt1
 
 ![简繁体转换（1）](./.Linux新系统配置.assets/简繁体转换（1）.png)
 
+关闭完这个后可能还不能生效，还需要关闭应用内的设置
+
+![关闭简繁体](./.Linux新系统配置.assets/关闭简繁体.png)
+
 ### qq
 
 https://im.qq.com/download

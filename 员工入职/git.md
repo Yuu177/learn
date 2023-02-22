@@ -243,4 +243,28 @@ s    fa7fd6f22 five ci   # five 合并到 three
 
 ## git 快捷别名配置
 
-安装完 Oh-my-zsh 会自动配置 git 命令的别名: ~/.oh-my-zsh/plugins/git/git.plugin.zsh
+安装完 Oh-my-zsh 会自动配置 git 命令的别名：`~/.oh-my-zsh/plugins/git/git.plugin.zsh`
+
+## git worktree
+
+`git worktree` 是一个 Git 命令，用于在同一个 Git 仓库中创建一个或多个额外的工作树（working tree），每个工作树可以代表不同的分支或提交。每个工作树都有自己的工作目录，并且可以在同一时间内更改不同的分支或提交，从而方便地进行开发和测试。
+
+使用 `git worktree` 命令，您可以在同一个 Git 仓库中创建多个工作树，例如：
+
+```bash
+git worktree add <path> <branch>
+```
+
+其中 `<path>` 表示要创建工作树的路径， `<branch>` 表示要检出的分支。执行此命令后，将在指定路径下创建一个新的工作树，并将其检出到指定分支。
+
+您还可以使用 `git worktree` 命令来列出所有工作树、删除工作树、锁定和解锁工作树等等。 例如：
+
+```bash
+git worktree list
+git worktree remove <path>
+git worktree lock <path>
+git worktree unlock <path>
+```
+
+使用 `git worktree` 命令可以方便地在同一仓库中并行开发和测试多个分支或提交，而无需频繁地切换分支和重新检出提交。
+
