@@ -20,11 +20,41 @@
 
 ### cv::Affine3
 
+在 OpenCV 中，`cv::Affine3f` 是一个三维仿射变换矩阵类，用于描述从一个三维坐标系到另一个三维坐标系的变换关系。
+
 Affine transform.
 
 It represents a 4x4 homogeneous transformation matrix T.
 
-https://docs.opencv.org/4.x/dd/d99/classcv_1_1Affine3.html
+![仿射变换矩阵](./.OpenCV.assets/仿射变换矩阵.jpg)
+
+where R is a 3x3 rotation matrix and t is a 3x1 translation vector.
+
+You can specify R either by a 3x3 rotation matrix or by a 3x1 rotation vector, which is converted to a 3x3 rotation matrix by the Rodrigues formula.
+
+- To get the inverse transform of T, use
+
+```c++
+cv::Affine3f T, T_inv;
+T_inv = T.inv();
+```
+
+`inv` 表示对 `T` 变换矩阵求逆矩阵。
+
+求逆矩阵的作用是反转仿射变换矩阵的变换效果，即将从一个坐标系到另一个坐标系的变换关系反转，从而得到从另一个坐标系到原坐标系的变换关系。这通常用于将已知的仿射变换矩阵应用于另一个坐标系中的点或向量。
+
+- concatenate
+
+`concatenate` 是 `cv::Affine3f` 类的一个成员函数，表示将两个仿射变换矩阵进行串联操作的意思，即将一个仿射变换矩阵应用于另一个仿射变换矩阵。
+
+If you have two transformations T=T1∗T2, use
+
+```
+cv::Affine3f T, T1, T2;
+T = T2.concatenate(T1);
+```
+
+参考文章：https://docs.opencv.org/4.x/dd/d99/classcv_1_1Affine3.html
 
 ### cv::Vec
 
