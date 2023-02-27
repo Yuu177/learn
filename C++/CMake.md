@@ -143,6 +143,30 @@ std::cout << "debug info" << std::endl;
 #endif
 ```
 
+### list
+
+[cmake 命令之 list 介绍](https://www.jianshu.com/p/89fb01752d6f)
+
+### INCLUDE_DIRECTORIES & ADD_SUBDIRECTORY
+
+`INCLUDE_DIRECTORIES` 和 `ADD_SUBDIRECTORY` 是 CMake 中两个不同的指令，用于不同的目的。
+
+`INCLUDE_DIRECTORIES` 指令用于向 CMake 添加一个或多个包含目录，以便编译器可以在编译时找到头文件。例如，假设你有一个名为 `my_project` 的 C++ 项目，并且它的头文件在 `include` 目录中。你可以使用以下代码将该目录添加到 CMake 构建中：
+
+```cmake
+INCLUDE_DIRECTORIES(include)
+```
+
+`ADD_SUBDIRECTORY` 指令用于向 CMake 添加一个子目录，该子目录包含要构建的另一个 CMake 项目。该指令用于将一个项目的构建过程分成多个子目录，以便可以更轻松地管理和构建代码库。例如，假设你的 `my_project` 依赖于 `my_library` 库。你可以使用以下代码将 `my_library` 添加到 `my_project` 的构建过程中：
+
+```cmake
+ADD_SUBDIRECTORY(my_library)
+```
+
+这将使 CMake 进入 `my_library` 目录，并使用 `CMakeLists.txt` 文件中的指令构建该库。然后，它会回到 `my_project` 目录，继续构建 `my_project`。
+
+因此，`INCLUDE_DIRECTORIES` 用于指定要包含的头文件的路径，而 `ADD_SUBDIRECTORY` 用于将另一个 CMake 项目添加到当前项目的构建中。
+
 ## cmake 命令参数
 
 ### -D
