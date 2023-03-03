@@ -167,7 +167,63 @@ ADD_SUBDIRECTORY(my_library)
 
 因此，`INCLUDE_DIRECTORIES` 用于指定要包含的头文件的路径，而 `ADD_SUBDIRECTORY` 用于将另一个 CMake 项目添加到当前项目的构建中。
 
-## cmake 命令参数
+- 那为什么有些项目没有使用到 `INCLUDE_DIRECTORIES` 也能编译通过？
+
+```
+./Demo
+    |
+    +--- main.cc
+    |
+    +--- math/
+          |
+          +--- MathFunctions.cc
+          |
+          +--- MathFunctions.h
+```
+
+项目根目录 Demo 和 math 目录里各编写一个 CMakeLists.txt 文件
+
+根目录中的 CMakeLists.txt ：
+
+```cmake
+# CMake 最低版本号要求
+cmake_minimum_required (VERSION 2.8)
+# 项目信息
+project (Demo)
+# 查找当前目录下的所有源文件
+# 并将名称保存到 DIR_SRCS 变量
+aux_source_directory(. DIR_SRCS)
+# 添加 math 子目录
+add_subdirectory(math)
+# 指定生成目标 
+add_executable(Demo main.cc)
+# 添加链接库
+target_link_libraries(Demo MathFunctions)
+```
+
+子目录 math 中的 CMakeLists.txt：
+
+```cmake
+# 查找当前目录下的所有源文件
+# 并将名称保存到 DIR_LIB_SRCS 变量
+aux_source_directory(. DIR_LIB_SRCS)
+# 生成链接库
+add_library (MathFunctions ${DIR_LIB_SRCS})
+```
+
+在这种情况下，`MathFunctions.h` 头文件位于 `math` 目录中，并且使用了 `aux_source_directory` 命令来将 `math` 目录下的所有源文件添加到变量 `DIR_LIB_SRCS` 中，然后使用 `add_library` 命令来创建名为 `MathFunctions` 的库。
+
+由于 `MathFunctions.h` 头文件包含在 `math` 目录下的源文件中，因此 `DIR_LIB_SRCS` 变量会包含 `MathFunctions.h` 头文件的路径，这样编译器就可以在编译时找到头文件。但是，如果头文件位于其他目录中，就需要使用 `INCLUDE_DIRECTORIES` 命令来将包含路径添加到 CMake 构建中。
+
+在上述情况中，因为头文件位于 `math` 目录中，所以不需要使用 `INCLUDE_DIRECTORIES` 命令。但是，如果头文件位于其他目录中，应该使用类似于以下的命令将包含路径添加到 CMake 构建中：
+
+```cmake
+INCLUDE_DIRECTORIES(include)
+```
+
+其中，`include` 是头文件所在的目录的路径。使用此命令将 `include` 目录添加到 CMake 构建中，编译器就可以找到头文件，并在编译时包含它们。
+
+## cmake 命令参数和变量
 
 ### -D
 
@@ -193,6 +249,14 @@ cmake -DCMAKE_BUILD_TYPE=Release
 
 - `-D` 选项可以在生成 CMake 构建系统之前设置变量的值
 - `-D` 选项可以覆盖 CMakeLists.txt 文件中定义的变量的
+
+### DCMAKE_TOOLCHAIN_FILE
+
+CMAKE_TOOLCHAIN_FILE 是一个 CMake 变量，用于指定 CMake 在生成项目时要使用的交叉编译工具链文件。
+
+-DCMAKE_TOOLCHAIN_FILE=path/toolchain/file.cmake 会在运行时会自动加载指定的交叉编译工具链文件，并使用其中的工具来编译和链接项目。
+
+// TODO
 
 ## 参考文章
 
