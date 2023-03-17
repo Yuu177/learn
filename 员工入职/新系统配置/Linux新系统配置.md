@@ -74,6 +74,7 @@ sudo apt-get install git
 	ca = commit --amend
 [core]
 	quotepath = false
+	editor = vim
 ```
 
 ### 安装 JetBrains Mono 字体

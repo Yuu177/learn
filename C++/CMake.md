@@ -223,6 +223,38 @@ INCLUDE_DIRECTORIES(include)
 
 其中，`include` 是头文件所在的目录的路径。使用此命令将 `include` 目录添加到 CMake 构建中，编译器就可以找到头文件，并在编译时包含它们。
 
+### link_directories 和 include_directories 区别
+
+`link_directories` 和 `include_directories` 分别用于指定编译器在编译和链接过程中查找库和头文件的位置。
+
+`include_directories` 用于指定头文件的搜索路径，即编译器在编译过程中应该搜索的路径。可以使用绝对路径或相对路径，也可以使用 CMake 变量，例如 `${PROJECT_SOURCE_DIR}/include`。
+
+例如，下面的代码将在编译过程中添加一个名为 `my_include_dir` 的搜索路径：
+
+```cmake
+include_directories(${my_include_dir})
+```
+
+`link_directories` 用于指定库文件的搜索路径，即编译器在链接过程中应该搜索的路径。与 `include_directories` 类似，可以使用绝对路径或相对路径，也可以使用 CMake 变量，例如 `${PROJECT_BINARY_DIR}/lib`。
+
+例如，下面的代码将在链接过程中添加一个名为 `my_library_dir` 的搜索路径：
+
+```cmake
+link_directories(${my_library_dir})
+```
+
+需要注意的是，虽然 `link_directories` 可以用于指定链接时查找库文件的路径，但是更好的做法是使用 `target_link_directories` 命令，该命令可以将库路径与特定的目标进行关联。
+
+例如，下面的代码将在链接 `my_target` 时添加一个名为 `my_library_dir` 的搜索路径：
+
+```cmake
+target_link_directories(my_target PRIVATE ${my_library_dir})
+```
+
+总的来说，`include_directories` 用于指定头文件的搜索路径，`link_directories` 用于指定库文件的搜索路径，而 `target_link_directories` 用于将库路径与特定的目标进行关联。
+
+// TODO
+
 ## cmake 命令参数和变量
 
 ### -D

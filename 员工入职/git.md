@@ -241,6 +241,14 @@ s    fa7fd6f22 five ci   # five 合并到 three
 
 参考链接：https://stackoverflow.com/questions/54611871/ssh-exchange-identification-read-connection-reset-by-peer-error-when-trying
 
+- 设置 git 编辑器为 vim
+
+```console
+git config --global core.editor vim
+```
+
+现在，无论你定义了什么终端编辑器，Git 都会调用 vim 编辑信息。
+
 ## git 快捷别名配置
 
 安装完 Oh-my-zsh 会自动配置 git 命令的别名：`~/.oh-my-zsh/plugins/git/git.plugin.zsh`
