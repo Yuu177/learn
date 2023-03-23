@@ -209,7 +209,7 @@ void func() {
 
 ### std::condition_variable
 
-条件变量是 C++11 提供的另外一种线程同步机制，通过判断条件是否满足，决定是否阻塞线程，当线程执行条件满足的时候就会唤醒阻塞的线程。
+条件变量是 C++11 提供的另外一种线程同步机制，通过判断条件是否满足（Predicate 为 true，稍后会详细说明），决定是否阻塞线程，当线程执行条件满足的时候就会唤醒阻塞的线程。
 
 比如：线程 A 等待某个条件并挂起，直到线程 B 设置了这个条件，并通知条件变量，然后线程 A 被唤醒。经典的「生产者-消费者」问题就可以用条件变量来解决。条件变量常与 `std::mutex` 配合使用，C++11 提供了两种条件变量。
 
@@ -228,11 +228,13 @@ unique_lock 和 lock_guard 都是管理锁的辅助类工具，都是 RAII 风�
 
 ![unique_lock](./.Multithreading.assets/unique_lock.png)
 
-#### wait
+#### wait/wait_for
 
-线程的阻塞是通过成员函数 wait/wait_for/wait_until 函数实现的。
+线程的阻塞是通过成员函数 `wait/wait_for/wait_until` 函数实现的。
 
-- wait 导致当前线程阻塞直至条件变量被**通知**，或**虚假唤醒发生**。设置了 Predicate 时，只有当 p 条件为 false 时调用 `wait()` 才会阻塞当前线程，并且在收到其他线程的通知后只有当 p 为 true 时才会被解除阻塞。
+- wait 导致当前线程阻塞直至条件变量被**通知**，或**虚假唤醒发生**。设置了 Predicate 时，只有当 p 条件为 **false** 时调用 `wait()` 才会阻塞当前线程，并且在收到其他线程的通知后只有当 p 为 **true** 时才会被解除阻塞。
+
+  这里理解起来可能有点绕，举个例子，实现如果 `queue` 为空，那么我们要阻塞的代码为：`cdt_.wait(lock, [=] { return !queue.empty() });`。代码说明：如果一个队列为空，那么 `queue.empty()` 为 true，如果我们要阻塞，那么旧要设置条件为 false，所以这里的条件为 `!queue.empty()`。
 
 ```cpp
 void wait(unique_lock<mutex>& __lock) noexcept;
@@ -244,14 +246,70 @@ void wait(unique_lock<mutex>& __lock, _Predicate __p) {
 }
 ```
 
-- wait_for 导致当前线程阻塞直至条件变量被**通知**，或**虚假唤醒发生**，或者**超时返回**。
+- `wait_for` 导致当前线程阻塞直至条件变量被**通知**，或**虚假唤醒发生**，或者**超时返回**。wait_for 和 wait 相比，其实就多了个超时返回，并且 `wait_for` 是有 `bool` 返回值的。
+
+```c++
+template< class Rep, class Period, class Predicate >
+bool wait_for( std::unique_lock<std::mutex>& lock,
+               const std::chrono::duration<Rep, Period>& rel_time,
+               Predicate pred);
+```
+
+参数 `rel_time` 表示等待所耗的最大时间的 `std::chrono::duration` 类型对象。
+
+返回值，若经过 `rel_time` 时限后谓词 pred 仍求值为 false 则为 false ，否则为 true。说白了就是条件满足就返回 true，否则返回 false。
 
 以上两个类型的 **wait 函数都在会阻塞时，自动释放锁权限**，即调用 unique_lock 的成员函数 `unlock()`，以便其他线程能有机会获得锁。这就是条件变量只能和 unique_lock 一起使用的原因，否则当前线程一直占有锁，线程被阻塞。
 
 #### notify
 
 - notify_one：随机唤醒一个等待的线程
-- notify_al：唤醒所有等待的线程
+- notify_all：唤醒所有等待的线程
+
+#### condition_variable 简单示例
+
+```c++
+#include <condition_variable>
+#include <mutex>
+#include <queue>
+
+template <typename T>
+class MyQueue {
+ public:
+  void Push(T const &value) {
+    std::unique_lock<std::mutex> lock(mtx_);
+    queue_.push(value);
+    cdt_.notify_one(); // 唤醒 wait 等待线程
+  }
+
+  T Pop() {
+    std::unique_lock<std::mutex> lock(mtx_);
+    // 条件变量 wait，如果满足条件 !queue_.empty() 程序就往下执行，否则阻塞
+    cdt_.wait(lock, [=] { return !queue_.empty(); });
+    T ret = queue_.front();
+    queue_.pop();
+    return ret;
+  }
+
+  bool TryPop(T &ret, int64_t wait_millis) {
+    std::unique_lock<std::mutex> lock(mtx_);
+    // wait_for 表示等待所耗的最大时间 wait_millis，如果还没满足条件，就返回 false
+    // 如果条件满足，返回 true
+    if (!cdt_.wait_for(lock, std::chrono::milliseconds(wait_millis), [=] { return !queue_.empty(); })) {
+      return false;
+    }
+    ret = queue_.front();
+    queue_.pop();
+    return true;
+  }
+
+ private:
+  std::mutex mtx_;
+  std::condition_variable cdt_;
+  std::queue<T> queue_;
+};
+
+```
 
 #### condition_variable 应用代码示例
 
