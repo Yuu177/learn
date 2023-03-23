@@ -266,7 +266,7 @@ bool wait_for( std::unique_lock<std::mutex>& lock,
 - notify_one：随机唤醒一个等待的线程
 - notify_all：唤醒所有等待的线程
 
-#### condition_variable 简单示例
+#### condition_variable 实现一个简单的 BlockingQueue
 
 [C++ Equivalent to Java's BlockingQueue](https://stackoverflow.com/questions/12805041/c-equivalent-to-javas-blockingqueue)
 
@@ -313,7 +313,7 @@ class MyQueue {
 
 ```
 
-#### condition_variable 应用代码示例
+#### condition_variable 解决生产者-消费者问题
 
 在这里，我们使用条件变量，解决生产者-消费者问题，该问题主要描述如下：
 
@@ -321,99 +321,101 @@ class MyQueue {
 
 要解决该问题，就必须让生产者在缓冲区满时休眠（要么干脆就放弃数据），等到下次消费者消耗缓冲区中的数据的时候，生产者才能被唤醒，开始往缓冲区添加数据。同样，也可以让消费者在缓冲区空时进入休眠，等到生产者往缓冲区添加数据之后，再唤醒消费者。
 
-生产者-消费者代码如下：
+生产者-消费者代码如下（**下面的这一版代码有问题**）：
 
-~~#include <chrono>~~
-~~#include <condition_variable>~~
-~~#include <iostream>~~
-~~#include <mutex>~~
-~~#include <queue>~~
-~~#include <thread>~~
+```cpp
+#include <chrono>
+#include <condition_variable>
+#include <iostream>
+#include <mutex>
+#include <queue>
+#include <thread>
 
-~~// 缓冲区锁，保证同一时间只有一个线程操作缓冲区~~
-~~std::mutex g_cvMutex;~~
-~~std::condition_variable g_cv;~~
+// 缓冲区锁，保证同一时间只有一个线程操作缓冲区
+std::mutex g_cvMutex;
+std::condition_variable g_cv;
 
-~~// 缓存区~~
-~~std::deque<int> g_data_deque;~~
-~~// 缓存区最大数目~~
-~~const int MAX_NUM = 30;~~
-~~// 数据~~
-~~int g_next_index = 0;~~
+// 缓存区
+std::deque<int> g_data_deque;
+// 缓存区最大数目
+const int MAX_NUM = 30;
+// 数据
+int g_next_index = 0;
 
-~~// 生产者，消费者线程个数~~
-~~const int PRODUCER_THREAD_NUM = 3;~~
-~~const int CONSUMER_THREAD_NUM = 3;~~
+// 生产者，消费者线程个数
+const int PRODUCER_THREAD_NUM = 3;
+const int CONSUMER_THREAD_NUM = 3;
 
-~~void producer_thread(int thread_id) {~~
-  ~~while (true) {~~
-    ~~std::this_thread::sleep_for(std::chrono::milliseconds(500));~~
-    ~~// 加锁~~
-    ~~std::unique_lock<std::mutex> lk(g_cvMutex);~~
-    ~~// 当队列未满时，继续添加数据~~
-    ~~g_cv.wait(lk, []() { return g_data_deque.size() <= MAX_NUM; });~~
-    ~~// 上面的 wait 代码也可以写为~~
-    ~~// while (g_data_deque.size() > MAX_NUM) {~~
-    ~~//   g_cv.wait(lk);~~
-    ~~// }~~
-    ~~g_next_index++;~~
-    ~~g_data_deque.push_back(g_next_index);~~
-    ~~std::cout << "producer_thread: " << thread_id~~
-              ~~<< " producer data: " << g_next_index;~~
-    ~~std::cout << " queue size: " << g_data_deque.size() << std::endl;~~
-    ~~// 唤醒其他线程~~
-    ~~g_cv.notify_all();~~
-    ~~// 自动释放锁~~
-  ~~}~~
-~~}~~
+void producer_thread(int thread_id) {
+  while (true) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    // 加锁
+    std::unique_lock<std::mutex> lk(g_cvMutex);
+    // 当队列未满时，继续添加数据
+    g_cv.wait(lk, []() { return g_data_deque.size() <= MAX_NUM; });
+    // 上面的 wait 代码也可以写为
+    // while (g_data_deque.size() > MAX_NUM) {
+    //   g_cv.wait(lk);
+    // }
+    g_next_index++;
+    g_data_deque.push_back(g_next_index);
+    std::cout << "producer_thread: " << thread_id
+              << " producer data: " << g_next_index;
+    std::cout << " queue size: " << g_data_deque.size() << std::endl;
+    // 唤醒其他线程
+    g_cv.notify_all();
+    // 自动释放锁
+  }
+}
 
-~~void consumer_thread(int thread_id) {~~
-  ~~while (true) {~~
-    ~~std::this_thread::sleep_for(std::chrono::milliseconds(550));~~
-    ~~// 操作缓存区前加锁~~
-    ~~std::unique_lock<std::mutex> lk(g_cvMutex);~~
-    ~~// 判断缓冲区是否为空（是否有数据）~~
-    ~~g_cv.wait(lk, [] { return !g_data_deque.empty(); });~~
-    ~~// 上面的代码也可以写为~~
-    ~~// 即使被唤醒还要循环判断一次，防止虚假唤醒~~
-    ~~// while (g_data_deque.empty()) {~~
-    ~~//   g_cv.wait(lk);~~
-    ~~// }~~
-    ~~// 互斥操作，消息数据~~
-    ~~int data = g_data_deque.front();~~
-    ~~g_data_deque.pop_front();~~
-    ~~std::cout << "\tconsumer_thread: " << thread_id << " consumer data: ";~~
-    ~~std::cout << data << " deque size: " << g_data_deque.size() << std::endl;~~
-    ~~// 唤醒其他线程~~
-    ~~g_cv.notify_all();~~
-    ~~// 自动释放锁~~
-  ~~}~~
-~~}~~
+void consumer_thread(int thread_id) {
+  while (true) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(550));
+    // 操作缓存区前加锁
+    std::unique_lock<std::mutex> lk(g_cvMutex);
+    // 判断缓冲区是否为空（是否有数据）
+    g_cv.wait(lk, [] { return !g_data_deque.empty(); });
+    // 上面的代码也可以写为
+    // 即使被唤醒还要循环判断一次，防止虚假唤醒
+    // while (g_data_deque.empty()) {
+    //   g_cv.wait(lk);
+    // }
+    // 互斥操作，消息数据
+    int data = g_data_deque.front();
+    g_data_deque.pop_front();
+    std::cout << "\tconsumer_thread: " << thread_id << " consumer data: ";
+    std::cout << data << " deque size: " << g_data_deque.size() << std::endl;
+    // 唤醒其他线程
+    g_cv.notify_all();
+    // 自动释放锁
+  }
+}
 
-~~int main() {~~
-  ~~std::thread arrRroducerThread[PRODUCER_THREAD_NUM];~~
-  ~~std::thread arrConsumerThread[CONSUMER_THREAD_NUM];~~
+int main() {
+  std::thread arrRroducerThread[PRODUCER_THREAD_NUM];
+  std::thread arrConsumerThread[CONSUMER_THREAD_NUM];
 
-  ~~for (int i = 0; i < PRODUCER_THREAD_NUM; i++) {~~
-    ~~arrRroducerThread[i] = std::thread(producer_thread, i);~~
-  ~~}~~
+  for (int i = 0; i < PRODUCER_THREAD_NUM; i++) {
+    arrRroducerThread[i] = std::thread(producer_thread, i);
+  }
 
-  ~~for (int i = 0; i < CONSUMER_THREAD_NUM; i++) {~~
-    ~~arrConsumerThread[i] = std::thread(consumer_thread, i);~~
-  ~~}~~
+  for (int i = 0; i < CONSUMER_THREAD_NUM; i++) {
+    arrConsumerThread[i] = std::thread(consumer_thread, i);
+  }
 
-  ~~for (int i = 0; i < PRODUCER_THREAD_NUM; i++) {~~
-    ~~arrRroducerThread[i].join();~~
-  ~~}~~
+  for (int i = 0; i < PRODUCER_THREAD_NUM; i++) {
+    arrRroducerThread[i].join();
+  }
 
-  ~~for (int i = 0; i < CONSUMER_THREAD_NUM; i++) {~~
-    ~~arrConsumerThread[i].join();~~
-  ~~}~~
+  for (int i = 0; i < CONSUMER_THREAD_NUM; i++) {
+    arrConsumerThread[i].join();
+  }
 
-  ~~return 0;~~
-~~}~~
+  return 0;
+}
+```
 
-上面的代码有问题。生产者消费者使用同一个条件变量 `std::condition_variable g_cv;`，这个问题可能会导致一个线程在唤醒其他等待线程的时候，唤醒了不符合自己所需条件的线程，从而导致线程饥饿或者死锁等问题。比如，我有多个生产者和消费者，执行 `g_cv.notify_all()` 可能每次被唤醒的都是生产者，导致消费者一直拿不到锁。
+**上面的代码有问题**。生产者消费者使用同一个条件变量 `std::condition_variable g_cv;`，这个问题可能会导致一个线程在唤醒其他等待线程的时候，唤醒了不符合自己所需条件的线程，从而导致线程饥饿或者死锁等问题。比如，我有多个生产者和消费者，执行 `g_cv.notify_all()` 可能每次被唤醒的都是生产者，导致消费者一直拿不到锁。
 
 这个问题可以通过使用不同的条件变量来分别等待队列非空和队列未满来解决。
 
