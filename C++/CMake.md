@@ -253,7 +253,12 @@ target_link_directories(my_target PRIVATE ${my_library_dir})
 
 总的来说，`include_directories` 用于指定头文件的搜索路径，`link_directories` 用于指定库文件的搜索路径，而 `target_link_directories` 用于将库路径与特定的目标进行关联。
 
-// TODO
+### 设置输出的文件目录
+
+```cmake
+SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
+SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
+```
 
 ## cmake 命令参数和变量
 
