@@ -234,5 +234,9 @@ CompileFlags:
 - [Clangd config](https://ahmadsamir.github.io/posts/12-clangd-config-tweaks.html)
 - [Too many errors emitted, stopping now [clang: fatal_too_many_errors]](https://github.com/clangd/coc-clangd/issues/255)
 
+**clangd 其他优化**
 
+安装 clangd 默认打开内联提示（Inlay Hints），可以选择关闭。
+
+[vscode 关闭函数调用时的形参显示](https://blog.csdn.net/airhcoaz/article/details/124850316)
 
