@@ -517,6 +517,104 @@ int main() {
 
 ```
 
+## 其他补充
+
+### thread_local
+
+`thread_local` 是 C++11 中引入的线程局部存储（Thread-local storage）关键字。它用于指定一个变量只在**当前线程的生命周期**内存在，每个线程拥有自己独立的变量实例，互相独立不会互相干扰。
+
+使用 `thread_local` 修饰的变量，可以用于存储当前线程特有的信息或状态，例如线程池中的线程可以使用 `thread_local` 来存储线程私有的任务队列，避免线程间的竞争。
+
+`thread_local` 的语法格式如下：
+
+```c++
+thread_local <type> variable_name;
+```
+
+其中，`type` 表示变量的类型，`variable_name` 表示变量的名称。在 C++11 之前，程序员需要使用操作系统提供的线程特有数据（Thread-Specific Data）机制或第三方库来实现线程局部存储。
+
+例如，下面的代码演示了如何使用 `thread_local` 修饰一个全局变量，使其成为线程局部变量：
+
+```c++
+#include <iostream>
+#include <thread>
+
+thread_local int x = 0;
+
+void foo() {
+  x += 1;
+  std::cout << "x in thread " << std::this_thread::get_id() << ": " << x << std::endl;
+}
+
+int main() {
+  std::thread t1(foo);
+  std::thread t2(foo);
+
+  t1.join();
+  t2.join();
+
+  return 0;
+}
+```
+
+在上面的例子中，我们使用 `thread_local` 修饰了一个全局变量 `x`，然后在两个不同的线程中调用函数 `foo`，每个线程都会有一个独立的 `x`，互相不会干扰。这个例子的输出如下：
+
+```
+x in thread 139730414139712: 1
+x in thread 139730405747008: 1
+```
+
+在这个输出中，我们可以看到，两个线程分别输出了自己独立的 `x` 值。
+
+`thread_local` 修饰局部变量的时候相当于 `static` 关键字。
+
+```cpp
+#include <iostream>
+#include <thread>
+
+class A {
+ public:
+  A() = default;
+  ~A() = default;
+
+  void test(const std::string &name) {
+    thread_local int count = 0;  // 修饰局部变量，相当于 static
+    ++count;
+    std::cout << name << ": " << count << std::endl;
+  }
+};
+
+void func(const std::string &name) {
+  A a1;
+  a1.test(name);
+  a1.test(name);
+  A a2;
+  a2.test(name);
+  a2.test(name);
+}
+
+int main() {
+  std::thread(func, "thread1").join();
+  std::thread(func, "thread2").join();
+  return 0;
+}
+```
+
+输出：
+
+```cpp
+thread1: 1
+thread1: 2
+thread1: 3
+thread1: 4
+thread2: 1
+thread2: 2
+thread2: 3
+thread2: 4
+```
+
+验证上述说法，对于一个线程私有变量，一个线程拥有且只拥有一个该实例，类似于 static。
+
 ## 参考文章
 
 - [C++11 新特性总结（相比 C++98）](https://zhuanlan.zhihu.com/p/103258069)
