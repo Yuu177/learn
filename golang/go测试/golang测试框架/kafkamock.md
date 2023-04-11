@@ -12,7 +12,7 @@
 
 >下面内容是对 example 的补充
 
-#### check the message 方法
+### check the message 方法
 
 > 检验 kafka 消息：包括 topic，key，value 等
 
@@ -22,7 +22,7 @@ type MessageChecker func(*sarama.ProducerMessage) error
 func (mp *AsyncProducer) ExpectInputWithMessageCheckerFunctionAndSucceed(cf MessageChecker) *AsyncProducer
 ```
 
-#### check the message value 方法
+### check the message value 方法
 
 > 检验 kafka 消息的 value
 
@@ -32,7 +32,7 @@ type ValueChecker func(val []byte) error
 func (mp *AsyncProducer) ExpectInputWithCheckerFunctionAndSucceed(cf ValueChecker) *AsyncProducer
 ```
 
-#### 代码示例
+### 代码示例
 
 ```go
 package main

@@ -13,5 +13,3 @@
 - http.ServeContent 会根据请求头中的 Range 来决定文件的响应（传输）范围（一般用来做断点续传或者多线程下载）。
 
 - [multipart/form-data 介绍](https://www.imooc.com/article/314402)
-
-- 

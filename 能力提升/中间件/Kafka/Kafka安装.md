@@ -186,6 +186,152 @@ Shopify/sarama
 confluentinc/confluent-kafka-go
 ```
 
+### 示例代码
+
+- 代码目录结构
+
+```bash
+./
+├── consumer
+│   └── consumer.go
+├── go.mod
+├── go.sum
+├── producer
+│   └── producer.go
+└── README.md
+```
+
+- go.mod
+
+```go
+module kafkaTest
+
+go 1.17
+
+require (
+	github.com/Shopify/sarama v1.31.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/eapache/go-resiliency v1.2.0 // indirect
+	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
+	github.com/eapache/queue v1.1.0 // indirect
+	github.com/golang/snappy v0.0.4 // indirect
+	github.com/hashicorp/go-uuid v1.0.2 // indirect
+	github.com/jcmturner/aescts/v2 v2.0.0 // indirect
+	github.com/jcmturner/dnsutils/v2 v2.0.0 // indirect
+	github.com/jcmturner/gofork v1.0.0 // indirect
+	github.com/jcmturner/gokrb5/v8 v8.4.2 // indirect
+	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
+	github.com/klauspost/compress v1.13.6 // indirect
+	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
+	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
+	golang.org/x/crypto v0.0.0-20201112155050-0c6587e931a9 // indirect
+	golang.org/x/net v0.0.0-20220105145211-5b0dc2dfae98 // indirect
+)
+
+```
+
+- consumer.go
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+
+	"github.com/Shopify/sarama"
+)
+
+var (
+	wg sync.WaitGroup
+)
+
+func main() {
+	consumer, err := sarama.NewConsumer([]string{"localhost:9092"}, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	partitionList, err := consumer.Partitions("tpy")
+	if err != nil {
+		panic(err)
+	}
+
+	for partition := range partitionList {
+		pc, err := consumer.ConsumePartition("tpy", int32(partition), sarama.OffsetNewest)
+		if err != nil {
+			panic(err)
+		}
+		defer pc.AsyncClose()
+
+		wg.Add(1)
+		go func(sarama.PartitionConsumer) {
+			defer wg.Done()
+			for msg := range pc.Messages() {
+				fmt.Printf("Partition:%d, Offset:%d, Key:%s, Value:%s\n", msg.Partition, msg.Offset, string(msg.Key), string(msg.Value))
+			}
+		}(pc)
+	}
+	wg.Wait()
+	consumer.Close()
+}
+
+```
+
+- producer.go
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+
+	"github.com/Shopify/sarama"
+)
+
+func main() {
+	config := sarama.NewConfig()
+	config.Producer.Return.Successes = true
+	config.Producer.RequiredAcks = sarama.WaitForAll
+	config.Producer.Partitioner = sarama.NewRandomPartitioner
+
+	producer, err := sarama.NewSyncProducer([]string{"localhost:9092"}, config)
+	if err != nil {
+		panic(err)
+	}
+	defer producer.Close()
+
+	msg := &sarama.ProducerMessage{
+		Topic:     "tpy",
+		Partition: 1,
+		Key:       sarama.StringEncoder("user"),
+	}
+
+	var value string
+	for {
+		// 生产消息
+		inputReader := bufio.NewReader(os.Stdin)
+		value, err = inputReader.ReadString('\n')
+		if err != nil {
+			panic(err)
+		}
+		value = strings.Replace(value, "\n", "", -1)
+		msg.Value = sarama.ByteEncoder(value)
+		paritition, offset, err := producer.SendMessage(msg)
+
+		if err != nil {
+			fmt.Println("Send Message Fail")
+		}
+
+		fmt.Printf("Partion = %d, offset = %d\n", paritition, offset)
+	}
+}
+
+```
+
 ## 参考链接
 
 - [macOS 下 使用 docker 安装 kafka](http://www.javashuo.com/article/p-eizveeqh-be.html)

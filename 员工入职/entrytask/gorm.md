@@ -6,7 +6,7 @@
 
 - **Take 查询一条记录**
 
-```sql
+```go
 // 定义接收查询结果的结构体变量
 food := Food{} 
 // 等价于：SELECT * FROM `foods` LIMIT 1
@@ -15,14 +15,14 @@ db.Take(&food)
 
 - **First 查询一条记录，根据主键 ID 排序(正序)，返回第一条记录**
 
-```sql
+```go
 //等价于：SELECT * FROM `foods`  ORDER BY `foods`.`id` ASC LIMIT 1    
 db.First(&food)
 ```
 
 - **Last 查询一条记录, 根据主键ID排序(倒序)，返回第一条记录**
 
-```sql
+```go
 // 等价于：SELECT * FROM `foods` ORDER BY `foods`.`id` DESC LIMIT 1  
 // 语义上相当于返回最后一条记录 
 db.Last(&food)
@@ -30,7 +30,7 @@ db.Last(&food)
 
 - **Find 查询多条记录，Find函数返回的是一个数组**
 
-```sql
+```go
 // 因为 Find 返回的是数组，所以定义一个商品数组用来接收结果
 var foods []Food 
 // 等价于：SELECT * FROM `foods` 
@@ -39,7 +39,7 @@ db.Find(&foods)
 
 - **Pluck 查询一列值**
 
-```sql
+```go
 // 商品标题数组
 var titles []string 
 // 返回所有商品标题 
@@ -109,4 +109,4 @@ func main() {
 
 ## 参考文档
 
-https://gorm.io/docs/
+- https://gorm.io/docs/

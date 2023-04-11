@@ -2,15 +2,15 @@
 
 # systemd
 
-Unit
+- Unit
 
 每一个 Unit（服务等） 都有一个配置文件，告诉 Systemd 怎么启动这个 Unit 。
 
-Systemd 默认从目录 /etc/systemd/system/ 读取配置文件。
+Systemd 默认从目录 `/etc/systemd/system/` 读取配置文件。
 
-systemctl reload nginx 重新加载 nginx 配置文件
+`systemctl reload nginx` 重新加载 nginx 配置文件
 
-systemctl restart nginx 重新启动 nginx 服务
+`systemctl restart nginx` 重新启动 nginx 服务
 
 ## Service
 
@@ -24,7 +24,7 @@ systemctl restart nginx 重新启动 nginx 服务
 
 CentOS 7 以后版本，利用 Systemd 统一管理所有 Unit 的**启动**日志。带来的好处就是，可以只用 journalctl 一个命令，查看所有日志（内核日志和应用日志）。
 
-systemd为我们提供了一个统一中心化的日志系统: journal
+systemd 为我们提供了一个统一中心化的日志系统：journal
 
 其中包含了守护线程 journald 以及我们用来查看日志的工具 journalctl 等等。
 
