@@ -2,13 +2,13 @@
 
 # go debug
 
-### vscode 调试 golang
+## vscode 调试 golang
 
 1、配置 vscode launch.json
 
 点击创建 launch.json 文件，根据提示选择 go 和 launch package 调试模式。
 
-![vscode_debug_go](.godebug.assets/vscode_debug_go.png)
+![vscode_debug_go](./.godebug.assets/vscode_debug_go.png)
 
 > 生成的配置文件如下
 

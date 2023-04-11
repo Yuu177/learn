@@ -6,9 +6,9 @@ Gflags 是一种命令行解析工具，主要用于解析用命令行执行可�
 
 ## 支持的参数类型
 
-gflags 支持的类型有 bool，int32，int64，uint64，double 和 string。
+gflags 支持的类型有 `bool`，`int32`，`int64`，`uint64`，`double` 和 `string`。
 
-分别对应 DEFINE_bool、DEFINE_int32、DEFINE_int64、DEFINE_uint64、DEFINE_double、DEFINE_string。
+分别对应 `DEFINE_bool`、`DEFINE_int32`、`DEFINE_int64`、`DEFINE_uint64`、`DEFINE_double`、`DEFINE_string`。
 
 举个例子：
 
@@ -24,7 +24,7 @@ DEFINE_int32(port, 9090, "program listen port");
 
 - 代码中使用这个变量
 
-DEFINE_int32 等代码就相当于定义了变量，只不过变量名多了个前缀 `FLAGS_`。即我们可以在代码里面直接操作 `FLAGS_port` 这个变量
+`DEFINE_int32` 等代码就相当于定义了变量，只不过变量名多了个前缀 `FLAGS_`。即我们可以在代码里面直接操作 `FLAGS_port` 这个变量
 
 ## 解析命令行参数
 
