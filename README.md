@@ -1,1 +1,4 @@
-总结的学习笔记，建议 clone 到本地用 typroa 打开
+- 仓库内容：个人总结的学习笔记
+
+- 使用的编辑器：[Typroa](https://typoraio.cn/)
+
