@@ -40,6 +40,158 @@ brew install protobuf
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 ```
 
+## 代码示例
+
+- 代码文件结构
+
+```
+./
+├── client
+│   └── client.go
+├── go.mod
+├── go.sum
+├── proto
+│   ├── person.pb.go
+│   └── person.proto
+└── server
+    └── server.go
+```
+
+- client.go
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	pb "rpcDemo/proto"
+
+	"google.golang.org/grpc"
+)
+
+func main() {
+	// 连接服务器
+	conn, err := grpc.Dial(":6000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+
+	// 实例化一个客户端
+	client := pb.NewPersonServiceClient(conn)
+
+	body := pb.Person{Name: "panyu"}
+
+	// 调用接口
+	resp, err := client.GetPersonInfo(context.Background(), &body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(resp)
+}
+
+```
+
+- server.go
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"net"
+
+	pb "rpcDemo/proto"
+
+	"google.golang.org/grpc"
+)
+
+type PersonService struct {
+}
+
+func (p *PersonService) GetPersonInfo(ctx context.Context, req *pb.Person) (*pb.Person, error) {
+	if req.Name == "panyu" {
+		return &pb.Person{
+			Name:    "panyu",
+			Age:     18,
+			Address: []string{"china", "usa"},
+		}, nil
+	}
+	return nil, nil
+}
+
+func main() {
+	// 监听
+	listener, err := net.Listen("tcp", ":6000")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// 实例化 grpc
+	s := grpc.NewServer()
+
+	// gRPC 上注册服务
+	p := PersonService{}
+	pb.RegisterPersonServiceServer(s, &p) // 注册 PersonService struct 下所有的方法
+
+	// 启动服务器
+	s.Serve(listener)
+}
+
+```
+
+- go.mod
+
+```go
+module rpcDemo
+
+go 1.17
+
+require (
+	google.golang.org/grpc v1.44.0
+	google.golang.org/protobuf v1.27.1
+)
+
+require (
+	github.com/golang/protobuf v1.5.0 // indirect
+	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
+	golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd // indirect
+	golang.org/x/text v0.3.0 // indirect
+	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
+)
+
+```
+
+- person.proto
+
+```protobuf
+syntax = "proto3";
+
+// golang 在使用 protoc 编译时出错 "unable to determine Go import path for" 解决办法
+// ./表示生成后文件的存放目录
+// pb表示生成的.go文件的包名
+option go_package = "./;pb";
+
+// 定义消息结构体
+message Person {
+    string name = 1;
+    int32 age = 2;
+    repeated string address = 3; // repeated 就是数组的。[]string
+}
+
+// 定义服务
+service PersonService {
+    // 生成的 grpc client interface 和 grpc server interface 拥有这个方法。
+    // client 代码也是自动生成了并实现了 grpc client interface。
+    // 所以服务端需要手动实现 grpc server interface。
+    // 简单的理解为，client 是本地，server 是远端。
+    rpc getPersonInfo (Person) returns (Person) {}
+}
+```
+
 ## 踩坑
 
 ### map 中使用数组
