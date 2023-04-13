@@ -1022,6 +1022,100 @@ int main() {
 
 解决方法：把 变量 `b` 定义在 switch 外面，或者在 case 中加入花括号（推荐）。
 
+## 空指针调用
+
+C++ 空指针调用也会进入到函数的内部，然后才从函数内部抛出异常
+
+```c++
+#include <iostream>
+
+class A {
+ public:
+  A() : age_(10) {}
+
+  void Test() {
+    std::cout << "Test..." << std::endl;
+    std::cout << "age: " << age_ << std::endl;
+  }
+
+ private:
+  int age_;
+};
+
+int main() {
+  A* a = nullptr;
+  a->Test();
+  return 0;
+}
+
+// 测试结果：
+// Test...
+// [1]    817309 segmentation fault (core dumped)  ./a.out
+```
+
+## 模板实例化
+
+```c++
+template <typename T>
+class Singleton {
+ public:
+  static T &GetInstance() { return instance; }
+
+ protected:
+  Singleton() = default;
+
+ private:
+  static T instance;
+  Singleton(const Singleton &) = delete;
+  Singleton &operator=(const Singleton &) = delete;
+  Singleton(Singleton &&) = delete;
+  Singleton &operator=(Singleton &&) = delete;
+};
+
+template <typename T>
+T Singleton<T>::instance;
+
+// 快速定义一个饿汉式单例类
+#define DEF_SINGLETON(object) class object : public Singleton<object>
+
+// 注意：因为 Singleton 是一个模板类，
+// 所以如果只是 DEF_SINGLETON(A) 但不去调用 A::GetInstance()，
+// 那么 A 实际上并没有被实例化
+#define INIT_SINGLETON_AFTER_DEF(object) \
+  static void object##SingletonInitAfterDef() { object::GetInstance(); }
+```
+
+虽然 `Singleton` 是一个饿汉式的单例（类加载时就初始化），但是由于该类是一个模板，所以需要手动初始化。
+
+```c++
+DEF_SINGLETON(A) {
+ public:
+  A();
+};
+
+A::A() { std::cout << "A init" << std::endl; }
+
+int main() { return 0; }
+```
+
+输出结果：没有任何打印
+
+```c++
+DEF_SINGLETON(A) {
+ public:
+  A();
+};
+
+A::A() { std::cout << "A init" << std::endl; }
+
+// 手动调用 A::GetInstance
+void Test() { A::GetInstance(); }
+
+int main() { return 0; }
+```
+
+输出结果：`A init`
+
 ## 参考文章
 
 - C 指针传递变量为什么无法修改变量值？ - 蓝色的回答 - 知乎 https://www.zhihu.com/question/41476387/answer/91566794
