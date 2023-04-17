@@ -54,28 +54,7 @@ sudo chmod 400 /etc/sudoer
 sudo apt-get install git
 ```
 
-配置 git，`vim ~/.gitconfig`
-
-```bash
-[user]
-	name = xxx
-	email = xxx
-[alias]
-	st = status 
-   	br = branch
-	ci = commit
-	plr = pull --rebase
-	co = checkout
-	bd = branch -D
-	pd = push --delete origin
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges
-	aa = add .
-	can = commit --amend --no-edit
-	ca = commit --amend
-[core]
-	quotepath = false
-	editor = vim
-```
+具体配置查看之前写的 git 文档
 
 ### 安装 JetBrains Mono 字体
 

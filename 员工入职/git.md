@@ -276,3 +276,57 @@ git worktree unlock <path>
 
 使用 `git worktree` 命令可以方便地在同一仓库中并行开发和测试多个分支或提交，而无需频繁地切换分支和重新检出提交。
 
+## 配置 gitconfig
+
+`cat ~/.gitconfig`
+
+```bash
+[user]
+	name = xxx
+	email = xxx
+[alias]
+	st = status 
+   	br = branch
+	ci = commit
+	plr = pull --rebase
+	co = checkout
+	bd = branch -D
+	pd = push --delete origin
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)<%an>%Creset %C(dim cyan)%cd%Creset' --abbrev-commit --no-merges --date=format-local:'%y-%-m-%-d %p %I:%M'
+	aa = add .
+	can = commit --amend --no-edit
+	ca = commit --amend
+	cp = cherry-pick
+	sl = stash list
+[core]
+	quotepath = false
+	editor = vim
+	whitespace = cr-at-eol
+[color]
+	ui = auto
+```
+
+解释 `git lg` 配置
+
+- `--color`：启用彩色输出；
+- `--graph`：在输出中使用 ASCII 图形表示分支和提交的历史记录；
+- `--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'`：指定输出的格式，包括提交的哈希值（用红色显示）、提交信息和提交时间等；
+- `--abbrev-commit`：使用较短的提交哈希值；
+- `--no-merges`：仅显示非合并提交的历史记录。
+
+详解 `--pretty=format`
+
+`--pretty=format` 是 Git 命令中用来指定输出格式的参数，后面跟着一个字符串，该字符串包含了各种输出格式的占位符和颜色代码。
+
+在这个例子中，`--pretty=format` 参数后面的字符串 `%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset` 定义了输出格式，它包含了以下占位符和颜色代码：
+
+- `%Cred`：红色字体，用来表示提交的哈希值；
+- `%h`：用短哈希值表示提交的哈希值；
+- `%Creset`：恢复默认颜色，确保下一个占位符和文本使用默认颜色；
+- `-%C(yellow)%d%Creset`：使用黄色字体，表示提交的分支信息，如果提交有多个分支，则会用括号把它们括起来；
+- `%s`：提交信息，表示提交时所填写的信息；
+- `%Cgreen(%cr)`：使用绿色字体，表示相对时间，即距离现在的时间；
+- `%C(bold blue)<%an>%Creset`：使用蓝色加粗字体，表示作者的名字和邮箱地址；
+- `%C(dim cyan)%cd%Creset`：使用浅青色，表示显示自定义的日期
+- `--date=format-local:'%y-%-m-%-d %p %I:%M'`：自定义日期格式
+

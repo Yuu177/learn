@@ -90,26 +90,7 @@ git@git.xxxxx.com: Permission denied (publickey).
 >
 > gpf: 强制提交，alias gpf='git push --force-with-lease'
 
-```bash
-➜  ~ cat .gitconfig 
-[user]
-	name = xxx
-	email = xxx
-[alias]
-	st = status 
-   	br = branch
-	ci = commit
-	plr = pull --rebase
-	co = checkout
-	bd = branch -D
-	pd = push --delete origin
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges
-	aa = add .
-	can = commit --amend --no-edit
-	ca = commit --amend
-[core]
-	quotepath = false
-```
+具体配置查看之前写的 git 文档
 
 ### 解决 git 中文乱码
 
