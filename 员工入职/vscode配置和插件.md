@@ -62,9 +62,15 @@ ps：已经被 vscode 官方收编，需要勾选一下启用括号对指南
 "editor.guides.bracketPairs": "active"
 ```
 
-### GitLens — Git supercharged
+### GitLens
 
-在 vscode 中可视化代码作者身份
+在 vscode 中可视化代码作者身份，还有各种各样 git 相关的功能。
+
+该插件中的 `git commit` 显示的日期格式是相对于今天的，有时候想看具体的日期，可以设置 `git commit` 显示格式
+
+在设置中搜索 `gitlens.views.commits`，如下图添加红色框中的内容即可。
+
+![gitlens设置commit显示格式](./.vscode配置和插件.assets/gitlens设置commit显示格式.png)
 
 ### Git History
 
@@ -240,3 +246,8 @@ CompileFlags:
 
 [vscode 关闭函数调用时的形参显示](https://blog.csdn.net/airhcoaz/article/details/124850316)
 
+### highlight
+
+该插件可将选中的单词进行高亮
+
+https://marketplace.visualstudio.com/items?itemName=debugpig.highlight
