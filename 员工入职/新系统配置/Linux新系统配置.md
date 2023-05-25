@@ -308,3 +308,8 @@ alias wechatrun="/opt/dochat.sh"
 alias wechatstop="docker stop DoChat"
 ```
 
+### notepad--
+
+查看日志不错的软件
+
+https://gitee.com/cxasm/notepad--
