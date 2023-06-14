@@ -64,8 +64,8 @@ expect "hello" { send "hello world\r" }
 ```nginx
 expect {
     "hello" { send "hello world\r" }
-	"hi" { send "hi world\r" }
-	"bye" { send "bye world\r" }
+    "hi" { send "hi world\r" }
+    "bye" { send "bye world\r" }
 }
 ```
 

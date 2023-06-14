@@ -1,3 +1,5 @@
+[TOC]
+
 # Linux 新系统配置
 
 > 除特殊说明，该配置都是基于 Ubuntu 18.04
@@ -65,50 +67,6 @@ https://www.jetbrains.com/lp/mono/#how-to-install
 ```
 sudo apt install gcc
 sudo apt install g++
-```
-
-### oy-my-zsh
-
-先安装 zsh
-
-```
-sudo apt install zsh
-```
-
-再安装 oy-my-zsh
-
-```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-```
-
-#### 安装 oy-my-zsh 插件
-
-历史命令（zsh-autosuggestions），命令高亮（zsh-syntax-highlighting）
-
-```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting
-```
-
-下载好后移动到 `/usr/local/share/`，
-
-```bash
-sudo mv zsh-autosuggestions zsh-syntax-highlighting /usr/local/share/
-```
-
-在文件 `~/.zshrc` 最后写入：
-
-```bash
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-```
-
-保存后终端输入 `source ~/.zshrc` 并重启终端。
-
-- 修改默认 shell 为 zsh，输入命令后需要重启电脑。
-
-```bash
-chsh -s /bin/zsh
 ```
 
 ### cmake

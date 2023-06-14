@@ -112,60 +112,6 @@ git config --global core.editor vim
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
-## 安装 oh-my-zh
-
-```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-```
-
-### 插件
-
-灵活应用插件可以使终端更加的好用
-
-- **历史命令(zsh-autosuggestions)**
-
-1、安装命令
-
-```bash
-brew install zsh-autosuggestions
-```
-
-或者
-
-```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions
-```
-
-2、下载好后 `vim ~/.zshrc` 文件最后写入
-
-```
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-```
-
-3、保存后终端输入 `source ~/.zshrc` 并重启终端。
-
-- **命令高亮(zsh-syntax-highlighting)**
-
-1、安装命令
-
-```bash
-brew install zsh-syntax-highlighting
-```
-
-或者
-
-```bash
-git clone https://github.com/zsh-users/zsh-syntax-highlighting
-```
-
-2、下载好后  `vim ~/.zshrc` 文件最后写入
-
-```bash
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-```
-
-3、保存后终端输入 `source ~/.zshrc` 并重启终端。
-
 ## 配置 cisco anyconnect vpn
 
 快速打开/关闭 vpn 且不用输入密码。

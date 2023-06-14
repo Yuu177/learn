@@ -1,0 +1,52 @@
+[TOC]
+
+# oh-my-zh
+
+## 安装
+
+https://github.com/ohmyzsh/ohmyzsh
+
+修改默认 shell 为 zsh（需要重启终端 or 电脑）
+
+```bash
+chsh -s /bin/zsh
+```
+
+## 插件
+
+### zsh-autosuggestions & zsh-syntax-highlighting
+
+历史命令（zsh-autosuggestions），命令高亮（zsh-syntax-highlighting）
+
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting
+```
+
+下载好后移动到 `/usr/local/share/` 目录下：
+
+```bash
+sudo mv zsh-autosuggestions zsh-syntax-highlighting /usr/local/share/
+```
+
+在文件 `~/.zshrc` 最后写入：
+
+```bash
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+```
+
+保存后终端输入 `source ~/.zshrc` 并重启终端。
+
+### autojump
+
+https://github.com/wting/autojump
+
+- docker 安装错误
+
+docker 中安装 autojump 出现 Unsupported shell: None，`echo $SHELL` 发现是空
+
+1、使用 zsh 打开 docker：`docker exec -it 40dfecca1f53 /bin/zsh`（这里不能用 `/bin/bash` 打开）
+
+2、执行命令：`export SHELL=/bin/zsh`，重新执行安装步骤即可
+
