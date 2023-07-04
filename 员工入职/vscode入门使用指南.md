@@ -46,6 +46,8 @@
 - `"type"`：任务类型，指定任务的执行方式。常见的类型包括 `"shell"`（使用 shell 命令执行）和 `"process"`（使用外部进程执行）。
 - `"command"`：任务的命令，即要执行的具体操作。可以是 shell 命令、外部工具命令、脚本等。
 
+我们可以通过安装插件 [Task Manager](https://marketplace.visualstudio.com/items?itemName=cnshenj.vscode-task-manager) 来 Manages tasks in Visual Studio Code in a custom activity view，如下图：
+
 ![tasks](./.vscode入门使用指南.assets/tasks.png)
 
 配置好后，我们只需要动动手指点击鼠标就可以执行快速触发这些任务了，非常好用。
@@ -120,7 +122,7 @@ golang 插件，非常非常好用。为什么要用 IDE 写代码，这个插�
 
 Lets you easily and quickly generate `.gitignore` file for your project using [gitignore.io](https://gitignore.io/) API.
 
-快速生成 .gitignore 文件。
+快速生成 `.gitignore` 文件。
 
 ### 翻译(英汉词典)
 
@@ -350,6 +352,14 @@ https://marketplace.visualstudio.com/items?itemName=debugpig.highlight
 sudo apt install graphviz
 sudo apt-get install openjdk-8-jdk
 ```
+
+### Task Manager
+
+可视化管理我们的的 `tasks.json` 中的 task
+
+Manages tasks in Visual Studio Code in a custom activity view.
+
+https://marketplace.visualstudio.com/items?itemName=cnshenj.vscode-task-manager
 
 ## 其他问题
 
