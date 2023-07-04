@@ -236,7 +236,7 @@ github 地址：[Clash for Windows](https://github.com/Fndroid/clash-win-docs-ne
 
 ```bash
 gsettings set org.gnome.system.proxy mode 'manual' # 设置网络代理模式为手动
-gsettings set org.gnome.system.proxy mode 'none' # 紧用网络代理模式
+gsettings set org.gnome.system.proxy mode 'none' # 禁用网络代理模式
 ```
 
 ### 微信
@@ -271,3 +271,50 @@ alias wechatstop="docker stop DoChat"
 查看日志不错的软件
 
 https://gitee.com/cxasm/notepad--
+
+### 视频播放器 MPV
+
+```
+sudo apt install mpv
+```
+
+- 快捷键
+
+向前一帧：`,`
+
+向后一帧：`.`
+
+- 设置视频默认应用程序
+
+![设置默认应用程序](./.Linux新系统配置.assets/设置默认应用程序.png)
+
+#### 自定义快捷键
+
+https://mpv.io/manual/stable/#command-interface
+
+https://github.com/mpv-player/mpv/blob/master/etc/input.conf
+
+### FFmpeg
+
+FFmpeg 是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。
+
+```bash
+sudo apt install ffmpeg
+```
+
+- 裁剪视频
+
+```bash
+ffmpeg -i input.mp4 -ss 00:07:05 -to 00:07:40 -c:v copy -c:a copy output.mp4
+```
+
+`input.mp4`：要裁剪的视频文件的名称。
+
+`-ss 00:07:05`：指定开始裁剪的时间戳，即 7 分 05 秒。
+
+`-to 00:07:40`：指定裁剪结束的时间戳，即 7 分 40 秒。这里如果省略就表示到视频的结尾。
+
+`-c:v copy` 和 `-c:a copy` 表示将视频和音频流以原始格式复制到输出文件，以避免重新编码。
+
+等待 FFmpeg 处理完毕，裁剪的视频将保存为 `output.mp4` 文件，出现在您的当前工作目录中。
+

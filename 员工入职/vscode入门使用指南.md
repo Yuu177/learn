@@ -1,28 +1,118 @@
 [TOC]
 
-# vscode
+# vscode 入门使用指南
 
 ## 配置文件说明
 
-- setting.json
+```
+.vscode
+├── launch.json
+├── settings.json
+└── tasks.json
+```
 
-settings.json 是 VS Code 的配置文件，可以对 VS Code 进行页面风格、代码格式、字体颜色大小等的编辑设置。
+### setting.json
 
-setting.json 分【工作区】和【用户】。想象一下你有好几个项目，不同的项目需要不同的配置，所以你可以在每一个项目根路径添加一个 `.vscode/setting.json` 文件来保存对当前工作区的配置。默认打开的设置界面配置的是全局（用户）设置，对每个工作区都会起作用，不过工作区的配置会覆盖全局配置，优先级更高。
+`settings.json` 是 VS Code 的配置文件，可以对 VS Code 进行页面风格、代码格式、字体颜色大小、插件功能等的编辑设置。
 
-- launch.json 和 tasks.json
+`setting.json` 分【工作区】和【用户】。想象一下你有好几个项目，不同的项目需要不同的配置，所以你可以在每一个项目根路径添加一个 `.vscode/settings.json` 文件来保存对当前工作区的配置。默认使用全局（用户）设置，对每个工作区都会起作用，不过工作区设置会覆盖用户设置，优先级更高。
 
-简单的理解：tasks.json ---> gcc；launch.json ----> gdb。
+> Ctrl + P 转到文件，在顶栏输入 `>Open settings`，可以快速打开用户设置(JSON)
 
-启动 gdb 调试会话之前需要首先执行 gcc 编译任务。因此，launch.json 有一条配置 preLaunchTask，指向 tasks.json 中的编译任务（label）。
+![转到文件](./.vscode入门使用指南.assets/转到文件.png)
 
-- c_cpp_properties.json
+### tasks.json
 
-该文件是 C/C++ 这个官方插件的配置。这个文件主要是用于语言引擎的配置，例如：指定 include 路径，智能感知，问题匹配类型等。`Ctrl+Shift+P` 打开 Command Palette，找到并打开 `C/C++: Edit Configurations` 。进行一些配置后，`.vscode` 文件夹下会自动生成此文件。
+`tasks.json` 文件用于配置任务（Tasks）。任务是自动化执行特定操作的命令序列，可以在开发过程中提高效率。
+
+`tasks.json` 文件定义了一组任务，每个任务包含了命令和配置，用于执行特定的操作，例如编译代码、运行测试、部署应用等。通过配置任务，可以使用快捷键或命令来触发执行这些任务，而无需手动输入命令。
+
+```json
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "linux build",
+            "type": "shell",
+            "command": "cd recipes/x86_64_u2004 && ./build.sh",
+        },
+    ]
+}
+```
+
+- `"label"`：任务的标签，用于在 VS Code 中标识和区分不同的任务。
+- `"type"`：任务类型，指定任务的执行方式。常见的类型包括 `"shell"`（使用 shell 命令执行）和 `"process"`（使用外部进程执行）。
+- `"command"`：任务的命令，即要执行的具体操作。可以是 shell 命令、外部工具命令、脚本等。
+
+![tasks](./.vscode入门使用指南.assets/tasks.png)
+
+配置好后，我们只需要动动手指点击鼠标就可以了，非常好用。
+
+## Debug
+
+调试代码需要配置 `launch.json` 文件。
+
+`launch.json` 文件用于配置调试器的行为，以便在调试会话中调试代码。
+
+`launch.json` 文件定义了调试器的配置和调试会话的属性。通过配置该文件，可以指定要调试的程序、命令行参数、环境变量、调试器的类型等。
+
+```json
+{
+    // 使用 IntelliSense 了解相关属性。
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/bin/a.out",
+            "args": [
+                "--flagfile=test.flag",
+            ],
+            "environment": [
+                {
+                    "name": "PROJECT",
+                    "value": "demo"
+                }
+            ],
+            "cwd": "${workspaceFolder}/build/bin/",
+        }
+    ]
+}
+```
+
+- `"configurations"`：定义了一组调试配置的数组。
+- `"name"`：调试配置的名称，用于在 VS Code 中标识和区分不同的调试配置。
+- `"type"`：指定要使用的调试器类型。根据你的编程语言和工具链不同，可以选择适合的调试器类型，如 `"cppdbg"`（C++ 调试器）、`"node"`（Node.js 调试器）等。
+- `"request"`：指定调试器的请求类型。通常为 `"launch"`，表示启动调试会话。
+- `"program"`：指定要调试的可执行文件的路径。
+- `"args"`：传递给程序的命令行参数。
+- `"cwd"`：指定调试器的工作目录，即程序运行的基准目录。相当于：
+
+- `"environment"`：指定调试器的环境变量，相当于：`export PROJECT=demo`。
+
+配置好运行相当于
+
+```bash
+cd ${workspaceFolder}/build/bin/
+export PROJECT=demo
+gdb ${workspaceFolder}/build/bin/a.out
+run --flagfile=test.flag
+```
+
+> 启动 gdb 调试会话之前我们一般需要首先执行 gcc 编译任务。因此，`launch.json` 有一条配置项 `preLaunchTask`，我们可以指向 `tasks.json` 中的编译任务（label）。
+
+- ~~c_cpp_properties.json~~
+
+~~该文件是 C/C++ 这个官方插件的配置。这个文件主要是用于语言引擎的配置，例如：指定 include 路径，智能感知，问题匹配类型等。`Ctrl+Shift+P` 打开 Command Palette，找到并打开 `C/C++: Edit Configurations` 。进行一些配置后，`.vscode` 文件夹下会自动生成此文件。~~
 
 ## vscode 插件
 
-无论是 golang 还是 c++，一直在用 vscode，可以说 vscode 对于我来说已经无法替代了。记录一些自己用着觉得很好用的插件。
+无论是 golang 还是 c++，一直在用 vscode，可以说 vscode 对于我来说已经无法替代了（主要是**免费**）。记录一些自己用着觉得很好用的插件。
 
 ### Go
 
@@ -56,7 +146,7 @@ A customizable extension for colorizing matching brackets.
 
 一眼就能看到对应的括号匹配。
 
-ps：已经被 vscode 官方收编，需要勾选一下启用括号对指南
+**ps：已经被 vscode 官方收编，需要勾选一下启用括号对指南**
 
 ```json
 "editor.guides.bracketPairs": "active"
@@ -70,7 +160,7 @@ ps：已经被 vscode 官方收编，需要勾选一下启用括号对指南
 
 在设置中搜索 `gitlens.views.commits`，如下图添加红色框中的内容即可。
 
-![gitlens设置commit显示格式](./.vscode配置和插件.assets/gitlens设置commit显示格式.png)
+![gitlens设置commit显示格式](./.vscode入门使用指南.assets/gitlens设置commit显示格式.png)
 
 ### Git History
 
@@ -149,13 +239,24 @@ filter 参数的用法，就是以 `+` 或者 `-` 开头接着写规则名，就
 
 vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改使用 clangd 代替。
 
-安装 clangd 插件：https://zhuanlan.zhihu.com/p/364518020。
+~~安装 clangd 插件：https://zhuanlan.zhihu.com/p/364518020。~~
 
-而 clangd 是基于 `compile_commands.json` 文件来完成对项目的解析，并支持代码补全和跳转。
+clangd 是基于 `compile_commands.json` 文件来完成对项目的解析，并支持代码补全和跳转。
+
+我们一般用 cmake，所以在 `CMakeLists.txt` 中添加下面两行代码即可：
+
+```cmake
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+```
+
+// TODO
+
+#### 生成 compile_commands.json 方式
 
 该文件有三种生成方式：
 
-- 使用 cmake 生成。正常执行 cmake 命令，我们会生成一个 build 目录。使用 cmake 生成 compile_commands.json，需要在运行 cmake 时添加参数 `-DCMAKE_EXPORT_COMPILE_COMMANDS=True` 或者在 CMakeLists.txt 中添加 `set(CMAKE_EXPORT_COMPILE_COMMANDS True)`。这样子我们在 build 目录下就会看到一个 compelie_commands.json 文件了。
+- 使用 cmake 生成。使用 cmake 生成 `compile_commands.json`，需要在运行 cmake 时添加参数 `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` 或者在 CMakeLists.txt 中添加 `set(CMAKE_EXPORT_COMPILE_COMMANDS ON)`。这样子我们在 build 目录下就会看到一个 `compelie_commands.json` 文件。
 
 - 如果是基于 make 方式来编译，那么可以先安装 `pip install compiledb`，之后在当前目录下运行
 
@@ -164,11 +265,9 @@ vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改�
 
   这两个命令中的其中一个来生成 compile_commands.json 文件，其中前者不会执行真正的 make 编译命令。
 
-- 如果是基于其他方式，可以使用 https://github.com/rizsotto/Bear 项目中的方式来生成对应的 compile_commands.json 文件。
+- 如果是基于其他方式，可以使用 https://github.com/rizsotto/Bear 项目中的方式来生成对应的 `compile_commands.json` 文件。
 
-在 setting.json 下配置：
-
-生成 compile_commands.json 文件后，我们只需要配置 `--compile-commands-dir` 来指定 compile_commands.json 所在的目录即可。
+生成 `compile_commands.json` 文件后，我们只需要配置 `--compile-commands-dir` 来指定 `compile_commands.json` 所在的目录即可（在 `setting.json` 下配置）。
 
 ```json
 {
@@ -198,16 +297,17 @@ vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改�
 }
 ```
 
-- 交叉编译找不到标准库头文件
+#### 交叉编译找不到标准库头文件
 
 使用交叉编译，在 x86 上编译 ARM 程序。然而 clangd 插件会提示找不到标准库的头文件，因为交叉编译使用的是交叉编译器，它有自己的标准库头文件目录。
 
 解决：在 CMakeLists.txt 下添加
 
-~~set(CMAKE_EXPORT_COMPILE_COMMANDS ON)~~
-~~if(CMAKE_EXPORT_COMPILE_COMMANDS)~~
-    ~~set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})~~
-~~endif()~~
+```cmake
+set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+```
+
+// TODO
 
 ```cmake
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -227,7 +327,7 @@ there are two ways to change the [clangd config options](https://clangd.llvm.org
 
 可以通过 vscode 命令来创建
 
-![clangd配置文件](./.vscode配置和插件.assets/clangd配置文件.png)
+![clangd配置文件](./.vscode入门使用指南.assets/clangd配置文件.png)
 
 编辑配置文件文件，如：屏蔽特定告警等。
 
