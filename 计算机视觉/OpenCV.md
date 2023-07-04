@@ -132,5 +132,21 @@ cv::Mat img = cv::imdecode(cv::Mat(buffer), cv::IMREAD_GRAYSCALE);
 - `cv::IMREAD_ANYDEPTH`：以原始深度读取图像，即将每个像素的值读取为与图像深度相同的数据类型。例如，如果图像是 16 位深度的，将像素读取为 16 位的整数类型。
 - `cv::IMREAD_ANYCOLOR`：读取图像时不进行颜色空间转换，直接使用原始的颜色空间，适用于需要保留原始颜色信息的场景。
 
+### cv::Rect
+
+```c++
+template<typename _Tp> class Rect_
+{
+public:
+    //! default constructor
+    Rect_(_Tp _x, _Tp _y, _Tp _width, _Tp _height);
+
+    _Tp x; //!< x coordinate of the top-left corner
+    _Tp y; //!< y coordinate of the top-left corner
+    _Tp width; //!< width of the rectangle
+    _Tp height; //!< height of the rectangle
+};
+```
+
 ## 参考文章
 
