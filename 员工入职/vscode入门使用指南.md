@@ -48,9 +48,9 @@
 
 ![tasks](./.vscode入门使用指南.assets/tasks.png)
 
-配置好后，我们只需要动动手指点击鼠标就可以了，非常好用。
+配置好后，我们只需要动动手指点击鼠标就可以执行快速触发这些任务了，非常好用。
 
-## Debug
+## Debug 程序
 
 调试代码需要配置 `launch.json` 文件。
 
@@ -91,11 +91,11 @@
 - `"request"`：指定调试器的请求类型。通常为 `"launch"`，表示启动调试会话。
 - `"program"`：指定要调试的可执行文件的路径。
 - `"args"`：传递给程序的命令行参数。
-- `"cwd"`：指定调试器的工作目录，即程序运行的基准目录。相当于：
+- `"cwd"`：指定调试器的工作目录，即程序运行的基准目录。
 
 - `"environment"`：指定调试器的环境变量，相当于：`export PROJECT=demo`。
 
-配置好运行相当于
+配置好运行后相当于：
 
 ```bash
 cd ${workspaceFolder}/build/bin/
@@ -104,11 +104,7 @@ gdb ${workspaceFolder}/build/bin/a.out
 run --flagfile=test.flag
 ```
 
-> 启动 gdb 调试会话之前我们一般需要首先执行 gcc 编译任务。因此，`launch.json` 有一条配置项 `preLaunchTask`，我们可以指向 `tasks.json` 中的编译任务（label）。
-
-- ~~c_cpp_properties.json~~
-
-~~该文件是 C/C++ 这个官方插件的配置。这个文件主要是用于语言引擎的配置，例如：指定 include 路径，智能感知，问题匹配类型等。`Ctrl+Shift+P` 打开 Command Palette，找到并打开 `C/C++: Edit Configurations` 。进行一些配置后，`.vscode` 文件夹下会自动生成此文件。~~
+> 启动 gdb 调试会话之前我们一般需要首先执行 gcc -g 编译任务。因此，`launch.json` 有一条配置项 `preLaunchTask`，我们可以指向 `tasks.json` 中的编译任务（label）。
 
 ## vscode 插件
 
@@ -212,10 +208,6 @@ https://github.com/carbon-app/carbon/blob/main/docs/README.cn.zh.md
 
 format C++ 代码格式为 Google Style
 
-```bash
-sudo apt install clang-format
-```
-
 ### cpplint
 
 cpplint 是 Google 开发的一个 C++ 代码风格检查工具，遵循 google code style。
@@ -237,35 +229,18 @@ filter 参数的用法，就是以 `+` 或者 `-` 开头接着写规则名，就
 
 ### clangd
 
-vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改使用 clangd 代替。
+> 参考：https://zhuanlan.zhihu.com/p/364518020
 
-~~安装 clangd 插件：https://zhuanlan.zhihu.com/p/364518020。~~
+vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改使用 clangd 代替。
 
 clangd 是基于 `compile_commands.json` 文件来完成对项目的解析，并支持代码补全和跳转。
 
-我们一般用 cmake，所以在 `CMakeLists.txt` 中添加下面两行代码即可：
+我们一般用 cmake，所以生成 `compile_commands.json` 方式就是在 `CMakeLists.txt` 中添加下面两行代码即可：
 
 ```cmake
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 ```
-
-// TODO
-
-#### 生成 compile_commands.json 方式
-
-该文件有三种生成方式：
-
-- 使用 cmake 生成。使用 cmake 生成 `compile_commands.json`，需要在运行 cmake 时添加参数 `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` 或者在 CMakeLists.txt 中添加 `set(CMAKE_EXPORT_COMPILE_COMMANDS ON)`。这样子我们在 build 目录下就会看到一个 `compelie_commands.json` 文件。
-
-- 如果是基于 make 方式来编译，那么可以先安装 `pip install compiledb`，之后在当前目录下运行
-
-  - `compiledb -n make -C build`
-  - `compiledb make -C build`
-
-  这两个命令中的其中一个来生成 compile_commands.json 文件，其中前者不会执行真正的 make 编译命令。
-
-- 如果是基于其他方式，可以使用 https://github.com/rizsotto/Bear 项目中的方式来生成对应的 `compile_commands.json` 文件。
 
 生成 `compile_commands.json` 文件后，我们只需要配置 `--compile-commands-dir` 来指定 `compile_commands.json` 所在的目录即可（在 `setting.json` 下配置）。
 
@@ -297,28 +272,36 @@ set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTOR
 }
 ```
 
+>clang-tidy 是一个基于 clang 的 C++ 静态分析工具，主要用来检测代码中的常见错误
+
+#### 生成 compile_commands.json 方式
+
+该文件有三种生成方式：
+
+- 使用 cmake 生成 `compile_commands.json`，需要在运行 cmake 时添加参数 `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` 或者在 `CMakeLists.txt` 中添加 `set(CMAKE_EXPORT_COMPILE_COMMANDS ON)`。这样子我们在 build 目录下就会看到一个 `compelie_commands.json` 文件。
+
+- 如果是基于 make 方式来编译，那么可以先安装 `pip install compiledb`，之后在当前目录下运行
+
+  - `compiledb -n make -C build`
+  - `compiledb make -C build`
+
+  这两个命令中的其中一个来生成 `compile_commands.json` 文件，其中前者不会执行真正的 make 编译命令。
+
+- 如果是基于其他方式，可以使用 https://github.com/rizsotto/Bear 项目中的方式来生成对应的 `compile_commands.json` 文件。
+
 #### 交叉编译找不到标准库头文件
 
 使用交叉编译，在 x86 上编译 ARM 程序。然而 clangd 插件会提示找不到标准库的头文件，因为交叉编译使用的是交叉编译器，它有自己的标准库头文件目录。
 
-解决：在 CMakeLists.txt 下添加
+解决：在 `CMakeLists.txt` 下添加
 
 ```cmake
-set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
-```
-
-// TODO
-
-```cmake
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 ```
 
 参考文章：[交叉编译，clang-tidy 找不到交叉编译的标准库头文件](http://t.csdn.cn/keJ4i)
 
-> clang-tidy 是一个基于 clang 的 C++ 静态分析工具，主要用来检测代码中的常见错误
-
-**clangd 配置**
+#### clangd 配置
 
 there are two ways to change the [clangd config options](https://clangd.llvm.org/config.html):
 
@@ -338,12 +321,12 @@ CompileFlags:
   Add: -ferror-limit=0 # Too many errors emitted, stopping now  [clang: fatal_too_many_errors] 消除这个告警
 ```
 
-参考文章
+参考文章：
 
 - [Clangd config](https://ahmadsamir.github.io/posts/12-clangd-config-tweaks.html)
 - [Too many errors emitted, stopping now [clang: fatal_too_many_errors]](https://github.com/clangd/coc-clangd/issues/255)
 
-**clangd 其他优化**
+#### clangd 其他设置
 
 安装 clangd 默认打开内联提示（Inlay Hints），可以选择关闭。
 
@@ -354,3 +337,41 @@ CompileFlags:
 该插件可将选中的单词进行高亮
 
 https://marketplace.visualstudio.com/items?itemName=debugpig.highlight
+
+### plantuml
+
+配置 vscode+plantuml 绘制时序图和类图环境
+
+1、vscode 安装 plantuml 插件
+
+2、安装依赖
+
+```bash
+sudo apt install graphviz
+sudo apt-get install openjdk-8-jdk
+```
+
+## 其他问题
+
+### 右键弹出菜单然后立即消失
+
+> 发生的问题出现在 Ubuntu 系统下
+
+解决方法：[the popup menu coming on right click disappears instantly in vscode](https://stackoverflow.com/questions/66419930/the-popup-menu-coming-on-right-click-disappears-instantly-in-vscode)
+
+1. Install "Easystroke Gesture Recognition" from repository.
+
+   ```
+   sudo apt-get install easystroke
+   ```
+
+2. Open Easystroke and go to the preferences tab, click on "Gesture Button", and right click on the rectangular area to select the right mouse button.
+
+3. In the "Timeout Profile" dropdown list pick up "Timeout Off".
+
+4. 设置开机启动，然后再弹出的窗口中设置 easystroke 安装路径即可（通过 which easystroke 查看） 。
+
+   ```
+   gnome-session-properties
+   ```
+

@@ -171,45 +171,6 @@ https://www.wps.cn/
 
 https://code.visualstudio.com/
 
-#### 右键单击时弹出的菜单在 vscode 中立即消失
-
-解决方法：[the popup menu coming on right click disappears instantly in vscode](https://stackoverflow.com/questions/66419930/the-popup-menu-coming-on-right-click-disappears-instantly-in-vscode)
-
-1. Install "Easystroke Gesture Recognition" from repository
-
-   ```
-   sudo apt-get install easystroke
-   ```
-
-2. Open Easystroke and go to the preferences tab, click on "Gesture Button", and right click on the rectangular area to select the right mouse button.
-
-3. In the "Timeout Profile" dropdown list pick up "Timeout Off"
-
-4. 设置开机启动，然后再弹出的窗口中设置 easystroke 安装路径即可（通过 which easystroke 查看） 。
-
-   ```
-   gnome-session-properties
-   ```
-
-#### 配置 plantuml 环境
-
-配置 vscode+plantuml 绘制时序图和类图环境
-
-1、vscode 安装 plantuml 插件
-
-2、安装
-
-```bash
-sudo apt install graphviz
-sudo apt-get install openjdk-8-jdk
-```
-
-#### 安装 cpplint
-
-```
-pip install cpplint
-```
-
 ### conan
 
 ```bash
