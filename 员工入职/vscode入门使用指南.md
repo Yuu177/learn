@@ -385,3 +385,22 @@ https://marketplace.visualstudio.com/items?itemName=cnshenj.vscode-task-manager
    gnome-session-properties
    ```
 
+### 设置代码颜色
+
+https://code.visualstudio.com/docs/cpp/colorization-cpp
+
+```json
+{
+    // 设置代码颜色（局部变量、全局变量、函数、宏、属性）
+    "editor.semanticTokenColorCustomizations": {
+        "enabled": true, // enable for all themes
+        "rules": {
+            "property": {   // 成员变量（属性）
+                "foreground": "#ff9ce4",
+                // "fontStyle": "bold"
+            },
+        }
+    }
+}
+```
+
