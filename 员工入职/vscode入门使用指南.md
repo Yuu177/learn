@@ -97,6 +97,8 @@
 
 - `"environment"`：指定调试器的环境变量，相当于：`export PROJECT=demo`。
 
+- `${workspaceFolder}`：当前打开的 VS Code 文件夹目录。
+
 配置好运行后相当于：
 
 ```bash
@@ -235,6 +237,10 @@ filter 参数的用法，就是以 `+` 或者 `-` 开头接着写规则名，就
 
 vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改使用 clangd 代替。
 
+clangd 插件下载好后，我们还需要下载 clangd language server，可以使用 vscode 命令直接下载，如下图（也可以去官网手动下载，但是后面注意要手动配置一下 `clangd.path`）。
+
+![下载server](.vscode入门使用指南.assets/下载server.png)
+
 clangd 是基于 `compile_commands.json` 文件来完成对项目的解析，并支持代码补全和跳转。
 
 我们一般用 cmake，所以生成 `compile_commands.json` 方式就是在 `CMakeLists.txt` 中添加下面两行代码即可：
@@ -246,9 +252,11 @@ set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTOR
 
 生成 `compile_commands.json` 文件后，我们只需要配置 `--compile-commands-dir` 来指定 `compile_commands.json` 所在的目录即可（在 `setting.json` 下配置）。
 
+一般把 `"clangd.path"` 和 `"C_Cpp.intelliSenseEngine"` 这两个配置项放在 user setting 里，因为这两个值是固定不变的。而 `"clangd.arguments"` 配置在项目的 setting 里，因为 `--compile-commands-dir` 每个项目都可能会不一样。
+
 ```json
 {
-    // clangd 位置，使用 vscode 插件商店下载会自动配置
+    // clangd 位置，使用 vscode 插件商店下载 language server 会自动配置
     "clangd.path": "/home/tanpanyu/.config/Code/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/15.0.6/clangd_15.0.6/bin/clangd",
     "clangd.arguments": [
         // 在后台自动分析文件（基于 complie_commands)
