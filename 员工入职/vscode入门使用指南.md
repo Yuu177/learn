@@ -146,7 +146,7 @@ A customizable extension for colorizing matching brackets.
 
 一眼就能看到对应的括号匹配。
 
-**ps：已经被 vscode 官方收编，需要勾选一下启用括号对指南**
+**ps：已经被 vscode 官方收编，需要勾选一下启用。**
 
 ```json
 "editor.guides.bracketPairs": "active"
@@ -250,9 +250,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 ```
 
-生成 `compile_commands.json` 文件后，我们只需要配置 `--compile-commands-dir` 来指定 `compile_commands.json` 所在的目录即可（在 `setting.json` 下配置）。
+生成 `compile_commands.json` 文件后，只需要配置 `--compile-commands-dir` 来指定 `compile_commands.json` 所在的目录即可，建议在【用户】`setting.json` 下配置。
 
-一般把 `"clangd.path"` 和 `"C_Cpp.intelliSenseEngine"` 这两个配置项放在 user setting 里，因为这两个值是固定不变的。而 `"clangd.arguments"` 配置在项目的 setting 里，因为 `--compile-commands-dir` 每个项目都可能会不一样。
+一般 `"clangd.arguments"` 配置项在【工作区】的 `settings.json` 里会再配置一份（`.vscode/settings.json`），因为 `--compile-commands-dir` 指定的路径每个项目可能会不一样。
 
 ```json
 {
