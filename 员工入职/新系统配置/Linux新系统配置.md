@@ -251,6 +251,8 @@ sudo apt install mpv
 
 #### 自定义快捷键
 
+配置文件路径：`~/.config/mpv/input.conf`
+
 https://mpv.io/manual/stable/#command-interface
 
 https://github.com/mpv-player/mpv/blob/master/etc/input.conf
