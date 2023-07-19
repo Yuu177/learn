@@ -403,7 +403,7 @@ https://code.visualstudio.com/docs/cpp/colorization-cpp
     "editor.semanticTokenColorCustomizations": {
         "enabled": true, // enable for all themes
         "rules": {
-            "property": {   // 成员变量（属性）
+            "property": {   // Semantic Token name：成员变量（属性）
                 "foreground": "#ff9ce4",
                 // "fontStyle": "bold"
             },
@@ -412,3 +412,12 @@ https://code.visualstudio.com/docs/cpp/colorization-cpp
 }
 ```
 
+但是有时候，我们不知道代码对应的 Semantic Token name，我们可以通过 vscode 中的【检查编辑器标记和作用域】功能来查看。
+
+![inspect_editor_tokens_and_scopes](./.vscode入门使用指南.assets/inspect_editor_tokens_and_scopes.png)
+
+```
+>Developer: inspect editor tokens and scopes
+```
+
+![inspect_editor_tokens_and_scopes_example](./.vscode入门使用指南.assets/inspect_editor_tokens_and_scopes_example.png)
