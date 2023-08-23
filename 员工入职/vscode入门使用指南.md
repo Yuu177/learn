@@ -307,9 +307,12 @@ set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTOR
 
 ```cmake
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+    set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+endif()
 ```
 
-参考文章：[交叉编译，clang-tidy 找不到交叉编译的标准库头文件](http://t.csdn.cn/keJ4i)
+参考文章：[CMAKE_EXPORT_COMPILE_COMMANDS: Implicit include directories and compile_commands.json](https://gitlab.kitware.com/cmake/cmake/-/issues/20912)
 
 #### clangd 配置
 
