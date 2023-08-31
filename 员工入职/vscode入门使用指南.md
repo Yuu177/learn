@@ -267,7 +267,6 @@ set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTOR
         "-j=12",
         // clang-tidy 功能
         "--clang-tidy",
-        "--clang-tidy-checks=performance-*,bugprone-*",
         // 全局补全（会自动补充头文件）
         "--all-scopes-completion",
         // 更详细的补全内容
@@ -329,9 +328,24 @@ there are two ways to change the [clangd config options](https://clangd.llvm.org
 
 ```yaml
 Diagnostics:
-  Suppress: 'builtin_definition' # 屏蔽该 builtin_definition 告警
+  Suppress: 'builtin_definition' # 屏蔽该告警
+  # 配置 ClangTidy
+  ClangTidy:
+    Add:
+      [
+        performance-*,
+        bugprone-*,
+        portability-*,
+        modernize-*,
+        google-*,
+      ]
+    Remove: modernize-use-trailing-return-type
+    CheckOptions:
+      WarnOnFloatingPointNarrowingConversion: false
+
 CompileFlags:
-  Add: -ferror-limit=0 # Too many errors emitted, stopping now  [clang: fatal_too_many_errors] 消除这个告警
+# -ferror-limit=0, Too many errors emitted, stopping now  [clang: fatal_too_many_errors] 消除这个告警
+  Add: [-ferror-limit=0, -Wunused-variable]
 ```
 
 参考文章：
