@@ -7,6 +7,10 @@
 1. **正向代理（Forward Proxy）：** 正向代理位于客户端和服务器之间，充当客户端的代理。客户端通过正向代理发送请求，然后代理服务器将请求转发给目标服务器，并将响应返回给客户端。正向代理通常用于隐藏客户端的真实 `IP` 地址、绕过访问限制或访问内容过滤等目的。
 2. **反向代理（Reverse Proxy）：** 反向代理位于服务器端，充当服务器的代理。客户端发送请求到反向代理，然后代理服务器将请求转发给一个或多个后端服务器，并将后端服务器的响应返回给客户端。反向代理通常用于负载均衡、提供安全性、加速内容传递等目的。
 
+## HTTP 介绍
+
+[HTTP 基本概念](https://www.xiaolincoding.com/network/2_http/http_interview.html#http-是什么)
+
 ## curl 工具
 
 `curl` 是常用的命令行工具，用来请求 Web 服务器。它的名字就是客户端（client）的 URL 工具的意思。
@@ -26,6 +30,8 @@
 1. 接收到 `HTTP` 请求后，创建一个新的请求，将原始请求的信息复制到新请求中，发送新请求到目标服务器。
 2. 复制目标服务器的响应给客户端。
 
+所以代理服务有机会对客户端与目标服务器之间的通信数据进行窥探，而且有机会对数据进行串改，这也是 `HTTP` 协议明文传输带来的安全问题。
+
 ```bash
 curl -v -x http://localhost:8080 http://www.bing.com
 * Uses proxy env variable no_proxy == 'localhost,127.0.0.0/8,::1'
@@ -37,7 +43,7 @@ curl -v -x http://localhost:8080 http://www.bing.com
 > User-Agent: curl/7.68.0
 > Accept: */*
 > Proxy-Connection: Keep-Alive
-> 
+>
 ```
 
 ### HTTPS
@@ -60,12 +66,14 @@ curl -v -x http://localhost:8080 https://www.bing.com
 > Host: www.bing.com:443
 > User-Agent: curl/7.68.0
 > Proxy-Connection: Keep-Alive
-> 
+>
 ```
 
 ## 代码实现
 
-- **简单代码示例：**https://github.com/Yuu177/goproxy
+> 为什么选择 go？因为 go 相比与 C++ 来说，代码实现上会非常简单
+
+- **简单代码示例**：https://github.com/Yuu177/goproxy
 
 - **开源的第三方库**：https://github.com/elazarl/goproxy
 

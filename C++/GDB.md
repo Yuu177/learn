@@ -108,6 +108,8 @@ ulimit -a
 
 #### 临时修改
 
+> 只在当前终端窗口生效
+
 ```bash
 ulimit -c unlimited
 ```

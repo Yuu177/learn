@@ -51,7 +51,7 @@ WebSocket 会用最开始的 7 bits 做标志位。不管接下来的数据有�
 
 这里存放的就是真正要传输的数据（相当于 HTTP 的 body），在知道了上面的 Payload Len 后，就可以根据这个值去截取对应的数据。
 
-## 总结
+## 小结
 
 WebSocket 数据格式是：数据头（内含 payload 长度）+ payload data 的形式。
 
@@ -60,6 +60,11 @@ WebSocket 数据格式是：数据头（内含 payload 长度）+ payload data �
 而消息头里一般含有消息体的长度，通过这个长度可以去截取真正的消息体。HTTP 协议和大部分 RPC 协议以及 WebSocket 协议，都是这样设计的。
 
 ![图片](./.WebSocket.assets/b91fedb1856897c231b8fb5932b7b2d2.png)
+
+## WebSocket 代理
+
+- 简单的代码示例：https://github.com/Yuu177/websocketproxy
+- 开源的第三方库：https://github.com/koding/websocketproxy
 
 ## 参考文章
 
