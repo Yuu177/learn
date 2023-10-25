@@ -677,6 +677,26 @@ CATTGAGTTATCAGTACTTTCATGTCTTGATAC
 CATTGAGTTATCAGTACTTTCATGTCTTGATAC123456
 ```
 
+## 写文件
+
+- 写文本文件
+
+```c++
+#include <fstream>
+#include <string>
+
+int main() {
+  std::string str = "hello world";
+  std::ofstream out_file("data.txt");
+  if (!out_file.is_open()) {
+    exit(-1);
+  }
+  out_file << str;
+  out_file.close();
+}
+
+```
+
 ### 回车换行符
 
 - `\r` 回车（CR），将当前位置移到本行开头。

@@ -1,3 +1,5 @@
+[TOC]
+
 # C++ 头文件和库
 
 将实现某部分功能的代码封装成库文件，以方便调用，或者是对代码进行保护加密。
@@ -34,7 +36,7 @@ int MyAdd(int a, int b) { return a + b; }
 
 ```cmake
 # 默认生成静态库
-add_library (MyAddStatic my_add.cc)
+add_library (MyAdd Static my_add.cc)
 # 生成动态链接库
 add_library (MyAdd SHARED my_add.cc)
 ```
@@ -125,8 +127,20 @@ int main() {
 
 ```
 
+## 查看依赖的库
+
+- 查看依赖的动态库
+
+`ldd <exe filename>` shows dynamically linked libraries
+
+- 查看依赖的静态库
+
+If you have the source code and don't want to go through all the code for this, you can generate map file while compiling to know which static libraries are linked.
+
+For example `g++ -Xlinker -Map=a.map main.c`, check the map file for linked static library information.
+
 ## 参考文章
 
 - [C++ 库文件和头文件编写教程](https://mp.weixin.qq.com/s?__biz=MzU0NjgzMDIxMQ==&mid=2247487161&idx=2&sn=400446ef9ac6907499773f0269a667ce&chksm=fb56ec55cc216543e34a8534dcb8b93a7e925060395bb3215dadcf06a8f28aba1756c6178a10&scene=27)
-
 - [Linux C 动态库与静态库的编译与调用](http://t.csdn.cn/UQNbo)
+- [Get list of static libraries used in an executable](https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable)
