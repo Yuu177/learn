@@ -100,3 +100,68 @@ X-DDE-FileManager-MenuTypes=SingleFile
 ```
 
 > Desktop Entry 文件是 Linux 桌面系统中用于描述程序启动配置信息的文件。Desktop Entry 文件实现了类似于 Windows 操作系统中快捷方式的功能。
+
+### du
+
+disk usage，显示每个文件和目录的磁盘使用空间
+
+- 命令格式
+
+```bash
+du [选项][文件]
+```
+
+如果不指定文件（文件夹），则默认为当前目录的占用空间
+
+- 命令参数
+
+`-h` 或 `--human-readable` 以 K，M，G 为单位，提高信息的可读性。
+
+- 例子
+
+```
+du -h
+```
+
+### df
+
+disk free，文件系统的磁盘空间占用情况
+
+- 命令参数
+
+`-h` 或 `--human-readable` 以 K，M，G 为单位，提高信息的可读性。
+
+- 例子
+
+```
+df -h
+```
+
+## 查看大文件日志
+
+### grep
+
+过滤出关键字相关的日志。
+
+```
+grep "关键字" yourlogfile.log > output.log
+```
+
+### split
+
+有时候要看完整的日志上下文，可以把大日志文件切分为几个文件，依次打开。
+
+```
+split -l 800000 qnxslog59 output59_
+```
+
+- `-l`：值为每一输出档的列数大小
+- `800000`：行数
+- `qnxslog59`：要切割的文件
+- `output59_`：输出文件名的前缀
+
+输出：
+
+```
+output59_aa  output59_ab  output59_ac
+```

@@ -330,3 +330,11 @@ git worktree unlock <path>
 - `%C(dim cyan)%cd%Creset`：使用浅青色，表示显示自定义的日期
 - `--date=format-local:'%y-%-m-%-d %p %I:%M'`：自定义日期格式
 
+## tag
+
+删除本地 tag
+
+```bash
+git tag -d tagname
+```
+
