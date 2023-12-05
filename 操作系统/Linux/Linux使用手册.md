@@ -137,6 +137,29 @@ disk free，文件系统的磁盘空间占用情况
 df -h
 ```
 
+### nc
+
+netcat 是一个简单的网络工具。比如常用的 telnet 测试 tcp 端口
+
+```bash
+telnet 172.16.2.2 23333
+Trying 172.16.2.2...
+Connected to 172.16.2.2.
+Escape character is '^]'.
+
+HTTP/1.1 400 
+Server: WebSocket++/0.8.1
+
+Connection closed by foreign host.
+```
+
+而 nc 可以支持测试 Linux 的 tcp 和 udp 端口，而且也经常被用于端口扫描。
+
+```bash
+nc -v 172.16.2.2 23333
+Connection to 172.16.2.2 23333 port [tcp/*] succeeded!
+```
+
 ## 查看大文件日志
 
 ### grep

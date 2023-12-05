@@ -23,6 +23,8 @@
 
 ### tasks.json
 
+**`tasks.json` 和 `setting.json` 一样，也分「工作区」和「用户」。**
+
 `tasks.json` 文件用于配置任务（Tasks）。任务是自动化执行特定操作的命令序列，可以在开发过程中提高效率。
 
 `tasks.json` 文件定义了一组任务，每个任务包含了命令和配置，用于执行特定的操作，例如编译代码、运行测试、部署应用等。通过配置任务，可以使用快捷键或命令来触发执行这些任务，而无需手动输入命令。
@@ -46,11 +48,13 @@
 - `"type"`：任务类型，指定任务的执行方式。常见的类型包括 `"shell"`（使用 shell 命令执行）和 `"process"`（使用外部进程执行）。
 - `"command"`：任务的命令，即要执行的具体操作。可以是 shell 命令、外部工具命令、脚本等。
 
-我们可以通过安装插件 [Task Manager](https://marketplace.visualstudio.com/items?itemName=cnshenj.vscode-task-manager) 来 Manages tasks in Visual Studio Code in a custom activity view，如下图：
+~~我们可以通过安装插件 [Task Manager](https://marketplace.visualstudio.com/items?itemName=cnshenj.vscode-task-manager) 来 Manages tasks in Visual Studio Code in a custom activity view，如下图：~~
 
-![tasks](./.vscode入门使用指南.assets/tasks.png)
+~~![tasks](./.vscode入门使用指南.assets/tasks.png)~~
 
-配置好后，我们只需要动动手指点击鼠标就可以执行快速触发这些任务了，非常好用。
+~~配置好后，我们只需要动动手指点击鼠标就可以执行快速触发这些任务了，非常好用。~~
+
+不再推荐 Task Manager（不支持分组），推荐使用 Task Explorer（支持分组），详情查看后面的插件推荐小节。
 
 ## Debug 程序
 
@@ -170,7 +174,7 @@ A customizable extension for colorizing matching brackets.
 
 ### ~~MySQL~~
 
-> ~~插件商店中有好几个同名的 MySQL 插件，认准链接：https://marketplace.visualstudio.com/items?itemName=formulahendry.vscode-mysql~~ 
+> ~~插件商店中有好几个同名的 MySQL 插件，认准链接：https://marketplace.visualstudio.com/items?itemName=formulahendry.vscode-mysql~~
 
 ~~适合轻度使用 mysql 的用户，不用再每次都要在终端中用命令行登录 mysql，相当方便。~~
 
@@ -378,13 +382,29 @@ sudo apt install graphviz
 sudo apt-get install openjdk-8-jdk
 ```
 
-### Task Manager
+### ~~Task Manager~~
 
-可视化管理我们的的 `tasks.json` 中的 task
+~~可视化管理我们的的 `tasks.json` 中的 task~~
 
-Manages tasks in Visual Studio Code in a custom activity view.
+~~Manages tasks in Visual Studio Code in a custom activity view.~~
 
-https://marketplace.visualstudio.com/items?itemName=cnshenj.vscode-task-manager
+~~https://marketplace.visualstudio.com/items?itemName=cnshenj.vscode-task-manager~~
+
+不再推荐 Task Manager。因为 Task Manager 不支持分组，所以当项目多的时候，使用和管理起来就特别麻烦。
+
+### Task Explorer
+
+可视化管理和执行我们的的 `tasks.json` 中的 task
+
+>该插件默认关闭 Enable Side Bar，需要手动打开，方便操作
+
+该插件弥补了 Task Manager 缺少的分组功能：https://github.com/spmeesseman/vscode-taskexplorer#using-groups-with-a-separator
+
+- 其他问题
+
+Q：右键对某个 task 执行了 Add to excludes list 操作后如何恢复？
+
+A：在当前工作区的 `.vscode/settings.json` 中，删除 `"taskExplorer.excludeTask"` 即可
 
 ## 其他问题
 
