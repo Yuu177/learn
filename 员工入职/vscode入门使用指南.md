@@ -247,11 +247,13 @@ clangd 插件下载好后，我们还需要下载 clangd language server，可�
 
 clangd 是基于 `compile_commands.json` 文件来完成对项目的解析，并支持代码补全和跳转。
 
-我们一般用 cmake，所以生成 `compile_commands.json` 方式就是在 `CMakeLists.txt` 中添加下面两行代码即可：
+我们一般用 cmake，所以生成 `compile_commands.json` 方式就是在 `CMakeLists.txt` 中添加下面的代码即可：
 
 ```cmake
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+    set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+endif()
 ```
 
 生成 `compile_commands.json` 文件后，只需要配置 `--compile-commands-dir` 来指定 `compile_commands.json` 所在的目录即可，建议在【用户】`setting.json` 下配置。
@@ -309,7 +311,6 @@ set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTOR
 解决：在 `CMakeLists.txt` 下添加
 
 ```cmake
-set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
     set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 endif()
