@@ -56,6 +56,10 @@
 
 不再推荐 Task Manager（不支持分组），推荐使用 Task Explorer（支持分组），详情查看后面的插件推荐小节。
 
+#### 设置环境变量
+
+https://stackoverflow.com/questions/52953614/set-environment-variables-in-task-json-in-vscode-for-wsl
+
 ## Debug 程序
 
 调试代码需要配置 `launch.json` 文件。
