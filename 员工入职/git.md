@@ -332,9 +332,64 @@ git worktree unlock <path>
 
 ## tag
 
-删除本地 tag
+### 打标签
+
+要在 Git 中打一个新的标签，请使用以下命令：
 
 ```bash
-git tag -d tagname
+git tag <tagname>
 ```
 
+例如
+
+```bash
+git tag v1.0.0
+```
+
+创建标签后，默认情况下它是不会自动推送到远程仓库的。要推送特定的标签到远程仓库，使用：
+
+```bash
+git push origin <tagname>
+```
+
+例如：
+
+```bash
+git push origin v1.0.0
+```
+
+要一次性推送所有本地新建的标签，可以使用：
+
+```bash
+git push origin --tags
+```
+
+### 删除远程标签
+
+如果需要删除远程仓库中的标签，首先应该删除本地标签，然后删除远程标签。
+
+1. 删除本地标签：
+
+```bash
+git tag -d <tagname>
+```
+
+例如：
+
+```bash
+git tag -d v1.0.0
+```
+
+1. 删除远程标签：
+
+```bash
+git push --delete origin <tagname>
+```
+
+例如：
+
+```bash
+git push --delete origin v1.0.0
+```
+
+这会从远程仓库中删除指定的标签。请注意，其他人如果已经拉取了这个标签，它们需要在自己的本地仓库中也删除这个标签。
