@@ -50,3 +50,23 @@ docker 中安装 autojump 出现 Unsupported shell: None，`echo $SHELL` 发现�
 
 2、执行命令：`export SHELL=/bin/zsh`，重新执行安装步骤即可
 
+## docker zsh
+
+- 报错：zsh (anon):12: character not in range
+
+在 `.zshrc` 下添加
+
+```bash
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+```
+
+- 显示用户和计算机名
+
+修改 `.zshrc` 的 `ZSH_THEME="agnoster"`
+
+- 退出 docker 后再登陆时，zsh 配置不生效
+
+
+每次登陆后需要 `source ~/.zshrc`，或者在 `/etc/zsh/zshrc` 文件末尾增加 `source ~/.zshrc`
+
