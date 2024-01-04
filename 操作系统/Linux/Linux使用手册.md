@@ -188,3 +188,18 @@ split -l 800000 qnxslog59 output59_
 ```
 output59_aa  output59_ab  output59_ac
 ```
+
+## 查看进程内存
+
+在 Linux 系统中，可以通过查看`/proc`文件系统下的特定文件来获取一个进程的内存使用情况。对于每个运行中的进程，系统都会在 `/proc` 目录下创建一个以进程 ID（PID）命名的目录，例如 `/proc/1234`，其中 `1234` 是进程 ID。在这个目录下，有一个名为 `status` 的文件，它包含了进程的状态信息，包括内存使用情况。
+
+```bash
+cat /proc/1234/status
+```
+
+- `VmPeak`: 进程的峰值虚拟内存使用量，以 kB 为单位。这是进程生命周期中虚拟内存使用量的最大值。
+- `VmSize`: 当前进程的虚拟内存使用量，以 kB 为单位。它包括所有的代码、数据和共享库以及页面交换文件（swap）中替换出去的页面。
+- `VmHWM`: 进程的高水位标记（High Water Mark）的物理内存使用量，以 kB 为单位。这是进程生命周期中物理内存使用量的最大值。
+- `VmRSS`: Resident Set Size，进程当前占用的物理内存（非交换空间）大小，以 kB 为单位。
+
+**使用 top 命令查看的 VSZ（Virtual Memory Size）为虚拟内存，对应 VmSize**
