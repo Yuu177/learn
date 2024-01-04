@@ -47,7 +47,7 @@ sudo apt-get install vim
 sudo chmod 744 /etc/sudoers
 sudo vi /etc/sudoers
 # 在文件最后一行添加 yourusername ALL=(ALL) NOPASSWD:ALL
-sudo chmod 400 /etc/sudoer
+sudo chmod 400 /etc/sudoers
 ```
 
 ### git
@@ -115,7 +115,7 @@ deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted univer
 deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
 ````
 
-然后更新缓存
+**然后更新缓存**
 
 ```bash
 apt-get clean all
