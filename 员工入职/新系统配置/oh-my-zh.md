@@ -23,17 +23,17 @@ git clone https://github.com/zsh-users/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting
 ```
 
-下载好后移动到 `/usr/local/share/` 目录下：
+下载好后移动到 `$ZSH/plugins/` 目录下：
 
 ```bash
-sudo mv zsh-autosuggestions zsh-syntax-highlighting /usr/local/share/
+sudo mv zsh-autosuggestions zsh-syntax-highlighting $ZSH/plugins/
 ```
 
 在文件 `~/.zshrc` 最后写入：
 
 ```bash
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ```
 
 保存后终端输入 `source ~/.zshrc` 并重启终端。
