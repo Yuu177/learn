@@ -205,3 +205,16 @@ cat /proc/1234/status
 - `VmRSS`: Resident Set Size，进程当前占用的物理内存（非交换空间）大小，以 kB 为单位。
 
 **使用 top 命令查看的 VSZ（Virtual Memory Size）为虚拟内存，对应 VmSize**
+
+## bash 脚本命令
+
+### 检测变量是否为空
+
+```bash
+if [ -z "$build_for" ]; then
+  echo "build_for is empty"
+else
+  echo "build_for is not empty"
+fi
+```
+
