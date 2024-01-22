@@ -463,3 +463,37 @@ https://code.visualstudio.com/docs/cpp/colorization-cpp
 ```
 
 ![inspect_editor_tokens_and_scopes_example](./.vscode入门使用指南.assets/inspect_editor_tokens_and_scopes_example.png)
+
+### vscode ssh 远程报错
+
+vscode 连接到远程服务器后，会自动服务器上下载对应版本的 vscode-server。这个 server 默认会下载在 `~/.vscode-server/bin/{commit-id}/` 文件夹下。
+
+这个 commit-id 对应的是本机执行 `code --version` 命令的打印输出。
+
+```bash
+1.83.0
+e7e037083ff4455cf320e344325dacb480062c3c
+x64
+```
+
+下载过程可能会有如下报错：
+
+```bash
+错误: 无法验证 update.code.visualstudio.com 的由 “CN=ZeroSSL RSA Domain Secure Site CA,O=ZeroSSL,C=AT” 颁发的证书: 无法本地校验颁发者的权限。 错误: 没有匹配的证书主体别名 (Subject Alternative Name)。 请求的主机名为 “update.code.visualstudio.com”。 要以不安全的方式连接至 update.code.visualstudio.com，使用“--no-check-certificate”。
+```
+
+解决方案：
+
+在远程终端手动下载 vscode-server，解压后把文件夹里的内容复制到对应的目录下。
+
+```sh
+wget --no-check-certificate https://update.code.visualstudio.com/commit:e7e037083ff4455cf320e344325dacb480062c3c/server-linux-x64/stable -O vscode-server.tar.gz
+```
+
+最终结果
+
+```bash
+ls ~/.vscode-server/bin/e7e037083ff4455cf320e344325dacb480062c3c
+bin  extensions  LICENSE  node  node_modules  out  package.json  product.json
+```
+
