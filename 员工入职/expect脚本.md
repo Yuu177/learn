@@ -123,6 +123,36 @@ interact
 
 执行脚本，`./test.sh my.tar.gz`
 
+## 例子三：混合使用 bash 和 expect
+
+适用于在本地需要计算一些路径或文件名的场景。如以下例子里，需要算出输入文件的 basename，以在跳板机中使用。
+
+```bash
+#!/bin/bash
+
+rel_path=$1
+file_name=`basename $rel_path`
+
+win_user=mini
+win_ip=172.16.1.107
+win_pw=win_pw
+win_dir=Developer
+
+scp $rel_path $win_user@$win_ip:$win_dir
+
+/usr/bin/expect <<EOF
+spawn ssh $win_user@$win_ip
+expect {
+    "yes/no" { send "yes\r"; exp_continue }
+    "password:" { send "$win_pw\r" }
+    "#" { send "echo login ok\r" }
+}
+expect "mini>" { send "adb push $win_dir/$file_name /data\r" }
+expect eof
+interact
+EOF
+```
+
 ## 参考文章
 
 - [expect - 自动交互脚本](http://xstarcd.github.io/wiki/shell/expect.html)
