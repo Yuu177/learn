@@ -108,7 +108,9 @@ ps：强制推送本地分支覆盖掉远程分支。只适合自己 create 的�
 
 6、为推送当前分支并建立与远程上游的跟踪，使用
 
+```
 git push --set-upstream origin newName
+```
 
 ## 分支同步
 
