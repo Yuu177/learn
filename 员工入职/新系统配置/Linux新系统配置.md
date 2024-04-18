@@ -257,6 +257,18 @@ https://mpv.io/manual/stable/#command-interface
 
 https://github.com/mpv-player/mpv/blob/master/etc/input.conf
 
+- 设置播放倍数
+
+```bash
+[ multiply speed 1/1.1                 # decrease the playback speed
+] multiply speed 1.1                   # increase the playback speed
+{ multiply speed 0.5                   # halve the playback speed
+} multiply speed 2.0                   # double the playback speed
+BS set speed 1.0                       # reset the speed to normal
+```
+
+> BS 为退格键 Backspace
+
 ### FFmpeg
 
 FFmpeg 是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。
