@@ -106,6 +106,7 @@ docker rm <容器ID>：删除容器（注意，容器里的数据会被删除）
 docker start <容器ID>：启动容器
 docker run：根据镜像创建一个容器并运行一个命令，操作的对象是镜像
 docker exec <容器ID>：在运行状态的容器中执行命令，操作的对象是容器
+docker rmi：删除镜像
 ```
 
 ### 常用参数
@@ -284,6 +285,36 @@ docker run -t -i \ # run 创建容器，-t 为容器重新分配一个伪输入�
 -v /home/jinx/code:/home/jinx/code \ # 保持 docker 中的路径和本地的路径一致
 ubuntu # 镜像名称
 ```
+
+## 网络无法连接问题
+
+```bash
+root@f22965c0097d:/# apt update
+Err:1 http://mirrors.aliyun.com/ubuntu bionic InRelease
+  Temporary failure resolving 'mirrors.aliyun.com'
+Err:2 http://mirrors.aliyun.com/ubuntu bionic-security InRelease
+  Temporary failure resolving 'mirrors.aliyun.com'
+Err:3 http://mirrors.aliyun.com/ubuntu bionic-updates InRelease
+  Temporary failure resolving 'mirrors.aliyun.com'
+Err:4 http://mirrors.aliyun.com/ubuntu bionic-proposed InRelease
+  Temporary failure resolving 'mirrors.aliyun.com'
+Err:5 http://mirrors.aliyun.com/ubuntu bionic-backports InRelease
+  Temporary failure resolving 'mirrors.aliyun.com'
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+8 packages can be upgraded. Run 'apt list --upgradable' to see them.
+W: Failed to fetch http://mirrors.aliyun.com/ubuntu/dists/bionic/InRelease  Temporary failure resolving 'mirrors.aliyun.com'
+W: Failed to fetch http://mirrors.aliyun.com/ubuntu/dists/bionic-security/InRelease  Temporary failure resolving 'mirrors.aliyun.com'
+W: Failed to fetch http://mirrors.aliyun.com/ubuntu/dists/bionic-updates/InRelease  Temporary failure resolving 'mirrors.aliyun.com'
+W: Failed to fetch http://mirrors.aliyun.com/ubuntu/dists/bionic-proposed/InRelease  Temporary failure resolving 'mirrors.aliyun.com'
+W: Failed to fetch http://mirrors.aliyun.com/ubuntu/dists/bionic-backports/InRelease  Temporary failure resolving 'mirrors.aliyun.com'
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+```
+
+使用 host 模式解决：https://stackoverflow.com/a/66714888/24490421
+
+网络模式说明：[Docker 网络模式](https://blog.51cto.com/u_16099316/6467190)
 
 ## 参考链接
 
