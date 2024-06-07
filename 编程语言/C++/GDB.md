@@ -46,7 +46,7 @@
    - `thread`：切换到对应的线程。
    - `quit`（简写为 `q`）：退出 GDB。
 
-## 调试 core 文件
+## 解析 core 文件
 
 Coredump 是指程序运行时发生错误，导致程序崩溃时，操作系统将当前进程的内存状态信息保存到一个称为 core 文件的特殊文件中。通过分析 core 文件，可以找到导致程序崩溃的原因。
 
@@ -74,6 +74,33 @@ From                To                  Syms Read   Shared Object Library
 ```
 
 通过 `set solib-search-path` 设置依赖的动态库目录路径，把动态库加载进来。如果要设置多个路径，可以用过 `:` 分隔。
+
+### QNX 解析 core
+
+QNX 系统解析 core 文件需要用到**程序发生 core dumped 时候使用的 so 库**，不然就会出现无法把动态库加载进来的情况。
+
+```bash
+warning: Shared object "/home/jinx/code/toolchain/qnx700/target/qnx7/aarch64le/lib/libc.so.4" could not be validated and will be ignored.
+
+warning: Could not load shared library symbols for 13 libraries, e.g. /usr/lib/ldqnx-64.so.2.
+```
+
+### 交叉编译工具链解析 core
+
+cd 到工具链目录下，切换到 bash，然后执行工具链设置环境变量的脚本。这样子我们使用 gdb 加载 core 文件的时候就不需要手动执行 `set solib-search-path` 来指定要加载的动态库路径了。
+
+下面以 QNX700 举例如何设置工具链的环境变量：
+
+```bash
+➜  ls
+bsp  buildinfo  custom  host  license  qnxsdp-env.sh  Readme.txt  target
+➜  bash
+$ source qnxsdp-env.sh
+QNX_HOST=/home/jinx/code/toolchain/qnx700_1.2.1.c1/host/linux/x86_64
+QNX_TARGET=/home/jinx/code/toolchain/qnx700_1.2.1.c1/target/qnx7
+MAKEFLAGS=-I/home/jinx/code/toolchain/qnx700_1.2.1.c1/target/qnx7/usr/include
+$
+```
 
 ## Linux 设置生成 core 文件
 
@@ -179,3 +206,8 @@ sudo sysctl -p
 
 请注意，生成 core 文件的路径可能受到系统的设置和权限限制。确保对所选路径具有适当的写入权限，并考虑磁盘空间的大小和可用性，以避免 core 文件填满磁盘。
 
+## 远程调试
+
+TODO
+
+QNX
