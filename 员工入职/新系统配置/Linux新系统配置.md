@@ -227,11 +227,61 @@ alias wechatrun="/opt/dochat.sh"
 alias wechatstop="docker stop DoChat"
 ```
 
-### notepad--
+### ~~notepad--~~
 
-查看日志不错的软件
+~~查看日志不错的软件~~
 
-https://gitee.com/cxasm/notepad--
+~~https://gitee.com/cxasm/notepad--~~
+
+### Sublime Text
+
+https://www.sublimetext.com/
+
+不再推荐使用 `notepad--`。因为在 Linux 下无法打开比较大的日志（300 MB 左右的日志）。测试发现该软件打开文本非常快。需要安装插件：Filter Lines
+
+```
+Package Control Messages
+========================
+
+Filter Lines
+------------
+
+  Quickly find lines that match a string or regular expression.
+
+  To filter your file to lines that contain a string or match a regex:
+
+    Edit > Line > Filter With Regex  (cmd + K  cmd + R)
+    Edit > Line > Filter With String  (cmd + K  cmd + S)
+
+  To fold your file to lines that contain a string or match a regex:
+
+    Edit > Code Folding > Fold With Regex
+    Edit > Code Folding > Fold With String
+
+  On Windows and Linux, use ctrl instead of cmd.
+
+
+  For feedback, bugs, and source code:
+
+  https://github.com/davidpeckham/sublimetext-filterlines
+```
+
+#### 设置不记忆之前打开的文件
+
+> 如果之前打开了多个大型日志文件，关闭软件前没有手动去关闭这些文件。那么下一次打开 sublime 就会重新打开加载这些文件，导致非常卡。
+
+在 user 的 `Preferences.sublime-settings` 最后添加这两行：
+
+```
+"remember_open_files": false,
+"hot_exit": false
+```
+
+![default_sublime_settings](./.Linux新系统配置.assets/default_sublime_settings.png)
+
+设置左边是 default 配置，右边是 user 配置。user 会覆盖 default 配置。
+
+![user_sublime_settings](./.Linux新系统配置.assets/user_sublime_settings.png)
 
 ### 视频播放器 MPV
 
