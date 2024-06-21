@@ -25,7 +25,63 @@ ELF 文件主要的用途有两个：构建程序，链接成动态库或者是�
 - ELF header 描述了文件的总体信息，以及两个 table 的相关信息(偏移地址，表项个数，表项长度)。
 - 每一个 table 中，包括很多个表项 Entry，每一个表项都描述了一个 Section/Segment 的具体信息。
 
-// TODO
+## 查看交叉编译文件类型
+
+在嵌入式开发的时候，经常会涉及交叉编译到 armv7、armv8 等平台（通过 `cat /proc/cpuinfo` 或者 `uname -a` 查看 CPU 架构）。通过 `readelf -h` 命令可以查看编译产物的具体信息。
+
+```bash
+readelf -h a.out
+```
+
+armv7，32 位，系统架构 ARM
+
+```
+ELF 头：
+  Magic：   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  类别:                              ELF32
+  数据:                              2 补码，小端序 (little endian)
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI 版本:                          0
+  类型:                              REL (可重定位文件)
+  系统架构:                           ARM
+  版本:                              0x1
+  入口点地址：                         0x0
+  程序头起点：                         0 (bytes into file)
+  Start of section headers:          8064 (bytes into file)
+  标志：                              0x5000000, Version5 EABI
+  Size of this header:               52 (bytes)
+  Size of program headers:           0 (bytes)
+  Number of program headers:         0
+  Size of section headers:           40 (bytes)
+  Number of section headers:         13
+  Section header string table index: 12
+```
+
+armv8，64 位，系统架构 AArch64（ARM）
+
+```
+ELF Header:
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF64
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              DYN (Shared object file)
+  Machine:                           AArch64
+  Version:                           0x1
+  Entry point address:               0x2d4f20
+  Start of program headers:          64 (bytes into file)
+  Start of section headers:          17764176 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               64 (bytes)
+  Size of program headers:           56 (bytes)
+  Number of program headers:         7
+  Size of section headers:           64 (bytes)
+  Number of section headers:         27
+  Section header string table index: 26
+```
 
 ## 参考文章
 
