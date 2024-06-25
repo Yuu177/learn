@@ -32,6 +32,8 @@ Get "https://www.baidu.com": dial tcp: lookup www.baidu.com on [::1]:53: read ud
 
 ### 编译 toolchain
 
+> 下载解压后的文件夹名 `android-ndk-r21e`
+
 我们使用 `ndk` 自带的 `./android-ndk-r21e/build/tools/make-standalone-toolchain.sh` 脚本，编译特定的 `toolchain`，使用命令如下：
 
 ```bash
@@ -40,7 +42,18 @@ Get "https://www.baidu.com": dial tcp: lookup www.baidu.com on [::1]:53: read ud
 
 **脚本参数说明：**
 
-- `toolchain`：表示对应 Android 的 `ARCH`。`arm32` 使用 `arm-linux-androideabi-4.9`，`arm64` 使用 `aarch64-linux-android-4.9`。
+- `toolchain`：表示对应 Android 的 `ARCH`。`arm32` 使用 `arm-linux-androideabi-4.9`，`arm64` 使用 `aarch64-linux-android-4.9`。对应的是 android-ndk-r21e 文件夹下的 toochains。如果要交叉编译 x86 架构，注意生成 --toolchain=x86_64-4.9
+
+```bash
+android-ndk-r21e/toolchains
+├── aarch64-linux-android-4.9
+├── arm-linux-androideabi-4.9
+├── llvm
+├── renderscript
+├── x86-4.9
+└── x86_64-4.9
+```
+
 - `platform`：表示对应 Android API 的版本。`android-30` 对应 `Android 11` 系统。更多请参考：[Android 平台版本所支持的 API 级别](https://developer.android.google.cn/guide/topics/manifest/uses-sdk-element?hl=zh-cn)
 - `install-dir`：表示编译的目标 `toolchain` 存放位置，后面交叉编译 Go 代码会用到。
 
