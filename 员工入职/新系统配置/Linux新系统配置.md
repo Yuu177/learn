@@ -16,6 +16,39 @@ apt 是一个命令行工具，是用来和用户进行交互的，可以简单�
 
 apt-get 命令应该用在脚本中。
 
+## 更换源
+
+1. 备份源
+
+```bash
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+```
+
+2. 打开文件
+
+```bash
+sudo vim /etc/apt/sources.list
+```
+
+3. 替换内容
+
+```bash
+deb https://repo.huaweicloud.com/ubuntu/ focal main restricted
+deb https://repo.huaweicloud.com/ubuntu/ focal-updates main restricted
+deb https://repo.huaweicloud.com/ubuntu/ focal universe
+deb https://repo.huaweicloud.com/ubuntu/ focal-updates universe
+deb https://repo.huaweicloud.com/ubuntu/ focal-backports main restricted universe
+deb https://repo.huaweicloud.com/ubuntu/ focal-security main restricted
+deb https://repo.huaweicloud.com/ubuntu/ focal-security universe
+```
+
+4. 保存退出，更新软件列表
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+```
+
 ## 软件下载和安装
 
 ### ssh
