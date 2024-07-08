@@ -196,9 +196,17 @@ https://www.wps.cn/
 
 ### Typora
 
-设置插入图片规则：`./.${filename}.assets`
+- 设置插入图片规则：`./.${filename}.assets`
 
 ![Typroa](./.Linux新系统配置.assets/Typroa.png)
+
+- 设置换行
+
+![设置换行](./Linux新系统配置.assets/设置换行.png)
+
+- 设置内联公式
+
+![设置内联公式](./Linux新系统配置.assets/设置内联公式.png)
 
 ### vscode
 
