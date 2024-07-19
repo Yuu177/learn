@@ -384,3 +384,60 @@ ffmpeg -i input.mp4 -ss 00:07:05 -to 00:07:40 -c:v copy -c:a copy output.mp4
 
 等待 FFmpeg 处理完毕，裁剪的视频将保存为 `output.mp4` 文件，出现在您的当前工作目录中。
 
+## Windows 文件名中文乱码
+
+问题：Windows 的压缩包里面的文件名在 Linux 下是乱码
+
+```python
+import argparse
+import os
+
+# 文件名在内存中的表示：
+# 文件名在内存中是以字节串（byte string）的形式存储的。
+# 当我们从文件系统读取文件名时，Python 会尝试用系统默认编码（在 Linux 下通常是 UTF-8）将字节串解码为字符串（string）。
+# 乱码的产生：
+# 如果文件名实际是用 GBK 编码的，而 Python 试图用 UTF-8 解码，那么解码出来的字符串会是乱码，因为 UTF-8 和 GBK 是不同的编码标准。
+# 解决思路：
+# 我们需要将这个错误解码的字符串重新编码回原始的字节串，然后再用正确的编码（GBK）解码。
+# 具体步骤
+# filename.encode('iso-8859-1')：
+# 假设 filename 是一个已经被错误解码的字符串（即乱码字符串）。
+# 我们将这个乱码字符串用 iso-8859-1 编码，这个编码不会改变字节的值，只是简单地将字符串中的每个字符转换为其对应的字节值。
+# 结果是我们得到了原始的字节串。
+def rename_file(file_path):
+    try:
+        filename = os.path.basename(file_path)
+        # 用 GBK 解码文件名，并再用 UTF-8 编码
+        new_filename = filename.encode('iso-8859-1').decode('gbk')
+        new_filename = new_filename.encode('utf-8').decode('utf-8')
+
+        old_file_path = os.path.join(os.path.dirname(file_path), filename)
+        new_file_path = os.path.join(os.path.dirname(file_path), new_filename)
+
+        os.rename(old_file_path, new_file_path)
+        print(f'Renamed: {filename} -> {new_filename}')
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        print(f'Failed to rename: {filename}')
+
+def rename_files_in_directory(directory):
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        if os.path.isfile(file_path):
+            rename_file(file_path)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Rename files from GBK to UTF-8 encoding.')
+    parser.add_argument('path', type=str, help='The path to the file or directory to be renamed.')
+
+    args = parser.parse_args()
+
+    if os.path.isfile(args.path):
+        rename_file(args.path)
+    elif os.path.isdir(args.path):
+        rename_files_in_directory(args.path)
+    else:
+        print(f'Invalid path: {args.path}')
+
+```
+
+因为 Windows 下使用的是 GBK 编码，Linux 是 UTF-8，所以文件名显示会有问题
