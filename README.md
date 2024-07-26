@@ -44,6 +44,6 @@ find . -name "*.md" -type f -exec cat {} + > ../combined.md
 
 此仓库遵循 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 规范（TODO）
 
-## 约定式提交
+## ~~约定式提交~~
 
-此仓库 commit 遵循 https://www.conventionalcommits.org/zh-hans/v1.0.0/
+~~此仓库 commit 遵循 https://www.conventionalcommits.org/zh-hans/v1.0.0/~~

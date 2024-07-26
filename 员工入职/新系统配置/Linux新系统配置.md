@@ -389,8 +389,8 @@ ffmpeg -i input.mp4 -ss 00:07:05 -to 00:07:40 -c:v copy -c:a copy output.mp4
 问题：Windows 的压缩包里面的文件名在 Linux 下是乱码
 
 ```python
-import argparse
 import os
+import sys
 
 # 文件名在内存中的表示：
 # 文件名在内存中是以字节串（byte string）的形式存储的。
@@ -400,43 +400,44 @@ import os
 # 解决思路：
 # 我们需要将这个错误解码的字符串重新编码回原始的字节串，然后再用正确的编码（GBK）解码。
 # 具体步骤
-# filename.encode('iso-8859-1')：
-# 假设 filename 是一个已经被错误解码的字符串（即乱码字符串）。
+# itemname.encode('iso-8859-1')：
+# 假设 itemname 是一个已经被错误解码的字符串（即乱码字符串）。
 # 我们将这个乱码字符串用 iso-8859-1 编码，这个编码不会改变字节的值，只是简单地将字符串中的每个字符转换为其对应的字节值。
 # 结果是我们得到了原始的字节串。
-def rename_file(file_path):
+def rename_item(item_path):
     try:
-        filename = os.path.basename(file_path)
+        itemname = os.path.basename(item_path)
+
         # 用 GBK 解码文件名，并再用 UTF-8 编码
-        new_filename = filename.encode('iso-8859-1').decode('gbk')
-        new_filename = new_filename.encode('utf-8').decode('utf-8')
+        new_itemname = itemname.encode('iso-8859-1').decode('gbk')
+        new_itemname = new_itemname.encode('utf-8').decode('utf-8')
 
-        old_file_path = os.path.join(os.path.dirname(file_path), filename)
-        new_file_path = os.path.join(os.path.dirname(file_path), new_filename)
+        old_item_path = os.path.join(os.path.dirname(item_path), itemname)
+        new_item_path = os.path.join(os.path.dirname(item_path), new_itemname)
 
-        os.rename(old_file_path, new_file_path)
-        print(f'Renamed: {filename} -> {new_filename}')
+        os.rename(old_item_path, new_item_path)
+        print(f'Renamed: {itemname} -> {new_itemname}')
     except (UnicodeEncodeError, UnicodeDecodeError):
-        print(f'Failed to rename: {filename}')
+        print(f'Failed to rename: {itemname}')
 
-def rename_files_in_directory(directory):
-    for filename in os.listdir(directory):
-        file_path = os.path.join(directory, filename)
-        if os.path.isfile(file_path):
-            rename_file(file_path)
+def rename_items_in_directory(directory):
+    for item in os.listdir(directory):
+        item_path = os.path.join(directory, item)
+        rename_item(item_path)
+    rename_item(directory)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Rename files from GBK to UTF-8 encoding.')
-    parser.add_argument('path', type=str, help='The path to the file or directory to be renamed.')
+    if len(sys.argv) < 2:
+        print("Usage: python convert_gbk_to_utf8.py <argument>")
+        sys.exit(1)
+    argument = sys.argv[1]
 
-    args = parser.parse_args()
-
-    if os.path.isfile(args.path):
-        rename_file(args.path)
-    elif os.path.isdir(args.path):
-        rename_files_in_directory(args.path)
+    if os.path.isfile(argument):
+        rename_item(argument)
+    elif os.path.isdir(argument):
+        rename_items_in_directory(argument)
     else:
-        print(f'Invalid path: {args.path}')
+        print(f'Invalid path: {argument}')
 
 ```
 
