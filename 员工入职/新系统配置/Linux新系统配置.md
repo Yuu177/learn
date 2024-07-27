@@ -57,6 +57,12 @@ sudo apt-get upgrade
 ssh-keygen
 ```
 
+把公钥上传到远程机器上，实现免密登录。
+
+```bash
+ssh-copy-id username@ip
+```
+
 ### pip 和 pip3
 
 ```
