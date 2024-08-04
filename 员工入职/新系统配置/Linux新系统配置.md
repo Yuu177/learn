@@ -208,11 +208,11 @@ https://www.wps.cn/
 
 - 设置换行
 
-![设置换行](./Linux新系统配置.assets/设置换行.png)
+![设置换行](.Linux新系统配置.assets/设置换行.png)
 
 - 设置内联公式
 
-![设置内联公式](./Linux新系统配置.assets/设置内联公式.png)
+![设置内联公式](.Linux新系统配置.assets/设置内联公式.png)
 
 ### vscode
 
