@@ -260,6 +260,60 @@ SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 ```
 
+### find_package
+
+> 链接外部库
+
+#### 查找模式
+
+- Module 模式：这个模式下 CMake 会去 `CMAKE_MODULE_PATH` 找 `Find<PackageName>.cmake`，这种一般是 CMake 或库的用户提供的。
+- Config 模式：这个模式下 CMake 会找 `<package_name>-config[-version].cmake` 或 `<PackageName>Config[Version].cmake` ，[查找的目录更加细致 ](https://cmake.org/cmake/help/latest/command/find_package.html#search-procedure)，这种一般由库提供。
+
+没有指定模式的情况下 CMake 会先使用 Module 模式，失败后 fallback 到 Config 模式。如果需要指定，可以：
+
+```bash
+find_package(OpenCV REQUIRED)     # 没有指定模式
+find_package(package_name MODULE) # 仅使用 Module 模式，不 fallback 到 Config 模式
+find_package(package_name CONFIG) # 直接使用 Config 模式
+```
+
+**`[REQUIRED]`: 如果指定，表示这个包是必须的，如果找不到会导致 CMake 出错**。
+
+#### 查找路径
+
+```bash
+CMake Error at CMakeLists.txt:13 (find_package):
+  By not providing "FindOpenCV.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "OpenCV", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by "OpenCV" with any
+  of the following names:
+
+    OpenCVConfig.cmake
+    opencv-config.cmake
+
+  Add the installation prefix of "OpenCV" to CMAKE_PREFIX_PATH or set
+  "OpenCV_DIR" to a directory containing one of the above files.  If "OpenCV"
+  provides a separate development package or SDK, be sure it has been
+  installed.
+
+
+-- Configuring incomplete, errors occurred!
+```
+
+假设 `OpenCVConfig.cmake` 在 `/tmp/opencv` 这个目录下，通过设置 `<PackageName>_DIR` 或者 `CMAKE_PREFIX_PATH` 让 cmake 找到包配置文件：
+
+```cmake
+set(OpenCV_DIR /tmp/opencv)
+# or
+set(CMAKE_PREFIX_PATH /tmp/opencv)
+```
+
+#### 参考
+
+https://blog.csdn.net/zhanghm1995/article/details/105466372
+
 ## cmake 命令参数和变量
 
 ### -D
