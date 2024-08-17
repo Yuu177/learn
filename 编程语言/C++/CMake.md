@@ -69,6 +69,19 @@ add_executable(demo main.cc)
 [100%] Built target MathFunctions
 ```
 
+- make 命令
+
+`make distclean` 用于清理源代码目录中的所有生成文件和配置文件，使其恢复到最初的状态。这个命令通常用于确保在重新配置和编译之前，所有旧的生成文件和配置文件都已被删除，以避免潜在的冲突和错误。
+
+`make distclean` 会执行以下操作：
+
+1. 删除所有编译生成的目标文件（例如 `.o` 文件）。
+2. 删除所有生成的可执行文件和库文件。
+3. 删除所有由 `configure` 脚本生成的配置文件（例如 `config.h`）。
+4. 删除其他临时文件和目录。
+
+`make distclean` 通常比 `make clean` 更彻底，因为 `make clean` 可能只删除编译生成的目标文件和可执行文件，而不会删除配置文件。
+
 ## CMakeLists.txt 文件参数
 
 ### add_compile_definitions
@@ -313,6 +326,10 @@ set(CMAKE_PREFIX_PATH /tmp/opencv)
 #### 参考
 
 https://blog.csdn.net/zhanghm1995/article/details/105466372
+
+### target_link_libraries
+
+如果库 A 依赖于库 B，那么在链接时，库 B 必须在库 A 之后。例如，如果 `libA` 使用了 `libB` 中的符号，链接器需要先找到 `libB` 中的这些符号，然后再处理 `libA`。
 
 ## cmake 命令参数和变量
 
