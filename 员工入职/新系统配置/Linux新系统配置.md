@@ -249,21 +249,23 @@ gsettings set org.gnome.system.proxy mode 'none' # 禁用网络代理模式
 
 ### 微信
 
-https://github.com/huan/docker-wechat
+https://github.com/lovechoudoufu/wechat_for_linux/releases 
+
+~~https://github.com/huan/docker-wechat~~
 
 ```bash
 curl -sL https://gitee.com/mirrors/dochat/raw/main/dochat.sh | bash
 ```
 
-运行脚本后报错
+~~运行脚本后报错~~
 
 ```bash
 [DoChat] 盒装微信 v0.15.0 Disabling patch for /home/user/.wine/drive_c/users/user/AppData/Roaming/Tencent/WeChat ... Disabling patch for /home/user/.wine/drive_c/users/user/Application Data/Tencent/WeChat ... mkdir: 无法创建目录 “/home/user/.wine/drive_c/users/user/Application Data/Tencent”: 权限不够 
 ```
 
-原因：`$HOME/DoChat` 目录没有写权限。执行 `chown -R $USER $HOME/DoChat`
+~~原因：`$HOME/DoChat` 目录没有写权限。执行 `chown -R $USER $HOME/DoChat`~~
 
-https://github.com/huan/docker-wechat/issues/178
+~~https://github.com/huan/docker-wechat/issues/178~~
 
 ### 配置 alias 快捷命令
 
@@ -366,6 +368,10 @@ BS set speed 1.0                       # reset the speed to normal
 
 > BS 为退格键 Backspace
 
+- 画面旋转
+
+https://askubuntu.com/questions/1212733/rotate-video-by-a-keyboard-shortcut-in-mpv
+
 ### FFmpeg
 
 FFmpeg 是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。
@@ -448,3 +454,52 @@ if __name__ == "__main__":
 ```
 
 因为 Windows 下使用的是 GBK 编码，Linux 是 UTF-8，所以文件名显示会有问题
+
+## 通过 SSH 远程打开 GUI 应用程序
+
+要通过 SSH 远程打开 GUI 应用程序，可以使用 X11 转发。
+
+### 在服务器端（远程机器）
+
+安装 `xauth` 和 `x11-apps`：
+
+```bash
+sudo apt update
+sudo apt install xauth x11-apps
+```
+
+配置 SSH 服务：
+
+```bash
+sudo vi /etc/ssh/sshd_config
+```
+
+确保以下行存在并且没有被注释掉：
+
+```bash
+X11Forwarding yes
+```
+
+保存并关闭文件，然后重新启动 SSH 服务：
+
+```bash
+sudo systemctl restart ssh
+```
+
+### 在客户端（本地机器）
+
+确保本地计算机上有 X11 服务器在运行。Ubuntu 通常会默认运行 X11 服务器。使用 `-X` 选项来启用 X11 转发：
+
+```bash
+ssh -X username@remote_host
+```
+
+### 运行 GUI 应用程序
+
+连接到远程机器后，可以直接运行想要的 GUI 应用程序。例如：
+
+```bash
+xclock
+```
+
+如果一切正常，会在本地机器上看到一个时钟窗口。
