@@ -62,11 +62,40 @@ Processor8: 1373601870 Kryo v4 Gold Plus 2419MHz FPU
 
 ### top 查看 CPU 占用率
 
+```bash
+# top -h
+top: illegal option -- h
+top - display system usage (UNIX)
+
+top  top [-i <number>] [-d] [-n <node>]
+Options:
+ -d         dumb terminal
+ -b         batch mode for background operation
+ -n <node>  remote node
+ -p <pri>   run at priority
+ -i <iter>  # of iterations
+ -z <num>   number of threads to display
+ -D <delay> delay in seconds
+ -t         display thread names
+```
+
 `top` 显示 CPU 占用率最高的 10 个线程，可以结合 grep 命令查询。`top -z 40` 显示 CPU 占用率最高的前 40 个线程。
 
 > 一个进程可能有多个线程，把该进程所有的线程的 CPU 占用率加起来就是该进程的 CPU 占用率
 
+```bash
+top -b -z 40 -t 1 -D 2
+```
+
 ### showmem 查看进程内存占用
 
 查看所有进程的内存占用情况。`showmem -p <pid>` 只查看对应的进程。
+
+### pidin
+
+查看进程等信息，类似 `ps` 命令
+
+```bash
+pidin | grep test
+```
 
