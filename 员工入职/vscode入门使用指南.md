@@ -509,3 +509,10 @@ ls ~/.vscode-server/bin/e7e037083ff4455cf320e344325dacb480062c3c
 bin  extensions  LICENSE  node  node_modules  out  package.json  product.json
 ```
 
+### 搜索 .gitignore 忽略的文件
+
+vscode 默认不会搜索 `.gitignore` 忽略的文件和文件夹。解决方式：
+
+go to Preferences > Settings, uncheck the option **search:Use Ignore Files**, then it works
+
+https://stackoverflow.com/a/65672683/24490421
