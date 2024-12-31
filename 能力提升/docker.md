@@ -124,6 +124,22 @@ docker rmi：删除镜像
 
 其他参考：[Docker 常用命令](https://www.w3cschool.cn/docker/docker-nx3g2gxn.html)
 
+### 传输文件
+
+`docker cp` 命令可以在容器和主机之间复制文件或目录。
+
+- 从容器复制文件到主机：
+
+  ```bash
+  docker cp <container_id>:/path/to/file /host/path/to/destination
+  ```
+
+- 从主机复制文件到容器：
+
+  ```bash
+  docker cp /host/path/to/file <container_id>:/path/to/destination
+  ```
+
 ## 容器的状态
 
 容器的五种状态：
@@ -315,6 +331,54 @@ W: Some index files failed to download. They have been ignored, or old ones used
 使用 host 模式解决：https://stackoverflow.com/a/66714888/24490421
 
 网络模式说明：[Docker 网络模式](https://blog.51cto.com/u_16099316/6467190)
+
+## dockerfile
+
+例子：在 `ubuntu:18.04` 镜像上自动化安装一些常用的工具
+
+```dockerfile
+FROM ubuntu:18.04
+WORKDIR /root
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update
+
+RUN apt update && \
+    apt install -y git python3 && \
+    apt install -y python3-pip && \
+    pip3 install conan==1.54.0 -i https://mirrors.aliyun.com/pypi/simple/
+
+# 安装 cmake
+RUN apt install -y wget && \
+    apt install -y curl && \
+    wget https://cmake.org/files/v3.25/cmake-3.25.2-linux-x86_64.tar.gz && \
+    tar -xzvf cmake-3.25.2-linux-x86_64.tar.gz && \
+    mv cmake-3.25.2-linux-x86_64 /opt/ && \
+    ln -sf /opt/cmake-3.25.2-linux-x86_64/bin/* /usr/bin/ && \
+    rm cmake-3.25.2-linux-x86_64.tar.gz
+
+# 解决 1804 使用 python3 打包时候报 UnicodeDecodeError: 'ascii' codec can't decode byte 0xe8 in position 1342: ordinal not in range(128) 问题
+RUN apt install -y locales && \
+    locale-gen en_US en_US.UTF-8 && \
+    dpkg-reconfigure locales
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+# apt-get install locales
+# dpkg-reconfigure locales # select 146(en_US.UTF-8)
+# echo "export LC_ALL=en_US.UTF-8" >> ~/.bashrc
+# echo "export LANG=en_US.UTF-8" >> ~/.bashrc
+# echo "export LANGUAGE=en_US.UTF-8" >> ~/.bashrc
+
+RUN apt install -y vim libssl-dev g++ openjdk-17-jdk
+
+```
+
+通过 dockerfile 生成 image
+
+```bash
+docker build --network=host -f Dockerfile -t ubuntu1804 .
+```
 
 ## 参考链接
 
