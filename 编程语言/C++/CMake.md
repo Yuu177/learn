@@ -152,7 +152,7 @@ set(ENABLE_DEBUG ON)
 
 ```c++
 #if defined(ENABLE_DEBUG)
-std::cout << "debug info" << std::endl; 
+std::cout << "debug info" << std::endl;
 #endif
 ```
 
@@ -208,7 +208,7 @@ project (Demo)
 aux_source_directory(. DIR_SRCS)
 # 添加 math 子目录
 add_subdirectory(math)
-# 指定生成目标 
+# 指定生成目标
 add_executable(Demo main.cc)
 # 添加链接库
 target_link_libraries(Demo MathFunctions)
@@ -275,7 +275,7 @@ SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 
 ### find_package
 
-> 链接外部库
+> 用于查找并配置整个软件包。一个软件包可能包含多个库、头文件、配置文件等。通常依赖于 CMake 提供的模块或包提供的配置文件来完成查找和配置。
 
 #### 查找模式
 
@@ -330,6 +330,22 @@ https://blog.csdn.net/zhanghm1995/article/details/105466372
 ### target_link_libraries
 
 如果库 A 依赖于库 B，那么在链接时，库 B 必须在库 A 之后。例如，如果 `libA` 使用了 `libB` 中的符号，链接器需要先找到 `libB` 中的这些符号，然后再处理 `libA`。
+
+### find_library
+
+`find_library` 用于查找单个库文件（通常是 `.lib`, `.a`, 或 `.so` 文件）。它的作用是找到指定的库文件，并将其路径存储在一个变量中。
+
+1. `EXAMPLE_LIB`：这是你要存储找到的库路径的变量名称。如果找到了库，库的完整路径将被存储在这个变量中。
+2. `example`：这是你要查找的库的名称。CMake 将在指定的路径中查找名为 `libexample.so`
+3. `PATHS` ：指定的查找路径。CMake 将在这个目录中查找库文件。
+
+```cmake
+find_library(EXAMPLE_LIB example PATHS /first/path /second/path /third/path)
+if(NOT EXAMPLE_LIB)
+    message(FATAL_ERROR "Could not find the example library")
+endif()
+target_link_libraries(my_executable ${EXAMPLE_LIB})
+```
 
 ## cmake 命令参数和变量
 
