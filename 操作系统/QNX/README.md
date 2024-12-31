@@ -99,3 +99,10 @@ top -b -z 40 -t 1 -D 2
 pidin | grep test
 ```
 
+### uname 查看系统版本信息
+
+```bash
+# uname -a
+QNX localhost 7.0.X 2022/04/21-10:05:23EDT SA8155_ADP_Star_v1.0.0_UFS_NORMAL aarch64le
+```
+
