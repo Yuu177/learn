@@ -38,5 +38,62 @@ pipeline {
 
 ## 默认使用 bash 执行
 
+> 有些系统是 `/bin/bash`
+
 ![default_shell](./.Jenkins.assets/default_shell.png)
+
+## 分布式构建
+
+### 配置 Node
+
+<img src="./.Jenkins.assets/配置node节点.png" alt="配置docker节点" style="zoom: 80%;" />
+
+根据上图对 Node 进行配置。
+
+- 远程工作目录：上图配置的目录为 `/ics/`，最终 jenkins 运行时候拉取的代码在 `/ics/workspace` 目录下。
+
+保存配置，此时节点是离线状态：
+
+<img src="./.Jenkins.assets/启动node节点.png" alt="启动docker节点" style="zoom:80%;" />
+
+拷贝 Unix 命令到目标机器中运行，成功运行日志会打印 Connected，并且在 Jenkins 界面节点状态显示为在线 。
+
+- git 第一次拉取代码需要手动输入 yes
+
+```bash
+Are you sure you want to continue connecting (yes/no)?
+```
+
+### 使用 Node
+
+通过 label 来使用指定的 Node
+
+```groovy
+AGENT_LABEL="master"
+node {
+    if (params.target=="test01")
+        AGENT_LABEL="ubuntu1804"
+    if (params.target=="test02")
+        AGENT_LABEL="ubuntu2204"
+}
+
+pipeline {
+    agent {
+        label "${AGENT_LABEL}"
+    }
+
+    parameters {
+        choice(name: 'target', choices: ['test01', 'test02'], description: '')
+    }
+
+    stages {
+        stage('echo') {
+            steps {
+                sh "echo hello world"
+            }
+        }
+    }
+}
+
+```
 
