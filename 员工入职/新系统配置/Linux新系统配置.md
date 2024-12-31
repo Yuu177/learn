@@ -74,6 +74,34 @@ sudo apt-get install --reinstall python3-pip
 
 [在 Ubuntu20.04 上安装 python2 并设置为默认方式](https://blog.csdn.net/My_CSDN_IT/article/details/114323834)
 
+#### ubuntu 1804 中 python 错误
+
+```bash
+File "/usr/lib/python3.6/encodings/ascii.py", line 26, in decode
+return codecs.ascii_decode(input, self.errors)[0]
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe8 in position 1342: ordinal not in range(128)
+```
+
+[UnicodeDecodeError: 'ascii' codec can't decode byte 0xd1 in position 2: ordinal not in range(128)](https://stackoverflow.com/questions/10406135/unicodedecodeerror-ascii-codec-cant-decode-byte-0xd1-in-position-2-ordinal)
+
+参考回答
+
+https://stackoverflow.com/a/59292909/24490421
+
+```bash
+sudo apt install locales
+sudo locale-gen en_US en_US.UTF-8
+sudo dpkg-reconfigure locales
+```
+
+通过 `locale` 命令查看是否设置成 UTF-8，如果不行尝试设置环境变量：
+
+```bash
+echo "export LC_ALL=en_US.UTF-8" >> ~/.bashrc
+echo "export LANG=en_US.UTF-8" >> ~/.bashrc
+echo "export LANGUAGE=en_US.UTF-8" >> ~/.bashrc
+```
+
 ### vim
 
 ```
@@ -249,7 +277,7 @@ gsettings set org.gnome.system.proxy mode 'none' # 禁用网络代理模式
 
 ### 微信
 
-https://github.com/lovechoudoufu/wechat_for_linux/releases 
+https://github.com/lovechoudoufu/wechat_for_linux/releases
 
 ~~https://github.com/huan/docker-wechat~~
 
@@ -260,7 +288,7 @@ curl -sL https://gitee.com/mirrors/dochat/raw/main/dochat.sh | bash
 ~~运行脚本后报错~~
 
 ```bash
-[DoChat] 盒装微信 v0.15.0 Disabling patch for /home/user/.wine/drive_c/users/user/AppData/Roaming/Tencent/WeChat ... Disabling patch for /home/user/.wine/drive_c/users/user/Application Data/Tencent/WeChat ... mkdir: 无法创建目录 “/home/user/.wine/drive_c/users/user/Application Data/Tencent”: 权限不够 
+[DoChat] 盒装微信 v0.15.0 Disabling patch for /home/user/.wine/drive_c/users/user/AppData/Roaming/Tencent/WeChat ... Disabling patch for /home/user/.wine/drive_c/users/user/Application Data/Tencent/WeChat ... mkdir: 无法创建目录 “/home/user/.wine/drive_c/users/user/Application Data/Tencent”: 权限不够
 ```
 
 ~~原因：`$HOME/DoChat` 目录没有写权限。执行 `chown -R $USER $HOME/DoChat`~~
@@ -398,7 +426,9 @@ ffmpeg -i input.mp4 -ss 00:07:05 -to 00:07:40 -c:v copy -c:a copy output.mp4
 
 ## Windows 文件名中文乱码
 
-问题：Windows 的压缩包里面的文件名在 Linux 下是乱码
+问题：Windows 的 zip 压缩包里面的文件名在 Linux 下是乱码。
+
+推荐使用指定编码解压：`unzip -O CP936 windows.zip`
 
 ```python
 import os
