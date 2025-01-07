@@ -533,3 +533,23 @@ xclock
 ```
 
 如果一切正常，会在本地机器上看到一个时钟窗口。
+
+## 设置 HTTP 代理
+
+```bash
+export https_proxy=http://127.0.0.1:7897
+export http_proxy=http://127.0.0.1:7897
+```
+
+设置这个变量后，许多命令行工具和网络应用程序会自动使用这个代理进行 HTTP 请求。例如，`curl`、`wget`、`apt-get`、`git` 等工具。
+
+```bash
+unset https_proxy
+unset http_proxy
+```
+
+### 局域网代理
+
+代理工具需要开启局域网选项。同一局域网的机器可以通过访问这台机器的 IP 和软件的端口实现网络转发。
+
+![局域网连接](./.Linux新系统配置.assets/局域网连接.png)
