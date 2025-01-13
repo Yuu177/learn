@@ -28,7 +28,7 @@ Ansible 系统由控制主机对被管节点的操作方式可分为两类，即
 
 - playbook 模式（剧本模式）
 
-  是 Ansible 主要管理方式，也是 Ansible 功能强大的关键所在。**playbook 通过多个 task 集合完成一类功能**，如 Web 服务的安装部署、数据库服务器的批量备份等。可以简单地把 playbook 理解为通过组合多条 ad-hoc 操作的配置文件。**就相当于 shell 脚步。**
+  是 Ansible 主要管理方式，也是 Ansible 功能强大的关键所在。**playbook 通过多个 task 集合完成一类功能**，如 Web 服务的安装部署、数据库服务器的批量备份等。可以简单地把 playbook 理解为通过组合多条 ad-hoc 操作的配置文件。**就相当于 shell 脚本。**
 
 ### 操作命令
 

@@ -126,7 +126,7 @@ kafka-topics.sh --zookeeper zookeeper:2181 --list
 因为家里用的 windows，所以平常用的都是 wsl 写代码。但是安装 docker 遇到了很多的问题。
 好不容易安装好后，出现了 kafka 容器无法启动。
 
-一度放弃 wsl 回去用了虚拟机。后面查询资料后发现 wsl 1 是不支持 docker 简答粗暴的安装的。需要切换到 wsl 2（可以简单的理解为 wsl 1 的升级版本）。查看 wsl 版本：wsl -l -v。
+一度放弃 wsl 回去用了虚拟机。后面查询资料后发现 wsl 1 是不支持 docker 简粗暴的安装的。需要切换到 wsl 2（可以简单的理解为 wsl 1 的升级版本）。查看 wsl 版本：wsl -l -v。
 
 一键安装的 docker 的脚本代码如下（不是我写的）
 

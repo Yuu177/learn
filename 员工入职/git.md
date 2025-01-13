@@ -75,6 +75,12 @@ git push -u origin main
 
 ps：推送本地新建的分支到远程仓库（此时远程仓库还没有对应的分支，--set-upstream 的作用就在此）。输入命令后会显示 'branch_name' 设置为跟踪来自 'origin' 的远程分支 'branch_name'。
 
+> 1 和 2 可以合并
+
+```bash
+git checkout -b <本地分支名> <远程名>/<远程分支名>
+```
+
 3. 强制推送本地分支覆盖掉远程分支
 
 `git push -f`
