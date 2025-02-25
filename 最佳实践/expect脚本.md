@@ -133,7 +133,7 @@ interact
 rel_path=$1
 file_name=`basename $rel_path`
 
-win_user=mini
+win_user=test
 win_ip=172.16.1.107
 win_pw=win_pw
 win_dir=Developer
@@ -147,10 +147,43 @@ expect {
     "password:" { send "$win_pw\r" }
     "#" { send "echo login ok\r" }
 }
-expect "mini>" { send "adb push $win_dir/$file_name /data\r" }
+expect "test>" { send "adb push $win_dir/$file_name /data\r" }
 expect eof
 interact
 EOF
+```
+
+## 例子四：在 expect 中执行 shell 命令
+
+对例子三的改进。在例子三中 `interact` 命令在 windows 下可能无法进入交互模式（在其他平台没有测试）。
+
+```bash
+#!/usr/bin/expect
+
+set timeout -1
+
+# 获取第一个输入的参数
+set rel_path [lindex $argv 0]
+# 使用 exec 执行 bash 的命令
+set filename [exec bash -c "basename $rel_path"]
+# 打印输出
+puts "Relative path: $rel_path"
+puts "Filename: $filename"
+
+spawn scp $rel_path test@192.168.1.100:"C:/Users/test/"
+expect "password" { send "test\r" }
+expect eof
+wait
+
+# 通过 window 跳板机登录
+spawn ssh test@192.168.1.100
+expect "password" { send "test\r" }
+expect "test@DESKTOP-K0VUMPA" { send "adb push $filename /tmp/\r" }
+expect "test@DESKTOP-K0VUMPA" { send "adb shell\r" }
+expect "#" { send "cd /tmp/\r" }
+
+interact
+
 ```
 
 ## 参考文章

@@ -118,6 +118,10 @@ run --flagfile=test.flag
 
 > 启动 gdb 调试会话之前我们一般需要首先执行 gcc -g 编译任务。因此，`launch.json` 有一条配置项 `preLaunchTask`，我们可以指向 `tasks.json` 中的编译任务（label）。
 
+## 关闭插件自动升级
+
+![关闭插件自动升级](./.vscode入门使用指南.assets/关闭插件自动升级.png)
+
 ## vscode 插件
 
 无论是 golang 还是 c++，一直在用 vscode，可以说 vscode 对于我来说已经无法替代了（主要是**免费**）。记录一些自己用着觉得很好用的插件。
