@@ -131,13 +131,30 @@ int main() {
 
 - 查看依赖的动态库
 
-`ldd <exe filename>` shows dynamically linked libraries
+  - ldd（交叉编译二进制程序需要用对应的 ldd）
+
+    `ldd <filename>` shows dynamically linked libraries
+
+  - objdump（建议使用这个，更加通用）
+
+    `objdump -x <filename> | grep NEEDED` 
 
 - 查看依赖的静态库
 
 If you have the source code and don't want to go through all the code for this, you can generate map file while compiling to know which static libraries are linked.
 
 For example `g++ -Xlinker -Map=a.map main.c`, check the map file for linked static library information.
+
+## 查看符号表
+
+`nm` 命令列出目标文件的符号表
+
+```bash
+nm [选项] [文件]
+```
+
+- `-D`：仅显示动态符号​（Dynamic symbols），即动态库中对外暴露的符号（这些符号可以被其他程序在运行时调用）。
+- `-C`：对符号名进行反修饰​，将编译器修饰过的 C++ 函数名（如 `_Z3foov`）还原为可读格式（如 `foo()`）。
 
 ## 参考文章
 
