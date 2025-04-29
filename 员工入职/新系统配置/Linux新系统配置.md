@@ -424,6 +424,54 @@ ffmpeg -i input.mp4 -ss 00:07:05 -to 00:07:40 -c:v copy -c:a copy output.mp4
 
 等待 FFmpeg 处理完毕，裁剪的视频将保存为 `output.mp4` 文件，出现在您的当前工作目录中。
 
+### 终端复用器 Tmux
+
+Tmux: https://docs.hpc.sjtu.edu.cn/login/tmux.html
+
+配置文件 `~/.tmux.conf`
+
+```bash
+bind-key -n C-Up select-pane -U
+bind-key -n C-Down select-pane -D
+bind-key -n C-Left select-pane -L
+bind-key -n C-Right select-pane -R
+
+bind-key -n % split-window -h
+bind-key -n '"' split-window -v
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-yank' # 需要安装依赖 sudo apt-get install xsel
+# Other examples:
+set -g @resurrect-save-bash-history 'on'
+set -g @resurrect-capture-pane-contents 'on'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+set -g @resurrect-dir '~/.tmux/sessions'
+set -g history-limit 20000
+set -g set-clipboard on
+run '~/.tmux/plugins/tpm/tpm'
+
+set -g mouse on
+unbind -T copy-mode MouseDragEnd1Pane
+```
+
+安装插件需要先安装 TPM：用于管理其他 tmux 插件（安装、更新、卸载）
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+在 tmux 中按 `Ctrl+ b + I` 安装其他插件
+
+重新加载配置文件：`tmux source-file ~/.tmux.conf`
+
+#### 拷贝文字
+
+- 鼠标选中文字，按 `y` 复制，按 `ESC` 退出复制
+
 ## Windows 文件名中文乱码
 
 问题：Windows 的 zip 压缩包里面的文件名在 Linux 下是乱码。
