@@ -118,6 +118,37 @@ run --flagfile=test.flag
 
 > 启动 gdb 调试会话之前我们一般需要首先执行 gcc -g 编译任务。因此，`launch.json` 有一条配置项 `preLaunchTask`，我们可以指向 `tasks.json` 中的编译任务（label）。
 
+## Debug core dump
+
+同上
+
+```json
+{
+    // 使用 IntelliSense 了解相关属性。
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Core Dump",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/bin/a.out",
+            "cwd": "${workspaceFolder}/build/bin/",
+            "coreDumpPath": "${workspaceFolder}/build/bin/core",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "切换 gdb 工作目录(这里配置的 cwd 没有生效)",
+                    "text": "cd ${workspaceFolder}/build/bin/",
+                    "ignoreFailures": false
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 关闭插件自动升级
 
 ![关闭插件自动升级](./.vscode入门使用指南.assets/关闭插件自动升级.png)

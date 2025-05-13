@@ -24,7 +24,7 @@ http://www.qnx.com/developers/docs/6.5.0/index.jsp?topic=%2Fcom.qnx.doc.neutrino
 - `MSEC`：自上次迭代以来此进程运行的毫秒数
 - `PIDS`：进程在此迭代中，占所有进程运行时间的百分比
 - `SYS`：进程在此迭代中，CPU 的百分比（**分别在不同的 CPU 核心上的占用率的和**）
-- `MEMORY`：内存使用情况
+- `MEMORY`：内存使用情况（占两行，值和百分比）
 
 >The `SYSTEM` column is incorrect on multicore systems; the numbers in this column will add up to (roughly) the number of processors times 100%. Use the [`top`](http://www.qnx.com/developers/docs/6.5.0/topic/com.qnx.doc.neutrino_utilities/t/top.html) utility instead.
 
@@ -106,3 +106,6 @@ pidin | grep test
 QNX localhost 7.0.X 2022/04/21-10:05:23EDT SA8155_ADP_Star_v1.0.0_UFS_NORMAL aarch64le
 ```
 
+### 查看线程名
+
+输入命令 `ps -ef | grep test` 查看 test 进程号，输入 `pidin -p <test进程号> threads` 查看线程名称

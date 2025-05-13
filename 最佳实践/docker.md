@@ -22,6 +22,8 @@ sudo apt update && sudo apt install docker.io
 
 ## 镜像拉取、保存、打包和加载
 
+> 拉取镜像超时解决方案：https://www.coderjia.cn/archives/dba3f94c-a021-468a-8ac6-e840f85867ea
+
 - 拉取 ubuntu18.04 镜像
 
 ```bash

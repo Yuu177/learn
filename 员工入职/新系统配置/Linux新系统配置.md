@@ -436,8 +436,8 @@ bind-key -n C-Down select-pane -D
 bind-key -n C-Left select-pane -L
 bind-key -n C-Right select-pane -R
 
-bind-key -n % split-window -h
-bind-key -n '"' split-window -v
+#bind-key -n % split-window -h
+#bind-key -n '"' split-window -v
 
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
