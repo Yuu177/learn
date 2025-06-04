@@ -60,7 +60,7 @@
 
 https://stackoverflow.com/questions/52953614/set-environment-variables-in-task-json-in-vscode-for-wsl
 
-## Debug 程序
+## Debug
 
 调试代码需要配置 `launch.json` 文件。
 
@@ -118,7 +118,60 @@ run --flagfile=test.flag
 
 > 启动 gdb 调试会话之前我们一般需要首先执行 gcc -g 编译任务。因此，`launch.json` 有一条配置项 `preLaunchTask`，我们可以指向 `tasks.json` 中的编译任务（label）。
 
-## Debug core dump
+![debug运行](./.vscode入门使用指南.assets/debug运行.png)
+
+## 开启 GDB 的 pretty-printing 功能
+
+GDB provides a mechanism to allow pretty-printing of values using Python code.
+
+通过使用 GDB 的 pretty-printing 可以直观显示出 C++ STL 容器里的内容。
+
+vscode 配置同上，只需要添加 `setupCommands` 字段即可使用 pretty-printing。
+
+https://stackoverflow.com/questions/56828562/unable-to-see-elements-of-stdvector-with-gcc-in-vs-code
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/x86_64_Linux_gcc/bin/hello_world",
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "./libs:$LD_LIBRARY_PATH"
+                }
+            ],
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "python import sys; sys.path.append('/usr/share/gcc/python');sys.path.insert(0, '/usr/bin/python');from libstdcxx.v6.printers import register_libstdcxx_printers;register_libstdcxx_printers(None)",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "cwd": "${workspaceFolder}/build/x86_64_Linux_gcc/bin/",
+        }
+    ]
+}
+```
+
+- enable-pretty-printing
+
+![enable-pretty-printing](./.vscode入门使用指南.assets/enable-pretty-printing.png)
+
+- disable-pretty-printing
+
+![disable-pretty-printing](./.vscode入门使用指南.assets/disable-pretty-printing.png)
+
+### Debug core dump
 
 同上
 

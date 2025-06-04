@@ -396,6 +396,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIE -pie")
 
 > 补充说明「指令部分」：在动态链接的上下文中，「指令部分」通常指的是程序中的代码段（也称为文本段或 `.text` 段），这是包含了程序执行的机器指令的内存区域。当一个可执行文件或共享库被装载到内存时，它的代码段会被放置到进程的地址空间中。
 
+## cmake-presets
+
+One problem that CMake users often face is sharing settings with other people for common ways to configure a project
+
+https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html
+
 ## 参考文章
 
 - [CMake 入门实战](https://www.hahack.com/codes/cmake/)
