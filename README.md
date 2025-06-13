@@ -6,25 +6,27 @@
 
 ## 文档统计
 
-统计日期：2024/01/22
+**统计日期：2025/06/13，文档数量：145，字数统计：213801**
+
+- 文档数量统计
 
 ```bash
 cloc . --include-lang=Markdown
-     150 text files.
-     150 unique files.                                          
+     157 text files.
+     157 unique files.
       13 files ignored.
 
-github.com/AlDanial/cloc v 1.82  T=0.04 s (3112.1 files/s, 513812.8 lines/s)
+github.com/AlDanial/cloc v 1.82  T=3.10 s (46.7 files/s, 7947.7 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-Markdown                       138           7343              0          15441
+Markdown                       145           7906              0          16747
 -------------------------------------------------------------------------------
-SUM:                           138           7343              0          15441
+SUM:                           145           7906              0          16747
 -------------------------------------------------------------------------------
 ```
 
-**字数统计：406734**
+- 字数统计
 
 ```bash
 find . -name "*.md" -type f -exec cat {} + > ../combined.md
@@ -42,8 +44,4 @@ find . -name "*.md" -type f -exec cat {} + > ../combined.md
 
 ## 排版规范
 
-此仓库遵循 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 规范（TODO）
-
-## ~~约定式提交~~
-
-~~此仓库 commit 遵循 https://www.conventionalcommits.org/zh-hans/v1.0.0/~~
+此仓库遵循 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 规范
