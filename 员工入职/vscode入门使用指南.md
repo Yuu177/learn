@@ -68,7 +68,7 @@ https://stackoverflow.com/questions/52953614/set-environment-variables-in-task-j
 
 `launch.json` 文件定义了调试器的配置和调试会话的属性。通过配置该文件，可以指定要调试的程序、命令行参数、环境变量、调试器的类型等。
 
-```json
+```
 {
     // 使用 IntelliSense 了解相关属性。
     // 悬停以查看现有属性的描述。
@@ -102,9 +102,7 @@ https://stackoverflow.com/questions/52953614/set-environment-variables-in-task-j
 - `"program"`：指定要调试的可执行文件的路径。
 - `"args"`：传递给程序的命令行参数。
 - `"cwd"`：指定调试器的工作目录，即程序运行的基准目录。
-
 - `"environment"`：指定调试器的环境变量，相当于：`export PROJECT=demo`。
-
 - `${workspaceFolder}`：当前打开的 VS Code 文件夹目录。
 
 配置好运行后相当于：
@@ -120,7 +118,11 @@ run --flagfile=test.flag
 
 ![debug运行](./.vscode入门使用指南.assets/debug运行.png)
 
-## 开启 GDB 的 pretty-printing 功能
+启动调试后，可以在「调试控制台」，输入 GDB 命令。注意需要在命令前加上 `-exec`。如 `-exec continue`。
+
+Execute debugger commands using "-exec <command>", for example "-exec info registers" will list registers in use (when GDB is the debugger)
+
+### 开启 GDB 的 pretty-printing 功能
 
 GDB provides a mechanism to allow pretty-printing of values using Python code.
 
@@ -173,9 +175,7 @@ https://stackoverflow.com/questions/56828562/unable-to-see-elements-of-stdvector
 
 ### Debug core dump
 
-同上
-
-```json
+```
 {
     // 使用 IntelliSense 了解相关属性。
     // 悬停以查看现有属性的描述。
@@ -352,7 +352,7 @@ endif()
 
 一般 `"clangd.arguments"` 配置项在【工作区】的 `settings.json` 里会再配置一份（`.vscode/settings.json`），因为 `--compile-commands-dir` 指定的路径每个项目可能会不一样。
 
-```json
+```
 {
     // clangd 位置，使用 vscode 插件商店下载 language server 会自动配置
     "clangd.path": "/home/tanpanyu/.config/Code/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/15.0.6/clangd_15.0.6/bin/clangd",

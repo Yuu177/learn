@@ -98,9 +98,9 @@ int main() {
 互斥量（锁）的使用，这是一种线程同步机制，在 C++11 中提供了 4 中互斥量。
 
 ```cpp
-std::mutex;                                       //非递归的互斥量
-std::timed_mutex;                        //带超时的非递归互斥量
-std::recursive_mutex;                 // 递归互斥量
+std::mutex;                  // 非递归的互斥量
+std::timed_mutex;            // 带超时的非递归互斥量
+std::recursive_mutex;        // 递归互斥量
 std::recursive_timed_mutex;  // 带超时的递归互斥量
 ```
 
@@ -234,7 +234,7 @@ unique_lock 和 lock_guard 都是管理锁的辅助类工具，都是 RAII 风�
 
 - wait 导致当前线程阻塞直至条件变量被**通知**，或**虚假唤醒发生**。设置了 Predicate 时，只有当 p 条件为 **false** 时调用 `wait()` 才会阻塞当前线程，并且在收到其他线程的通知后只有当 p 为 **true** 时才会被解除阻塞。
 
-  这里理解起来可能有点绕，举个例子，实现如果 `queue` 为空，那么我们要阻塞的代码为：`cdt_.wait(lock, [=] { return !queue.empty() });`。代码说明：如果一个队列为空，那么 `queue.empty()` 为 true，如果我们要阻塞，那么旧要设置条件为 false，所以这里的条件为 `!queue.empty()`。
+  这里理解起来可能有点绕，举个例子，实现如果 `queue` 为空，那么我们要阻塞的代码为：`cdt_.wait(lock, [=] { return !queue.empty() });`。代码说明：如果一个队列为空，那么 `queue.empty()` 为 true，如果我们要阻塞，那么就要设置条件为 false，所以这里的条件为 `!queue.empty()`。
 
 ```cpp
 void wait(unique_lock<mutex>& __lock) noexcept;

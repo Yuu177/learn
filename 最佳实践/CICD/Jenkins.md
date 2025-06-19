@@ -64,6 +64,12 @@ pipeline {
 Are you sure you want to continue connecting (yes/no)?
 ```
 
+#### 修改 URL 地址
+
+启动 agent 的命令需要指定 master 机器的 URL。上图为 `http://192.168.6.167:8080`，当我们更换机器 IP 或端口号的时候，会发现这里的 IP 和端口号还是原来的，需要手动修改 Jenkins URL。
+
+![修改JenkinsURL](./.Jenkins.assets/修改JenkinsURL.png)
+
 ### 使用 Node
 
 通过 label 来使用指定的 Node
@@ -96,4 +102,6 @@ pipeline {
 }
 
 ```
+
+
 
