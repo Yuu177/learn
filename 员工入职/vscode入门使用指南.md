@@ -304,9 +304,11 @@ Carbon 能够轻松地将你的源码生成漂亮的图片并分享
 
 https://github.com/carbon-app/carbon/blob/main/docs/README.cn.zh.md
 
-### clang-format
+### ~~clang-format~~
 
-format C++ 代码格式为 Google Style
+~~format C++ 代码格式为 Google Style~~
+
+不再推荐该插件，和下面 clangd 插件功能冲突。
 
 ### cpplint
 
@@ -333,7 +335,7 @@ filter 参数的用法，就是以 `+` 或者 `-` 开头接着写规则名，就
 
 vscode 官方的 cpptools 在大型 C++ 项目中函数跳转很慢，所以改使用 clangd 代替。
 
-clangd 插件下载好后，我们还需要下载 clangd language server，可以使用 vscode 命令直接下载，如下图（也可以去官网手动下载，但是后面注意要手动配置一下 `clangd.path`）。
+clangd 插件下载好后，我们还需要下载 clangd language server，可以使用 vscode 命令直接下载，如下图（也可以去官网手动下载，但是后面注意要手动配置一下 `clangd.path`）。**建议手动去下载新版本的 clangd，vscode 下载的是旧版本，clang-format 某些功能会受限**。
 
 ![下载server](.vscode入门使用指南.assets/下载server.png)
 
@@ -343,9 +345,7 @@ clangd 是基于 `compile_commands.json` 文件来完成对项目的解析，并
 
 ```cmake
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-if(CMAKE_EXPORT_COMPILE_COMMANDS)
-    set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
-endif()
+set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 ```
 
 生成 `compile_commands.json` 文件后，只需要配置 `--compile-commands-dir` 来指定 `compile_commands.json` 所在的目录即可，建议在【用户】`setting.json` 下配置。
