@@ -426,6 +426,8 @@ ffmpeg -i input.mp4 -ss 00:07:05 -to 00:07:40 -c:v copy -c:a copy output.mp4
 
 ### 终端复用器 Tmux
 
+**感觉 WindTerm 更好用，功能更多**
+
 Tmux: https://docs.hpc.sjtu.edu.cn/login/tmux.html
 
 配置文件 `~/.tmux.conf`
@@ -468,9 +470,20 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 重新加载配置文件：`tmux source-file ~/.tmux.conf`
 
+### WindTerm
+
+> 跨平台终端工具，替代 Tmux
+
+- 简单的使用教程：https://zhuanlan.zhihu.com/p/468501270
+- 其他补充：`Ctrl +` 放大字体
+
 #### 拷贝文字
 
 - 鼠标选中文字，按 `y` 复制，按 `ESC` 退出复制
+
+### gimp 方便查看像素坐标的图像处理程序
+
+https://www.gimp.org/
 
 ## Windows 文件名中文乱码
 
