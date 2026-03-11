@@ -511,6 +511,10 @@ https://docs.pingcode.com/ask/ask-ask/108395.html
 
 `$n`：n 是个数字，这个是替换时使用括号 `()` 将匹配的 pattern 分割成了几个元素，然后在替换的 pattern 里面使用，类似于变量。如果查找 pattern 是 `(\w+)(\s)(\w+)`，那么 `$1`就是 `(\w+)`，`$2` 是 `(\s)`，`$3` 是 `(\w+)`。
 
+### 快捷键
+
+- `Ctrl + D`：主要功能是选中当前光标所在的单词或选中项，并继续向下匹配相同的内容。
+
 ## 其他问题
 
 ### 右键弹出菜单然后立即消失
@@ -604,3 +608,17 @@ vscode 默认不会搜索 `.gitignore` 忽略的文件和文件夹。解决方�
 go to Preferences > Settings, uncheck the option **search:Use Ignore Files**, then it works
 
 https://stackoverflow.com/a/65672683/24490421
+
+### 源代码管理 change 统计到了 worktrees 的变化
+
+- 背景
+
+A 项目主目录下存在多个 Git worktree 工作树分支。在主目录中仅对 4 个文件进行了本地修改，但通过源代码管理工具查看变更（CHANGES）时，显示的修改文件数量为 16 个。
+
+- 解决
+
+在设置中搜索「Detect Worktrees」，把打钩去掉。
+
+![detect_worktrees](./.vscode入门使用指南.assets/detect_worktrees.png)
+
+ 
