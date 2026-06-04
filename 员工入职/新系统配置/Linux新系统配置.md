@@ -360,6 +360,12 @@ Filter Lines
 
 ![user_sublime_settings](./.Linux新系统配置.assets/user_sublime_settings.png)
 
+#### 使用不同颜色高亮不同单词
+
+需要安装插件 Text Marker
+
+![高亮不同单词](./.Linux新系统配置.assets/高亮不同单词.png)
+
 ### 视频播放器 MPV
 
 ```
