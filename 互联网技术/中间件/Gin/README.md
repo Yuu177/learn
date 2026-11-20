@@ -18,7 +18,7 @@ type StructName struct {
 }
 ```
 
-**标签说明:**
+**标签说明：**
 
 - `form:"paramName"`: `paramName` 为参数的名称
 - `binding:"required"`: 代表字段必须绑定

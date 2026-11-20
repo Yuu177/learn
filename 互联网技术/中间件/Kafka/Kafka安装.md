@@ -104,14 +104,14 @@ docker exec -it kafka bash
 cd /opt/kafka/bin
 ```
 
-- 创建Topic，分区为 2，Topic name 为 kafkaDemo
+- 创建 Topic，分区为 2，Topic name 为 kafkaDemo
 
 ```text
 kafka-topics.sh --create --zookeeper zookeeper:2181 \
 --replication-factor 1 --partitions 2 --topic kafkaDemo
 ```
 
-- 查看当前所有topic
+- 查看当前所有 topic
 
 ```text
 kafka-topics.sh --zookeeper zookeeper:2181 --list

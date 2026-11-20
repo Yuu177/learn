@@ -20,9 +20,9 @@ https://plantuml.com/zh/activity-diagram-beta
 
 #### 组合
 
-> 分组, 分区, 包, 矩形或卡片式
+> 分组，分区，包，矩形或卡片式
 
-你可以通过定义分组活动:
+你可以通过定义分组活动：
 
 - group
 - partition

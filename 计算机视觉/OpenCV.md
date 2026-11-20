@@ -14,7 +14,7 @@
 
 - 三通道图，
 
-每个像素点都有 3 个值表示 ，所以就是 3 通道。也有 4 通道的图。例如 RGB 图片即为三通道图片，每一个像素点由三个通道的值表示：红（R）、绿（G）、蓝（B）。每个通道的范围也是 0 ~ 255。矩阵元素的值表示这个位置上的像素的亮度，一般来说像素值越大表示该点越亮。
+每个像素点都有 3 个值表示，所以就是 3 通道。也有 4 通道的图。例如 RGB 图片即为三通道图片，每一个像素点由三个通道的值表示：红（R）、绿（G）、蓝（B）。每个通道的范围也是 0 ~ 255。矩阵元素的值表示这个位置上的像素的亮度，一般来说像素值越大表示该点越亮。
 
 // TODO
 
@@ -98,7 +98,7 @@ CV_EXPORTS_W bool solvePnP( InputArray objectPoints, InputArray imagePoints,
 - distCoeffs：相机的畸变系数（通过相机标定可以得到）
 - rvec：输出的旋转向量
 - tvec：输出的平移向量
-- useExtrinsicGuess：这个参数仅用于 `flags=SOLVEPNP_ITERATIVE`。此值如果为 true ，需要 rvec 和 tvec 有输入值，以便函数把输入值作为旋转和平移的估计初始值。
+- useExtrinsicGuess：这个参数仅用于 `flags=SOLVEPNP_ITERATIVE`。此值如果为 true，需要 rvec 和 tvec 有输入值，以便函数把输入值作为旋转和平移的估计初始值。
 - flags：默认使用 SOLVEPNP_ITERATIVE。
 
 solvePnP 函数实现了几种姿态估计算法，可以根据参数 flag 进行选择. 默认 flag 是 SOLVEPNP_ITERATIVE，其是采用 Levenberg-Marquardt 优化的 DLT 方案。

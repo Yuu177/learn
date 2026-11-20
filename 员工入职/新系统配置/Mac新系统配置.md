@@ -84,7 +84,7 @@ git@git.xxxxx.com: Permission denied (publickey).
 
 ## 配置 git
 
-> 有些快捷 git 命令安装 oh-my-zh 后就会带上了， ~/.oh-my-zsh/plugins/git/git.plugin.zsh
+> 有些快捷 git 命令安装 oh-my-zh 后就会带上了，~/.oh-my-zsh/plugins/git/git.plugin.zsh
 >
 > gp: 推送提交当前到对应的远程分支，alias gp='git push'
 >

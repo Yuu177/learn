@@ -24,7 +24,7 @@ Kafka 的高可用保障来源于其健壮的副本（replication）策略。
 
 - 同步速度过慢（消息差值超过 `replica.lag.max.messages` 阈值，其默认值是 4000）
 
-- 心跳超时（心跳丢失超过 `replica.lag.time.max.ms` 阈值，其默认值是10000）
+- 心跳超时（心跳丢失超过 `replica.lag.time.max.ms` 阈值，其默认值是 10000）
 
 该 follower 将会被踢出 ISR 集合表。
 
@@ -34,7 +34,7 @@ Kafka 的高可用保障来源于其健壮的副本（replication）策略。
 
 ### 如何将所有 Replica 均匀分布到整个集群
 
-如果所有的 Replica 都在同一个 Broker 上，那一旦该 Broker 宕机，该 Partition 的所有 Replica 都无法工作，所以需要保证它上面的负载可以被均匀的分配到其它的所有 Broker上。
+如果所有的 Replica 都在同一个 Broker 上，那一旦该 Broker 宕机，该 Partition 的所有 Replica 都无法工作，所以需要保证它上面的负载可以被均匀的分配到其它的所有 Broker 上。
 
 > 默认情况下，Kafka 的 replica 数量为 1。
 
@@ -83,7 +83,7 @@ Kafka 可以通过参数来限制 ISR 的数量的：`min.insync.replicas = n`�
 
 Controller 将收到通知并对此采取行动，决定哪些 Broker 上的分区成为 leader 分区，然后它会通知每个相关的 Broker：
 
-1、要么将 Broker上的主题分区变成 leader。
+1、要么将 Broker 上的主题分区变成 leader。
 
 2、要么通过 `LeaderAndISR` 请求从新的 leader 分区中复制数据。
 
@@ -180,19 +180,19 @@ kafka 就是利用**分段+索引**的方式来解决查找效率的问题。
 
 上面说到 log 文件就实际是存储 message 的地方，我们在 producer 往 kafka 写入的也是一条一条的 message，那存储在 log 中的 message 是什么样子的呢？消息主要包含消息体、消息大小、offset、压缩类型……等等！我们重点需要知道的是下面三个：
 
-1、 offset：offset 是一个占 8byte 的有序 id 号，它可以唯一确定每条消息在 partition 内的位置！
+1、offset：offset 是一个占 8byte 的有序 id 号，它可以唯一确定每条消息在 partition 内的位置！
 
-2、 消息大小：消息大小占用 4byte，用于描述消息的大小。
+2、消息大小：消息大小占用 4byte，用于描述消息的大小。
 
-3、 消息体：消息体存放的是实际的消息数据（被压缩过），占用的空间根据具体的消息而不一样。
+3、消息体：消息体存放的是实际的消息数据（被压缩过），占用的空间根据具体的消息而不一样。
 
 ### 存储策略
 
 无论消息是否被消费，kafka 都会保存所有的消息。那对于旧数据有什么删除策略呢？
 
-1、 基于时间，默认配置是 168 小时（7 天）。
+1、基于时间，默认配置是 168 小时（7 天）。
 
-2、 基于大小，默认配置是 1073741824。
+2、基于大小，默认配置是 1073741824。
 
 需要注意的是，kafka 读取特定消息的时间复杂度是 O(1)，所以这里删除过期的文件并不会提高 kafka 的性能。
 
@@ -206,7 +206,7 @@ kafka 就是利用**分段+索引**的方式来解决查找效率的问题。
 
 1. **消费者组的消费者小于 partition 数量**：如上图，会出现某个消费者消费多个 partition 数据的情况，消费的速度也就不及只处理一个 partition 的消费者的处理速度。
 
-2. **消费者组的消费者多于partition的数量**：多出来的消费者不消费任何 partition 的数据，也就是说不会出现多个消费者消费同一个 partition 的数据呢。所以在实际的应用中，建议**消费者组的 consumer 的数量与 partition 的数量一致。**
+2. **消费者组的消费者多于 partition 的数量**：多出来的消费者不消费任何 partition 的数据，也就是说不会出现多个消费者消费同一个 partition 的数据呢。所以在实际的应用中，建议**消费者组的 consumer 的数量与 partition 的数量一致。**
 
 ## 参考文章
 

@@ -224,7 +224,7 @@ Lets you easily and quickly generate `.gitignore` file for your project using [g
 
 ### 翻译(英汉词典)
 
-划词翻译，本地77万词条英汉词典，不依赖任何在线翻译API（速度快），无查询次数限制。
+划词翻译，本地 77 万词条英汉词典，不依赖任何在线翻译 API（速度快），无查询次数限制。
 
 ### background
 
@@ -533,7 +533,7 @@ https://docs.pingcode.com/ask/ask-ask/108395.html
 
 3. In the "Timeout Profile" dropdown list pick up "Timeout Off".
 
-4. 设置开机启动，然后再弹出的窗口中设置 easystroke 安装路径即可（通过 which easystroke 查看） 。
+4. 设置开机启动，然后再弹出的窗口中设置 easystroke 安装路径即可（通过 which easystroke 查看）。
 
    ```
    gnome-session-properties

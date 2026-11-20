@@ -56,7 +56,7 @@ pipeline {
 
 <img src="./.Jenkins.assets/启动node节点.png" alt="启动docker节点" style="zoom:80%;" />
 
-拷贝 Unix 命令到目标机器中运行，成功运行日志会打印 Connected，并且在 Jenkins 界面节点状态显示为在线 。
+拷贝 Unix 命令到目标机器中运行，成功运行日志会打印 Connected，并且在 Jenkins 界面节点状态显示为在线。
 
 - git 第一次拉取代码需要手动输入 yes
 

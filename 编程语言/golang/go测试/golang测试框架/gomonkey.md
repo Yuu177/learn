@@ -97,7 +97,7 @@ func TestComputeMethod(t *testing.T) {
 }
 ```
 
-- 打桩 private 方法: `ApplyPrivateMethod`
+- 打桩 private 方法：`ApplyPrivateMethod`
 
 ### mock 接口
 
@@ -218,7 +218,7 @@ getRandomString(): 789
 
 ### ~~private 方法无法打桩~~
 
-~~Monkey 框架的实现中大量使用了反射机制，但是，go1.6 版本和更高版本（比如go1.7）的反射机制有些差异：~~
+~~Monkey 框架的实现中大量使用了反射机制，但是，go1.6 版本和更高版本（比如 go1.7）的反射机制有些差异：~~
 
 > ~~在 **go1.6 版本中反射机制会导出所有方法**（不论首字母是大写还是小写），而在**更高版本中反射机制仅会导出首字母大写的方法**。~~
 

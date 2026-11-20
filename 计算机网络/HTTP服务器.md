@@ -17,7 +17,7 @@
 
 HTTP 请求格式由三部分组成：1、请求行。2、头部字段。3、正文（body）
 
-HTTP 报文一行以 `\r\n`（一对回车换行符号） 为结束。例如下面 HTTP 报文的 `\r\n` 表示回车换行符号。
+HTTP 报文一行以 `\r\n`（一对回车换行符号）为结束。例如下面 HTTP 报文的 `\r\n` 表示回车换行符号。
 
 ```http
 POST http://xiaobao.com/index HTTP/1.1\r\n
@@ -54,4 +54,4 @@ Content-Length: 1024\r\n
 
 ## 参考文章
 
-- 《Linux 高性能服务器编程——游双》
+-《Linux 高性能服务器编程——游双》

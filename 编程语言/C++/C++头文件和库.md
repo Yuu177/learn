@@ -41,7 +41,7 @@ add_library (MyAdd Static my_add.cc)
 add_library (MyAdd SHARED my_add.cc)
 ```
 
-执行 `cmake . && make` 生成 `libMyAdd.so`（动态库） 和 `libMyAddStatic.a`（静态库）。
+执行 `cmake . && make` 生成 `libMyAdd.so`（动态库）和 `libMyAddStatic.a`（静态库）。
 
 > 实际项目中，我们需要把 my_add.cc 的头文件 my_add.h 也要一起编译进来，因为 my_add.h 中可能有全局变量和全局常量的定义，以及一些函数实现。我们下面会进一步解释为什么要这样子做。
 

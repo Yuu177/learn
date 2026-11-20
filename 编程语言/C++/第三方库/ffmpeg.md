@@ -16,7 +16,7 @@ make install
 
 - nasm/yasm not found or too old. Use --disable-x86asm for a crippled build
 
-`nasm` 和 `yasm` 是用于汇编代码的工具，FFmpeg在编译时需要它们来处理一些性能关键的汇编代码。
+`nasm` 和 `yasm` 是用于汇编代码的工具，FFmpeg 在编译时需要它们来处理一些性能关键的汇编代码。
 
 ```bash
 sudo apt-get update

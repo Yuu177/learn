@@ -20,7 +20,7 @@ protobuf 的全名是 Google Protocol Buffers，是 google 开发的，与语言
 
 #### .proto 文件
 
-Protobuf 文件以 **.proto **作为文件后缀，在.proto文件里定义好数据结构之后，就可以用工具将这个文件翻译成具体的代码
+Protobuf 文件以 **.proto **作为文件后缀，在.proto 文件里定义好数据结构之后，就可以用工具将这个文件翻译成具体的代码
 
 ### 安装
 
@@ -196,7 +196,7 @@ service PersonService {
 
 ### map 中使用数组
 
-`repeated` 允许字段重复，对于Go语言来说，它会编译成数组(slice of type)类型的格式。如 `repeated uint32 uids` 对应的 go 语言为 `[]uint32 uids`。
+`repeated` 允许字段重复，对于 Go 语言来说，它会编译成数组(slice of type)类型的格式。如 `repeated uint32 uids` 对应的 go 语言为 `[]uint32 uids`。
 
 #### 方法一：结构体中定义数组
 

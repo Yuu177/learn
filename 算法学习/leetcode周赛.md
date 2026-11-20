@@ -144,7 +144,7 @@ public:
 
 - **标签：哈希表**
 
-超时。时间复杂度为O(n^2)
+超时。时间复杂度为 O(n^2)
 
 ```cpp
 class Solution {
@@ -265,30 +265,30 @@ public:
 
 - **证明**
 
-p<sub>1</sub> 和 p<sub>2</sub> ，生长所需天数为 g<sub>1</sub>，g<sub>2</sub> 
+p<sub>1</sub> 和 p<sub>2</sub>，生长所需天数为 g<sub>1</sub>，g<sub>2</sub> 
 
 设  g<sub>1</sub> >= g<sub>2</sub> 
 
-先 1 后 2 时的最晚开花时间:
+先 1 后 2 时的最晚开花时间：
 $$
 time_1 = max(p_1 + g_1, p_1 + p_2 + g_2)
 $$
-先 2 后 1 时的最晚开花时间:
+先 2 后 1 时的最晚开花时间：
 $$
 time_2 = max(p_2 + g_2, p_1 + p_2 + g_1)
 $$
 
-因为: g<sub>1</sub> >=  g<sub>2</sub>
+因为：g<sub>1</sub> >=  g<sub>2</sub>
 
-所以: time<sub>2</sub> =  p<sub>1</sub>  +  p<sub>2</sub>  +  g<sub>1</sub> 
+所以：time<sub>2</sub> =  p<sub>1</sub>  +  p<sub>2</sub>  +  g<sub>1</sub> 
 
-所以: p<sub>1</sub> + p<sub>2</sub> +  g<sub>1</sub>  >= p<sub>1</sub> + p<sub>2</sub> +  g<sub>2</sub> 
+所以：p<sub>1</sub> + p<sub>2</sub> +  g<sub>1</sub>  >= p<sub>1</sub> + p<sub>2</sub> +  g<sub>2</sub> 
 
-又因为: p<sub>1</sub> +  p<sub>2</sub> +  g<sub>1</sub> >  p<sub>1</sub> +  g<sub>1</sub>
+又因为：p<sub>1</sub> +  p<sub>2</sub> +  g<sub>1</sub> >  p<sub>1</sub> +  g<sub>1</sub>
 
-所以: time<sub>2</sub> > time<sub>2</sub>
+所以：time<sub>2</sub> > time<sub>2</sub>
 
-所以: time<sub>1</sub> 是我们要求的值。
+所以：time<sub>1</sub> 是我们要求的值。
 
 
 ```cpp

@@ -24,7 +24,7 @@ autoProxy=true # 开启自动同步代理
 sparseVhd=true # 开启自动释放 WSL2 虚拟硬盘空间
 ```
 
-在 windows 上使用 `wsl --shutdown` 命令结束 wsl ，再重新运行 wsl 就可以了。
+在 windows 上使用 `wsl --shutdown` 命令结束 wsl，再重新运行 wsl 就可以了。
 
 - 参考
 

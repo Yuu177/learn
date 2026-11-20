@@ -771,6 +771,6 @@ delete ptr1; // delete nullptr 操作是安全的
 
 ## 参考文章
 
-- C 指针传递变量为什么无法修改变量值？ - 蓝色的回答 - 知乎 https://www.zhihu.com/question/41476387/answer/91566794
+- C 指针传递变量为什么无法修改变量值？- 蓝色的回答 - 知乎 https://www.zhihu.com/question/41476387/answer/91566794
 - [一文读懂 C++ 右值引用和 std::move](https://zhuanlan.zhihu.com/p/335994370)
-- 为什么调用 std::map::clear() 后内存占用率没有降低？ - 陈硕的回答 - 知乎 https://www.zhihu.com/question/19752706/answer/23215549
+- 为什么调用 std::map::clear() 后内存占用率没有降低？- 陈硕的回答 - 知乎 https://www.zhihu.com/question/19752706/answer/23215549

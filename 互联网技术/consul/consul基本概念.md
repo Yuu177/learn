@@ -46,13 +46,13 @@ Consul 是一个分布式，高可用的系统，组成 Consul 服务的每个�
 
 **步骤二：通过 consul client 注册 service**
 
-然后在服务器 Server4 和 Server5上 通过 Consul Client 分别注册 Service A、B、C，这里每个 Service 分别部署在了两个服务器上，这样可以避免 Service 的单点问题。
+然后在服务器 Server4 和 Server5 上 通过 Consul Client 分别注册 Service A、B、C，这里每个 Service 分别部署在了两个服务器上，这样可以避免 Service 的单点问题。
 
 服务注册到 Consul 可以通过 HTTP API（8500 端口）的方式，也可以通过 Consul 配置文件的方式。Consul Client 可以认为是无状态的，它将注册信息通过 RPC 转发到 Consul Server，服务信息保存在 Server 的各个节点中，并且通过 Raft 实现了强一致性。
 
 **步骤三：通过 consul 调用 service**
 
-最后在服务器 Server6 中 Program D 需要访问 Service B，这时候 Program D 首先访问本机 Consul Client 提供的 HTTP API，本机 Client 会将请求转发到 Consul Server，Consul Server 查询到 Service B 当前的信息返回，最终 Program D 拿到了 Service B 的所有部署的IP和端口，然后就可以选择 Service B 的**其中一个部署**并向其发起请求了。
+最后在服务器 Server6 中 Program D 需要访问 Service B，这时候 Program D 首先访问本机 Consul Client 提供的 HTTP API，本机 Client 会将请求转发到 Consul Server，Consul Server 查询到 Service B 当前的信息返回，最终 Program D 拿到了 Service B 的所有部署的 IP 和端口，然后就可以选择 Service B 的**其中一个部署**并向其发起请求了。
 
 如果服务发现采用的是 DNS 方式，则 Program D 中直接使用 Service B 的服务发现域名，域名解析请求首先到达本机 DNS 代理，然后转发到本机 Consul Client，本机 Client 会将请求转发到 Consul Server，Consul Server 查询到 Service B 当前的信息返回，最终 Program D 拿到了 Service B 的某个部署的 IP 和端口。
 
@@ -85,7 +85,7 @@ Client :
 
 ![e1kol506eu](.consul基本概念.assets/e1kol506eu-2889433.png)
 
-目前 Consul 的架构全部升级为 client-Server 模式，服务注册不再向 consul-Server进行注册，而是向服务所在机器的 consul-client 进行注册，通过 Consul-Client 将注册信息同步到 Consul-Server 机器中。
+目前 Consul 的架构全部升级为 client-Server 模式，服务注册不再向 consul-Server 进行注册，而是向服务所在机器的 consul-client 进行注册，通过 Consul-Client 将注册信息同步到 Consul-Server 机器中。
 
 ### 纯 Server 模式
 
@@ -95,8 +95,8 @@ Zookeeper 就是这种模，client server 本质上都是 consul 的 agent, 只�
 
 ### 纯 server 模式架构的问题
 
-- 高可用：服务实例注册时配置的 consul-host 是[负载均衡](https://cloud.tencent.com/product/clb?from=10680)地址，服务注册到集群后，由集群中的一个节点负责对该实例进行健康检查。假如有这样的情况，服务A，服务B，都注册到 Service1 ，也就是由 Service1 对 服务A，服务B 进行健康检查，当 Service1 宕机时，这样会导致 服务A，服务B 在注册列表中消失，导致无法无法访问到，但是其实服务本身没有问题。
-- 服务注销：当服务从[注册中心](https://cloud.tencent.com/product/tse?from=10680)注销时，由于是负载均衡的，可能会导致服务注销失败，因为要在Service1 上注销，有可能负载均衡到 Service2 上进行注销，导致注销失败，解决的办法是遍历集群中所有节点进行注销。
+- 高可用：服务实例注册时配置的 consul-host 是[负载均衡](https://cloud.tencent.com/product/clb?from=10680)地址，服务注册到集群后，由集群中的一个节点负责对该实例进行健康检查。假如有这样的情况，服务 A，服务 B，都注册到 Service1，也就是由 Service1 对 服务 A，服务 B 进行健康检查，当 Service1 宕机时，这样会导致 服务 A，服务 B 在注册列表中消失，导致无法无法访问到，但是其实服务本身没有问题。
+- 服务注销：当服务从[注册中心](https://cloud.tencent.com/product/tse?from=10680)注销时，由于是负载均衡的，可能会导致服务注销失败，因为要在 Service1 上注销，有可能负载均衡到 Service2 上进行注销，导致注销失败，解决的办法是遍历集群中所有节点进行注销。
 
 ### Client-Server 架构呢？
 
@@ -190,7 +190,7 @@ curl \
 - `Datacenter` is the data center of the Consul node on which the service is registered.
 - `TaggedAddresses` is the list of explicit LAN and WAN IP addresses for the agent
 - `Node` is the name of the Consul node on which the service is registered
-- `ServiceAddress` is the IP address of the service host — **if empty, node address should be used**
+- `ServiceAddress` is the IP address of the service host—**if empty, node address should be used**
 - `ServiceID` is a unique service instance identifier
 - `ServiceName` is the name of the service
 - `ServiceMeta` is a list of user-defined metadata key/value pairs for the service

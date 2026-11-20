@@ -55,7 +55,7 @@ git push -u origin main
 
 `git reset --hard HEAD^`
 
-- 完成撤销,同时将代码恢复到前一 commit_id 对应的版本。
+- 完成撤销，同时将代码恢复到前一 commit_id 对应的版本。
 
 `git reset --hard commit_id`
 
@@ -110,7 +110,7 @@ ps：强制推送本地分支覆盖掉远程分支。只适合自己 create 的�
 `git branch -D branchName`
 
 5、您的分支基于 'origin/oldName'，但此上游分支已经不存在。
-  （使用 "git branch --unset-upstream" 来修复）
+（使用 "git branch --unset-upstream" 来修复）
 
 6、为推送当前分支并建立与远程上游的跟踪，使用
 
@@ -219,7 +219,7 @@ wq 保存退出。接下我们再来查看 git log。发现 5 个提交已经被
 
 ### 场景二
 
-我想把 first 和 second 两个合并为一个commit。three four five 这三个提交合并为一个 commit。
+我想把 first 和 second 两个合并为一个 commit。three four five 这三个提交合并为一个 commit。
 
 根据刚才的实践，我们只需要这样子修改即可。
 
@@ -271,9 +271,9 @@ git config --global core.editor vim
 git worktree add <path> <branch>
 ```
 
-其中 `<path>` 表示要创建工作树的路径， `<branch>` 表示要检出的分支。执行此命令后，将在指定路径下创建一个新的工作树，并将其检出到指定分支。
+其中 `<path>` 表示要创建工作树的路径，`<branch>` 表示要检出的分支。执行此命令后，将在指定路径下创建一个新的工作树，并将其检出到指定分支。
 
-您还可以使用 `git worktree` 命令来列出所有工作树、删除工作树、锁定和解锁工作树等等。 例如：
+您还可以使用 `git worktree` 命令来列出所有工作树、删除工作树、锁定和解锁工作树等等。例如：
 
 ```bash
 git worktree list

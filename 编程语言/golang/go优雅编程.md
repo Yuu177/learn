@@ -24,7 +24,7 @@ func (s *service) ListPosts() {}
 
 #### 讨论
 
-面向接口部分，`NewService` 返回一个 `Interface`，这是一个很危险的设计。往简单的看，这样导致了返回的 `struct` 无法被 copy。往复杂了看，这个时候一个 `interface` 就变成你的公开接口，这个 `interface` 即使只做了向后兼容的改动（例如新增一个 `method` ）都要 break 很多外部代码。
+面向接口部分，`NewService` 返回一个 `Interface`，这是一个很危险的设计。往简单的看，这样导致了返回的 `struct` 无法被 copy。往复杂了看，这个时候一个 `interface` 就变成你的公开接口，这个 `interface` 即使只做了向后兼容的改动（例如新增一个 `method`）都要 break 很多外部代码。
 
 怎么理解上面的话呢？
 

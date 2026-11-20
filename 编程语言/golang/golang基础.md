@@ -9,13 +9,13 @@
 ## go 环境相关
 
 ### GOPATH 和 GOROOT
-不同于其他语言，go 中没有项目的说法，只有包, 其中有两个重要的路径，GOROOT 和 GOPATH
+不同于其他语言，go 中没有项目的说法，只有包，其中有两个重要的路径，GOROOT 和 GOPATH
 
 Go 开发相关的环境变量如下：
 
 - GOROOT 就是 Go 的安装目录。
 
-- GOPATH 是我们的工作空间,保存 go 项目代码和第三方依赖包。
+- GOPATH 是我们的工作空间，保存 go 项目代码和第三方依赖包。
 
 ### GO111MODULE 介绍
 
@@ -576,8 +576,8 @@ go 语言导包时 `.` 和 `_` 的区别是什么？
 
 ### 格式化打印
 
-- `%v` 按默认格式输出，如: `{gopher 123456 true}`
-- `%+v` 在 `%v` 的基础上额外输出字段名，如: `{Name:gopher ID:123456 Enabled:true}`
+- `%v` 按默认格式输出，如：`{gopher 123456 true}`
+- `%+v` 在 `%v` 的基础上额外输出字段名，如：`{Name:gopher ID:123456 Enabled:true}`
 
 - `%#v` 在 `%+v` 的基础上额外输出类型名
 
@@ -932,7 +932,7 @@ func (c *Cat) Speak() string
         Cat does not implement Animal (Speak method has pointer receiver)
 ```
 
-该错误的意思是：你尝试将 `Cat` 转为 `Animal` ，但是只有 `*Cat` 类型实现了该接口。你可以通过传入一个指针 （`new(Cat)` 或者 `&Cat{}`）来修复这个错误。
+该错误的意思是：你尝试将 `Cat` 转为 `Animal`，但是只有 `*Cat` 类型实现了该接口。你可以通过传入一个指针（`new(Cat)` 或者 `&Cat{}`）来修复这个错误。
 
 ```go
 var b Animal = &Cat{}
@@ -956,7 +956,7 @@ func (t T) MyMethod(s string) {
 
 是 `func(T, string)` 类型的方法。方法接收器像其他参数一样通过值传递给函数。
 
-因为所有的参数都是通过值传递的，这就可以解释为什么 `*Cat` 的方法不能被 `Cat` 类型的值调用了。任何一个  `Cat` 类型的值可能会有很多 `*Cat` 类型的指针指向它，如果我们尝试通过 `Cat` 类型的值来调用 `*Cat` 的方法，根本就不知道对应的是哪个指针。相反，如果 `Dog` 类型上有一个方法，通过 `*Dog` 来调用这个方法可以确切的找到该指针对应的 `Gog` 类型的值，从而调用上面的方法。运行时，Go 会自动帮我们做这些，所以我们不需要像 C语言中那样使用类似如下的语句 `d->Speak()` 。
+因为所有的参数都是通过值传递的，这就可以解释为什么 `*Cat` 的方法不能被 `Cat` 类型的值调用了。任何一个  `Cat` 类型的值可能会有很多 `*Cat` 类型的指针指向它，如果我们尝试通过 `Cat` 类型的值来调用 `*Cat` 的方法，根本就不知道对应的是哪个指针。相反，如果 `Dog` 类型上有一个方法，通过 `*Dog` 来调用这个方法可以确切的找到该指针对应的 `Gog` 类型的值，从而调用上面的方法。运行时，Go 会自动帮我们做这些，所以我们不需要像 C 语言中那样使用类似如下的语句 `d->Speak()`。
 
 小结一下：定义指针方法接收器只能用指针调用，值接受器既可以用指针，可以用值去调用。
 
@@ -1130,7 +1130,7 @@ func main() {
 // d: 200
 ```
 
-- `return` 并不是 `ret` 汇编，它会先更新返回值，然后执行 `defer`，然后走到 `}` 才是 `ret` ，这个才是函数结束从栈弹出返回的标志。
+- `return` 并不是 `ret` 汇编，它会先更新返回值，然后执行 `defer`，然后走到 `}` 才是 `ret`，这个才是函数结束从栈弹出返回的标志。
 
 - 匿名返回值，返回值是在 `return` 执行时声明的，`defer` 无法访问，等价于 `return` 了一个 `z` 的值拷贝，`defer` 修改 `z` 不影响返回值。命名返回值 `defer` 可以直接访问修改。
 - 如果匿名返回值是指针，那就会影响返回值。
@@ -1141,9 +1141,9 @@ func main() {
 
 ### internal 目录
 
-Go中命名为 internal 的 package **只有直接父级 package，以及父级 package 的子孙 package 可以访问**，其他的都不行，再往上的祖先 package 也不行。
+Go 中命名为 internal 的 package **只有直接父级 package，以及父级 package 的子孙 package 可以访问**，其他的都不行，再往上的祖先 package 也不行。
 
-For example, a package …/a/b/c/internal/d/e/f can be imported only by code in the directory tree rooted at …/a/b/c. It cannot be imported by code in …/a/b/g or in any other repository.
+For example, a package…/a/b/c/internal/d/e/f can be imported only by code in the directory tree rooted at…/a/b/c. It cannot be imported by code in…/a/b/g or in any other repository.
 
 ### 编译
 

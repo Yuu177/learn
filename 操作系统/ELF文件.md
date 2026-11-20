@@ -12,7 +12,7 @@ ELF 的全称是 Executable and Linking Format，即 “可执行可连接格式
 
 ELF 结构
 
-ELF文件主要由四个部分组成 1.ELF头(ELF header），2.程序头表（Program header），3.节（Section），4节头表（Section header table）。
+ELF 文件主要由四个部分组成 1.ELF 头(ELF header），2.程序头表（Program header），3.节（Section），4 节头表（Section header table）。
 
 ![ELF结构](.ELF文件.assets/ELF结构.jpg)
 

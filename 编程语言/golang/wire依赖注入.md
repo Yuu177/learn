@@ -138,5 +138,5 @@ func InitApp() *App {
 
 ## 参考链接
 
-- Go 工程化 - wire 的使用 - Go语言进阶的文章 - 知乎 https://zhuanlan.zhihu.com/p/399101012
+- Go 工程化 - wire 的使用 - Go 语言进阶的文章 - 知乎 https://zhuanlan.zhihu.com/p/399101012
 - [Go工程化(三) 依赖注入框架 wire](https://lailin.xyz/post/go-training-week4-wire.html)

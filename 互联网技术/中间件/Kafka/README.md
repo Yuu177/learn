@@ -28,9 +28,9 @@ Topic 的分区，每个 topic 可以有多个分区，分区的作用是做负�
 
 每一个 Partition 都有多个副本，分布在不同到 broker 上（一个 leader 和多个 follower）。
 
-leader 副本：响应客户端的读写请求。所有的读写操作都在 leader上完成。
+leader 副本：响应客户端的读写请求。所有的读写操作都在 leader 上完成。
 
-follower 副本：备份leader的数据，不进行读写操作。
+follower 副本：备份 leader 的数据，不进行读写操作。
 
 当主分区（Leader）故障的时候会选择一个 Follower 上位，成为 Leader。默认情况下，Kafka 的 replica 数量为 1。副本的数量不能大于 Broker 的数量。follower 和 leader 绝对是在不同的机器，同一机器对同一个分区也只可能存放一个副本。
 

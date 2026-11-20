@@ -107,7 +107,7 @@ netstat -tunlp | grep kafka_pid
 
 [Ubuntu 系统 dpkg 命令使用详解](https://www.jianshu.com/p/2ec0f4b945a2)
 
-安装好后在显示所有应用程序没有显示图标。把相关程序的 Desktop Entry（文件以 `.desktop` 为后缀名） 复制到 `/usr/share/applications` 这个文件目录下。然后点击左下角的显示应用程序就可以看到程序的图标了。
+安装好后在显示所有应用程序没有显示图标。把相关程序的 Desktop Entry（文件以 `.desktop` 为后缀名）复制到 `/usr/share/applications` 这个文件目录下。然后点击左下角的显示应用程序就可以看到程序的图标了。
 
 ```bash
 $ cat com.hmja.notepad.desktop

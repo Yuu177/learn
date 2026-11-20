@@ -75,10 +75,10 @@ https://github.com/Yuu177/face-detection
 
 代码实现使用的是 OpenCV 4.5.5 版本。OpenCV 面部检测器提供了 Caffe 模型——人脸检测器 FP16（原始 Caffe 实现的浮点 16 版本）。该 Caffe 模型文件和配置文件如下：
 
-- `res10_300x300_ssd_iter_140000_fp16.caffemodel`：此文件包含实际层的权重。 可以从[这里](https://github.com/opencv/opencv_3rdparty/raw/19512576c112aa2c7b6328cb0e8d589a4a90a26d/res10_300x300_ssd_iter_140000_fp16.caffemodel)下载。
-- `deploy.prototxt`：此文件定义模型架构。 可以从[这里](https://github.com/opencv/opencv/blob/master/samples/dnn/face_detector/deploy.prototxt)下载。
+- `res10_300x300_ssd_iter_140000_fp16.caffemodel`：此文件包含实际层的权重。可以从[这里](https://github.com/opencv/opencv_3rdparty/raw/19512576c112aa2c7b6328cb0e8d589a4a90a26d/res10_300x300_ssd_iter_140000_fp16.caffemodel)下载。
+- `deploy.prototxt`：此文件定义模型架构。可以从[这里](https://github.com/opencv/opencv/blob/master/samples/dnn/face_detector/deploy.prototxt)下载。
 
-> 从 OpenCV 3.1 开始，提供了 DNN 模块，该模块使用流行的深度学习框架（例如 Caffe，TensorFlow，Torch 和 Darknet）使用经过预训练的深度网络来实现前向传递（推理）。 在 OpenCV 3.3 中，该模块已从 `opencv_contrib` 存储库升级到主存储库，并得到了显着加速。
+> 从 OpenCV 3.1 开始，提供了 DNN 模块，该模块使用流行的深度学习框架（例如 Caffe，TensorFlow，Torch 和 Darknet）使用经过预训练的深度网络来实现前向传递（推理）。在 OpenCV 3.3 中，该模块已从 `opencv_contrib` 存储库升级到主存储库，并得到了显着加速。
 
 ## 目录结构
 
@@ -178,7 +178,7 @@ input_shape {
 
 - `cv::Scalar(104, 117, 123)`
 
-`Scalar(104, 117, 123)` 在这个代码片段中代表的是图像颜色的均值（mean value）。 在图像处理和计算机视觉领域中，通常需要将图像的 RGB 通道的值减去一个固定的均值，以降低图像的复杂度和防止因图像光照变化导致的问题。均值可以认为是图像的背景色。
+`Scalar(104, 117, 123)` 在这个代码片段中代表的是图像颜色的均值（mean value）。在图像处理和计算机视觉领域中，通常需要将图像的 RGB 通道的值减去一个固定的均值，以降低图像的复杂度和防止因图像光照变化导致的问题。均值可以认为是图像的背景色。
 
 在此代码中，`Scalar(104, 117, 123)` 的三个参数分别代表 BGR 通道的均值。当图像的 BGR 通道的值减去这个均值时，会得到一张以该均值为基准的图像。这样做有助于提高模型的泛化能力，使其能够适用于不同光照条件下的图像。
 
@@ -186,7 +186,7 @@ input_shape {
 
 ### Forward pass
 
-现在我们可以将数据设置到网络中，并分别使用 `net.setInput` 和 `net.forward` 函数获得预测/检测。 这会将检测结果转换为我们可以读取的检测 `mat`。
+现在我们可以将数据设置到网络中，并分别使用 `net.setInput` 和 `net.forward` 函数获得预测/检测。这会将检测结果转换为我们可以读取的检测 `mat`。
 
 > detection_out layer 是 ssd 网络最后一层，用于整合预选框、预选框偏移以及得分三项结果，最终输出满足条件的目标检测框、目标的 label 和得分等。detection_out layer 输出 blob（mat）为 [1, 1, x, 7]，这是个四维数组。其中 x 是最后保留的框的个数，最后一维存放的数据为 [image_id, label, confidence, xmin, ymin, xmax, ymax]。
 
@@ -222,7 +222,7 @@ Mat(int rows, int cols, int type, void* data, size_t step=AUTO_STEP);
 
 该构造函数创建行数为 rows，列数为 cols，类型为 type 的图像，此构造函数不创建图像数据所需内存，而是直接使用 data 所指内存，图像的行步长由 step 指定。
 
-这里创建了一个 Mat，其中 rows 为 `detection.size[2]`，cols 为 `detection.size[3]` 。type 为 CV_32F（表示 float 像素并且是在 0~1.0 之间的任意值），data 指针指向 detection 的内存 。
+这里创建了一个 Mat，其中 rows 为 `detection.size[2]`，cols 为 `detection.size[3]`。type 为 CV_32F（表示 float 像素并且是在 0~1.0 之间的任意值），data 指针指向 detection 的内存。
 
 ![detection_mat](.使用OpenCV进行人脸检测.assets/detection_mat.png)
 

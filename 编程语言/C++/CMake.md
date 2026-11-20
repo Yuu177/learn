@@ -196,7 +196,7 @@ ADD_SUBDIRECTORY(my_library)
 
 项目根目录 Demo 和 math 目录里各编写一个 CMakeLists.txt 文件
 
-根目录中的 CMakeLists.txt ：
+根目录中的 CMakeLists.txt：
 
 ```cmake
 # CMake 最低版本号要求
@@ -280,7 +280,7 @@ SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 #### 查找模式
 
 - Module 模式：这个模式下 CMake 会去 `CMAKE_MODULE_PATH` 找 `Find<PackageName>.cmake`，这种一般是 CMake 或库的用户提供的。
-- Config 模式：这个模式下 CMake 会找 `<package_name>-config[-version].cmake` 或 `<PackageName>Config[Version].cmake` ，[查找的目录更加细致 ](https://cmake.org/cmake/help/latest/command/find_package.html#search-procedure)，这种一般由库提供。
+- Config 模式：这个模式下 CMake 会找 `<package_name>-config[-version].cmake` 或 `<PackageName>Config[Version].cmake`，[查找的目录更加细致 ](https://cmake.org/cmake/help/latest/command/find_package.html#search-procedure)，这种一般由库提供。
 
 没有指定模式的情况下 CMake 会先使用 Module 模式，失败后 fallback 到 Config 模式。如果需要指定，可以：
 
@@ -337,7 +337,7 @@ https://blog.csdn.net/zhanghm1995/article/details/105466372
 
 1. `EXAMPLE_LIB`：这是你要存储找到的库路径的变量名称。如果找到了库，库的完整路径将被存储在这个变量中。
 2. `example`：这是你要查找的库的名称。CMake 将在指定的路径中查找名为 `libexample.so`
-3. `PATHS` ：指定的查找路径。CMake 将在这个目录中查找库文件。
+3. `PATHS`：指定的查找路径。CMake 将在这个目录中查找库文件。
 
 ```cmake
 find_library(EXAMPLE_LIB example PATHS /first/path /second/path /third/path)
@@ -384,7 +384,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIE -pie")
 - `CMAKE_CXX_FLAGS` 是用来添加 C++ 编译器标志的变量。
 - `CMAKE_C_FLAGS` 是用来添加 C 编译器标志的变量。
 
-`-fPIC/-fpic` ：编译选项，用于生成位置无关的代码（Position-Independent-Code），用于生成动态库。
+`-fPIC/-fpic`：编译选项，用于生成位置无关的代码（Position-Independent-Code），用于生成动态库。
 
 `-fPIE`：与 `-fPIC` 类似，差别就是生成的 `.o` 文件不能用来链接生成动态库，只能用来生成可执行文件。
 

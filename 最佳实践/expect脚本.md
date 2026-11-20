@@ -25,7 +25,7 @@ sudo apt install tcl tk expect
 - `sleep n`：使脚本暂停给定的秒数
 - `$argc`：脚本的参数个数
 - `$argv`：脚本的参数数组，使用 `[lindex $argv n]` 获取第 n 个参数，0 是第一个参数
-- `exp_continue`：继续执行后续 `expect`。`exp_continue` 附加于某个 `expect` 判断项之后，可以使该项被匹配后 ，还能继续匹配该 `expect` 判断语句内的其他项
+- `exp_continue`：继续执行后续 `expect`。`exp_continue` 附加于某个 `expect` 判断项之后，可以使该项被匹配后，还能继续匹配该 `expect` 判断语句内的其他项
 - `expect eof`：结束当前 `spawn` 开启的进程
 
 ## expect 命令

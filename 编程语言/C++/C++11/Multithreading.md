@@ -257,7 +257,7 @@ bool wait_for( std::unique_lock<std::mutex>& lock,
 
 参数 `rel_time` 表示等待所耗的最大时间的 `std::chrono::duration` 类型对象。
 
-返回值，若经过 `rel_time` 时限后谓词 pred 仍求值为 false 则为 false ，否则为 true。说白了就是条件满足就返回 true，否则返回 false。
+返回值，若经过 `rel_time` 时限后谓词 pred 仍求值为 false 则为 false，否则为 true。说白了就是条件满足就返回 true，否则返回 false。
 
 以上两个类型的 **wait 函数都在会阻塞时，自动释放锁权限**，即调用 unique_lock 的成员函数 `unlock()`，以便其他线程能有机会获得锁。这就是条件变量只能和 unique_lock 一起使用的原因，否则当前线程一直占有锁，线程被阻塞。
 
